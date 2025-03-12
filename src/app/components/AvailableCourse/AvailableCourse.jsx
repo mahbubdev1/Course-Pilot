@@ -5,6 +5,7 @@ const AvailableCourse = () => {
     <div>
       <h2>Avialable course </h2>
       <h2>added by tareq</h2>
+      <h2>Hello</h2>
     </div>
   );
 };
