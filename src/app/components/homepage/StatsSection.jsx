@@ -16,7 +16,6 @@ const StatsSection = () => {
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 before:absolute before:w-full before:h-1 before:bg-blue-500 before:top-1/2 before:left-0">
           {/* Data Cards */}
-          
           <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-blue-200 hover:text-white">
             <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-blue-200">
               <FaUserGraduate className="text-blue-600 text-5xl group-hover:text-white" />
