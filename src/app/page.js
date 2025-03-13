@@ -4,12 +4,11 @@ import Navbar from "./components/shared/Navbar";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <div className="flex-grow">
-        <HomePage />
+    <div>
+      <Navbar></Navbar>
+      <div className="pt-10">
+        <HomePage></HomePage>
       </div>
-      <Footer />
-    </div>
+      <Footer></Footer>
   );
 }
