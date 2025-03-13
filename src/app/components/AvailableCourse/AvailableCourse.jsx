@@ -98,10 +98,10 @@ export default function AvailableCourse() {
             <motion.div
               whileHover={{ scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.98 }}
-              className="card card-compact bg-base-100 shadow-xl max-w-sm mx-auto transition-transform duration-300 ease-in-out bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:border-blue-500 hover:shadow-blue-500/50"
+              className="flex flex-col h-full  bg-base-100 max-w-sm mx-auto transition-transform duration-300 ease-in-out bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:border-blue-500 hover:shadow-blue-500/50"
             >
               {/* Card Content */}
-              <div className="card-body text-center">
+              <div className="flex flex-col flex-grow text-center">
                 {/* Course Image */}
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -129,6 +129,7 @@ export default function AvailableCourse() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
+                  className="mt-auto"
                 >
                   <motion.button
                     onClick={handleEnroll}
