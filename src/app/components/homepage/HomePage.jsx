@@ -4,7 +4,7 @@ import StatsSection from "./StatsSection";
 const HomePage = () => {
   return (
     <div>
-      <Banner></Banner>
+      <Banner />
       <StatsSection />
     </div>
   );

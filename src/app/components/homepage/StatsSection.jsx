@@ -14,10 +14,10 @@ const StatsSection = () => {
           Choose Us For Personalized Excellence And 24/7 Dedicated Support
         </h2>
 
-        <div className="relative flex justify-between before:absolute before:w-full before:h-1 before:bg-blue-500 before:top-1/2 before:left-0">
+        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 before:absolute before:w-full before:h-1 before:bg-blue-500 before:top-1/2 before:left-0">
           {/* Data Cards */}
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-blue-500 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-blue-600">
+          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-blue-200 hover:text-white">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-blue-200">
               <FaUserGraduate className="text-blue-600 text-5xl group-hover:text-white" />
             </div>
             <h3
@@ -31,8 +31,8 @@ const StatsSection = () => {
             </p>
           </div>
 
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-green-500 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-green-600">
+          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-green-200 hover:text-white">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-green-200">
               <MdOndemandVideo className="text-green-600 text-5xl group-hover:text-white" />
             </div>
             <h3
@@ -46,8 +46,8 @@ const StatsSection = () => {
             </p>
           </div>
 
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-purple-500 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-purple-600">
+          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-purple-200 hover:text-white">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-purple-200">
               <FaChalkboardTeacher className="text-purple-600 text-5xl group-hover:text-white" />
             </div>
             <h3
@@ -61,9 +61,9 @@ const StatsSection = () => {
             </p>
           </div>
 
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-red-500 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-red-600">
-              <HiOutlineUserGroup className="text-red-600 text-5xl group-hover:text-white" />
+          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-pink-200 hover:text-white">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-pink-200">
+              <HiOutlineUserGroup className="text-pink-600 text-5xl group-hover:text-white" />
             </div>
             <h3
               className="text-2xl font-bold text-gray-800 mt-8 group-hover:text-white counter"
