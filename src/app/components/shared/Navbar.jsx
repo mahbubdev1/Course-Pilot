@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import logo from "../../../../public/assats/logo.webp";
 import Image from "next/image";
+import LoginButton from "@/app/auth/LoginButton";
 
 export default function Navbar() {
   return (
@@ -34,7 +35,7 @@ export default function Navbar() {
         {/* Right Side - Sign Up Button */}
         <div>
           <Button variant="outline">
-            <Link href="/signup">Sign Up</Link>
+            <Link href="/Authentication/SignUp">Sign Up</Link>
           </Button>
         </div>
       </div>

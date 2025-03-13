@@ -69,7 +69,7 @@ export default function AvailableCourse() {
         Explore a World of Courses
       </motion.h1>
       <motion.p
-        className="text-xl text-center text-gray-300 mb-8 leading-relaxed w-full md:w-11/12 mx-auto"
+        className="text-xl text-center text-gray-800 mb-8 leading-relaxed w-full md:w-11/12 mx-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
