@@ -10,7 +10,7 @@ import Image3 from "../../../../public/Images/banner3.png";
 
 const Banner = () => {
   return (
-    <div className="relative w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+    <div className="container mx-auto relative w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
       <Swiper
         spaceBetween={30}
         centeredSlides
