@@ -1,4 +1,5 @@
 "use client";
+
 import { FaUserGraduate, FaChalkboardTeacher } from "react-icons/fa";
 import { MdOndemandVideo } from "react-icons/md";
 import { HiOutlineUserGroup } from "react-icons/hi";
@@ -11,7 +12,8 @@ const StatsSection = () => {
           Why Choose Us
         </h5>
         <h2 className="text-4xl font-bold text-gray-900 mb-24">
-          Choose Us For Personalized Excellence And 24/7 Dedicated Support
+          Choose Us For Personalized Excellence And 24/7{" "}
+          <span className="block">Dedicated Support</span>
         </h2>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 before:absolute before:w-full before:h-1 before:bg-blue-500 before:top-1/2 before:left-0">
