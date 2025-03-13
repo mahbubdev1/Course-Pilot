@@ -58,7 +58,7 @@ export default function AvailableCourse() {
     alert(`function will be implement soon`);
   };
   return (
-    <div className="container mx-auto p-5 bg-gray-900 min-h-screen text-white">
+    <div className="container mx-auto px-2 bg-white min-h-screen text-white">
       {/* Heading with Animation */}
       <motion.h1
         className="text-xl md:text-4xl font-extrabold text-center mb-10 tracking-wide bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
