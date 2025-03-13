@@ -10,5 +10,6 @@ export default function Home() {
         <HomePage></HomePage>
       </div>
       <Footer></Footer>
+      </div>
   );
 }
