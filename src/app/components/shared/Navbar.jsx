@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import logo from "../../../../public/assats/logo.webp";
@@ -30,6 +29,16 @@ export default function Navbar() {
           <Link href="/contact" className="hover:text-blue-600">
             Contact
           </Link>
+const Navbar = () => {
+    return (
+        <div>
+            <ul className='flex justify-center gap-4'>
+                <li>Home</li>
+                <li>About</li>
+                <li>Services</li>
+                <li>Contact</li>
+            </ul>
+            this is navbar
         </div>
 
         {/* Right Side - Sign Up Button */}
