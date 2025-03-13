@@ -6,7 +6,9 @@ export default function Home() {
   return (
     <div>
       <Navbar></Navbar>
-      <HomePage></HomePage>
+      <div className="pt-10">
+        <HomePage></HomePage>
+      </div>
       <Footer></Footer>
     </div>
   );
