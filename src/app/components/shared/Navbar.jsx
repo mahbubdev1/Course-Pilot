@@ -20,7 +20,7 @@ export default function Navbar() {
           <Link href="/" className="hover:text-blue-600">
             Home
           </Link>
-          <Link href="/courses" className="hover:text-blue-600">
+          <Link href="/AvailableCourse" className="hover:text-blue-600">
             Courses
           </Link>
           <Link href="/about" className="hover:text-blue-600">
