@@ -1,10 +1,13 @@
-import Image from "next/image";
+import HomePage from "./components/homepage/HomePage";
+import Footer from "./components/shared/Footer";
+import Navbar from "./components/shared/Navbar";
 
 export default function Home() {
   return (
-   <div>
-    <h2>Hi Welcome Your Team</h2>
-    <h3>mahbub</h3>
-   </div>
+    <div>
+      <Navbar></Navbar>
+      <HomePage></HomePage>
+      <Footer></Footer>
+    </div>
   );
 }
