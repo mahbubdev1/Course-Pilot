@@ -1,12 +1,18 @@
-import AvailableCourse from "../AvailableCourse/AvailableCourse";
+import Footer from "../shared/Footer";
 import Banner from "./Banner";
+import Headline from "./Headline";
+import Review from "./Review";
+import StatsSection from "./StatsSection";
 
 const HomePage = () => {
   return (
     <div>
-      <h1>This is home page</h1>
-      <Banner></Banner>
-      <AvailableCourse></AvailableCourse>
+      <div>
+        <Banner />
+        <Headline />
+        <Review />
+        <StatsSection />
+      </div>
     </div>
   );
 };
