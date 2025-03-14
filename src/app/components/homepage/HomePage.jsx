@@ -1,7 +1,7 @@
 import Footer from "../shared/Footer";
 import Banner from "./Banner";
 import Headline from "./Headline";
-// import Review from "./Review";
+import Review from "./Review";
 import StatsSection from "./StatsSection";
 
 const HomePage = () => {
@@ -10,7 +10,7 @@ const HomePage = () => {
       <div>
         <Banner />
         <Headline />
-        {/* <Review /> */}
+        <Review />
         <StatsSection />
       </div>
     </div>
