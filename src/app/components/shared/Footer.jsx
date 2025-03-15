@@ -1,30 +1,18 @@
 "use client";
 
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedin,
-} from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-10 mt-10">
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 justify-items-end md:grid-cols-5 gap-8 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 py-10">
           {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <svg
-                width="50"
-                height="50"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="text-primary"
-              >
-                <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"></path>
-              </svg>
-              <h2 className="text-xl font-bold">CoursePilot</h2>
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex flex-col items-start space-x-2">
+              <div>
+              <img src="/assats/footer-logo.png" alt="logo"/>
+              </div>
             </div>
             <p className="text-gray-400">
               Empowering education with AI-driven personalized learning.
@@ -115,18 +103,18 @@ export default function Footer() {
           {/* Social Links */}
           <div>
             <h6 className="text-lg font-semibold mb-3">Follow Us</h6>
-            <div className="flex flex-col gap-3 items-center text-primary">
+            <div className="flex md:flex-col gap-3 text-primary">
               <a href="#" className="hover:text-blue-600">
-                <FaFacebookF size={20} />
+                <FaFacebookF size={20} className="text-white"/>
               </a>
               <a href="#" className="hover:text-blue-400">
-                <FaTwitter size={20} />
+                <FaTwitter size={20} className="text-white"/>
               </a>
               <a href="#" className="hover:text-red-500">
-                <FaInstagram size={20} />
+                <FaInstagram size={20} className="text-white"/>
               </a>
               <a href="#" className="hover:text-black">
-                <FaLinkedin size={20} />
+                <FaLinkedin size={20} className="text-white"/>
               </a>
             </div>
           </div>
