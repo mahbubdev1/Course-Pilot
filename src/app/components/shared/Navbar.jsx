@@ -34,7 +34,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className=" shadow-md px-6 py-4 sticky top-0 w-full z-10 backdrop-blur-md">
+    <nav className=" shadow-md px-6 py-4 sticky top-0 w-full z-10 backdrop-blur-md bg-sidebar">
       <div className="flex items-center justify-between container mx-auto">
         {/* Left Side - Logo */}
         <div className="text-xl font-bold flex items-center space-x-3">
@@ -92,7 +92,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md">
+        <div className="md:hidden absolute top-16 left-0 w-full bg-sidebar shadow-md">
           <div className="flex flex-col items-center space-y-4 py-4">
             <Link
               href="/"
