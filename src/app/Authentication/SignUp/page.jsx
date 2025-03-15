@@ -3,10 +3,15 @@ import Lottie from "lottie-react";
 import signinAnimation from "../../../../public/animation/register.json"; // Correct path to your animation
 import Link from "next/link";
 import { signIn } from "next-auth/react"; // Import NextAuth signIn function
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginButton from "@/app/auth/LoginButton";
+import { Button } from "@/components/ui/button";
+import { RiArrowLeftUpBoxLine } from "react-icons/ri";
+import { CiLight } from "react-icons/ci";
+import { MdOutlineDarkMode } from "react-icons/md";
 
 const RegisterPage = () => {
+  const [darkmode, setDarkmode] = useState();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,9 +58,34 @@ const RegisterPage = () => {
     }
   };
 
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") {
+      setDarkmode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setDarkmode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setDarkmode(!darkmode);
+    if (darkmode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-20">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-4xl w-full flex flex-col md:flex-row">
+    <div className="flex items-center justify-center min-h-screen pt-20">
+      <div className="shadow-lg rounded-lg p-8 max-w-4xl w-full flex flex-col md:flex-row border-2">
+        <button onClick={toggleTheme} variant="secondary" className="absolute">
+          {darkmode ? <CiLight size={30} /> : <MdOutlineDarkMode size={30} />}
+        </button>
         {/* Lottie Animation */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <Lottie
@@ -67,7 +97,7 @@ const RegisterPage = () => {
 
         {/* Sign In Form */}
         <div className="w-full md:w-1/2 p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl font-bold mb-4">
             Create Your Account
           </h2>
 
@@ -103,13 +133,22 @@ const RegisterPage = () => {
             <LoginButton />
           </div>
 
-          <p className="text-gray-600 mt-4 text-center">
+          <p className="mt-4 text-center">
             Already have an account?{" "}
             <Link
               href="/Authentication/Login"
               className="text-blue-500 hover:underline"
             >
               Login Here
+            </Link>
+            <Link href={"/"}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="cursor-pointer mt-2"
+              >
+                <RiArrowLeftUpBoxLine /> Back to Home
+              </Button>
             </Link>
           </p>
         </div>
