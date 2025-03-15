@@ -34,7 +34,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className=" shadow-md px-6 py-4 fixed w-full z-10 backdrop-blur-md">
+    <nav className=" shadow-md px-6 py-4 sticky top-0 w-full z-10 backdrop-blur-md">
       <div className="flex items-center justify-between container mx-auto">
         {/* Left Side - Logo */}
         <div className="text-xl font-bold flex items-center space-x-3">
