@@ -11,7 +11,7 @@ const StatsSection = () => {
         <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-200 inline-block px-4 py-2 rounded-full mb-5">
           Why Choose Us
         </h5>
-        <h2 className="text-4xl font-bold text-gray-900 mb-24">
+        <h2 className="text-4xl font-bold mb-24">
           Choose Us For Personalized Excellence And 24/7{" "}
           <span className="block">Dedicated Support</span>
         </h2>
