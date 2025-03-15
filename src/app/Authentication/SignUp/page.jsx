@@ -1,5 +1,7 @@
 "use client";
-import Lottie from "lottie-react";
+// import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import signinAnimation from "../../../../public/animation/register.json"; // Correct path to your animation
 import Link from "next/link";
 import { signIn } from "next-auth/react"; // Import NextAuth signIn function
