@@ -75,17 +75,22 @@ export default function StudentSuccessStories() {
   };
 
   const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + students.length - itemsPerPage + 1) % (students.length - itemsPerPage + 1));
+    setIndex(
+      (prev) =>
+        (prev - 1 + students.length - itemsPerPage + 1) %
+        (students.length - itemsPerPage + 1)
+    );
   };
 
   return (
-    <section className="bg-gradient-to-r from-blue-50 to-white py-16 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       <div className="container mx-auto px-6 lg:px-16 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8">
           Student Success Stories
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-12">
-          See how CoursePilot has helped students achieve their goals and land their dream careers!
+        <p className="max-w-2xl mx-auto mb-12">
+          See how CoursePilot has helped students achieve their goals and land
+          their dream careers!
         </p>
 
         {/* Slider Container */}
@@ -142,15 +147,17 @@ export default function StudentSuccessStories() {
 
         {/* Dots Navigation */}
         <div className="flex justify-center mt-6 space-x-2">
-          {Array.from({ length: students.length - itemsPerPage + 1 }).map((_, i) => (
-            <div
-              key={i}
-              className={`w-3 h-3 rounded-full transition-all ${
-                i === index ? "bg-blue-600 scale-110" : "bg-gray-300"
-              }`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
+          {Array.from({ length: students.length - itemsPerPage + 1 }).map(
+            (_, i) => (
+              <div
+                key={i}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  i === index ? "bg-blue-600 scale-110" : "bg-gray-300"
+                }`}
+                onClick={() => setIndex(i)}
+              />
+            )
+          )}
         </div>
       </div>
     </section>

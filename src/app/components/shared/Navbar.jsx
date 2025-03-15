@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react"; // Icon for toggle
+import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false); // State for menu toggle
+  const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className=" shadow-md px-6 py-4 sticky top-0 w-full z-10 backdrop-blur-md bg-sidebar">
+    <nav className="px-6 py-4 fixed top-0 w-full z-10 backdrop-blur-md">
       <div className="flex items-center justify-between container mx-auto">
         {/* Left Side - Logo */}
         <div className="text-xl font-bold flex items-center space-x-3">

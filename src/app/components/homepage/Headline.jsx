@@ -7,7 +7,7 @@ const Marquee = dynamic(() => import("react-fast-marquee"), { ssr: false });
 
 const Headline = () => {
   return (
-    <div className="shadow-lg py-4 bg-gray-100">
+    <div className="shadow-lg py-4 bg-sidebar">
       <Marquee
         speed={50}
         gradient={false}

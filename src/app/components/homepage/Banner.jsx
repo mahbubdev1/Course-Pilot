@@ -1,12 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Image1 from "../../../../public/Images/banner1.png";
-import Image2 from "../../../../public/Images/banner2.png";
-import Image3 from "../../../../public/Images/banner3.png";
+// import img1 from "@/public/Images/banner1.png"
 
 const Banner = () => {
   return (
@@ -25,7 +24,7 @@ const Banner = () => {
         >
           {/* First Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 py-12 lg:py-12 text-white">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white py-40">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -47,10 +46,11 @@ const Banner = () => {
 
               {/* Right Side - Image */}
               <div className="w-full max-w-[300px] mt-6 md:mt-0">
-                <img
-                  src={Image1.src}
-                  alt="AI Learning"
-                  className="rounded-xl shadow-lg w-full"
+                <Image
+                  src="/Images/banner1.png"
+                  alt="Banner 3"
+                  width={800}
+                  height={400}
                 />
               </div>
             </div>
@@ -58,7 +58,7 @@ const Banner = () => {
 
           {/* Second Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 py-12 lg:py-12 text-white">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white py-40">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -80,10 +80,11 @@ const Banner = () => {
 
               {/* Right Side - Image */}
               <div className="w-full max-w-[300px] mt-6 md:mt-0">
-                <img
-                  src={Image2.src}
-                  alt="AI Learning"
-                  className="rounded-xl shadow-lg w-full"
+                <Image
+                  src="/Images/banner2.png"
+                  alt="Banner 3"
+                  width={800}
+                  height={400}
                 />
               </div>
             </div>
@@ -91,7 +92,7 @@ const Banner = () => {
 
           {/* Third Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 py-12 lg:py-12 text-white">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white py-40">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -113,10 +114,11 @@ const Banner = () => {
 
               {/* Right Side - Image */}
               <div className="w-full max-w-[300px] mt-6 md:mt-0">
-                <img
-                  src={Image3.src}
-                  alt="AI Learning"
-                  className="rounded-xl shadow-lg w-full"
+                <Image
+                  src="/Images/banner3.png"
+                  alt="Banner 3"
+                  width={800}
+                  height={400}
                 />
               </div>
             </div>
