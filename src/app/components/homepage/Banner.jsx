@@ -24,7 +24,7 @@ const Banner = () => {
         >
           {/* First Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white py-40">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white py-46">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -49,8 +49,8 @@ const Banner = () => {
                 <Image
                   src="/Images/banner1.png"
                   alt="Banner 3"
-                  width={800}
-                  height={400}
+                width={800}
+                height={800}
                 />
               </div>
             </div>
@@ -83,7 +83,7 @@ const Banner = () => {
                 <Image
                   src="/Images/banner2.png"
                   alt="Banner 3"
-                  width={800}
+                  width={900}
                   height={400}
                 />
               </div>
