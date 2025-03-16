@@ -13,7 +13,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
   const pathname = usePathname();
-  console.log(pathname, pathname.includes("SignUp"));
+  console.log(pathname);
 
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
@@ -36,8 +36,13 @@ export default function Navbar() {
       localStorage.setItem("theme", "dark");
     }
   };
-
-  if (!pathname.includes("Login") && !pathname.includes("SignUp")) {
+  const role = false;
+  if (
+    !pathname.includes("Login") &&
+    !pathname.includes("SignUp") &&
+    !pathname.includes("student-dashbord") &&
+    !pathname.includes("teacher-dashbord")
+  ) {
     return (
       <nav className="px-6 py-4 fixed top-0 w-full z-10 backdrop-blur-md">
         <div className="flex items-center justify-between container mx-auto">
@@ -76,11 +81,14 @@ export default function Navbar() {
             <Link href="/AvailableCourse" className="hover:text-blue-600">
               Courses
             </Link>
-            <Link href="homepage/About" className="hover:text-blue-600">
+            <Link href="/About" className="hover:text-blue-600">
               About
             </Link>
-            <Link href="/contact" className="hover:text-blue-600">
-              Contact
+            <Link
+              href={role ? "/student-dashbord" : "/teacher-dashbord"}
+              className="hover:text-blue-600"
+            >
+              Dashbord
             </Link>
           </div>
 
