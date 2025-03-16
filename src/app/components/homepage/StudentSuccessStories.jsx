@@ -84,7 +84,7 @@ export default function StudentSuccessStories() {
 
   return (
     <section className="py-16 relative overflow-hidden">
-      <div className="container mx-auto px-6 lg:px-16 text-center">
+      <div className="container mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-8">
           Student Success Stories
         </h2>
@@ -94,7 +94,7 @@ export default function StudentSuccessStories() {
         </p>
 
         {/* Slider Container */}
-        <div className="relative max-w-7xl mx-auto">
+        <div className="relative mx-auto">
           <div className="overflow-hidden">
             <motion.div
               className="flex space-x-6"

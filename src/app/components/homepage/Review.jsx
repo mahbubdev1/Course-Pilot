@@ -44,7 +44,7 @@ const Review = () => {
   ];
 
   return (
-    <div className="container mx-auto my-20 px-6">
+    <div className="container mx-auto my-20">
       <div className="text-center mb-8">
         <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-200 inline-block px-4 py-2 rounded-full mb-5">
           Review of Students
@@ -58,7 +58,7 @@ const Review = () => {
         {reviews.map((review, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-xl p-6 m-4 w-80 h-64 text-center border border-gray-200"
+            className="bg-white shadow-lg rounded-xl p-6 m-3 w-80 h-64 text-center border border-gray-200"
           >
             <h3 className="text-lg font-semibold">{review.name}</h3>
             <p className="text-sm text-gray-500">ID: {review.id}</p>
