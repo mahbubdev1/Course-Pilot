@@ -36,7 +36,7 @@ export default function Navbar() {
       localStorage.setItem("theme", "dark");
     }
   };
-  const role = false;
+  const role = true;
   if (
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
@@ -52,14 +52,14 @@ export default function Navbar() {
               {darkmode ? (
                 <Image
                   src="/assats/footer-logo.png"
-                  alt="Logo"
+                  alt="/assats/footer-logo.png"
                   width={150}
                   height={50}
                 />
               ) : (
                 <Image
                   src="/assats/logo.webp"
-                  alt="Logo"
+                  alt="/assats/logo.webp"
                   width={150}
                   height={50}
                 />

@@ -61,7 +61,7 @@ export default function AvailableCourse() {
     <div className="container mx-auto px-2 min-h-screen pt-16">
       {/* Heading with Animation */}
       <motion.h1
-        className="text-xl md:text-4xl font-extrabold text-center mb-10 tracking-wide bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"
+        className="text-xl md:text-4xl font-extrabold text-center mb-10 tracking-wide"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -69,7 +69,7 @@ export default function AvailableCourse() {
         Explore a World of Courses
       </motion.h1>
       <motion.p
-        className="text-xl text-center mb-8 leading-relaxed w-full md:w-11/12 mx-auto"
+        className="text-xl text-center mb-8 leading-relaxed w-full md:w-10/12 mx-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -84,7 +84,7 @@ export default function AvailableCourse() {
       {/* Course Grid */}
       <div
         ref={courseRef}
-        className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8"
+        className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-8"
       >
         {courses.map((course, index) => (
           <motion.div
@@ -98,10 +98,10 @@ export default function AvailableCourse() {
             <motion.div
               whileHover={{ scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.98 }}
-              className="flex flex-col h-full  bg-base-100 max-w-sm mx-auto transition-transform duration-300 ease-in-out bg-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700 hover:border-blue-500 hover:shadow-blue-500/50"
+              className="flex flex-col h-full  bg-base-100 max-w-sm mx-auto transition-transform duration-300 ease-in-out p-6 shadow-md dark:border-2  hover:shadow-gray-400"
             >
               {/* Card Content */}
-              <div className="flex flex-col flex-grow text-center">
+              <div className="flex flex-col flex-grow">
                 {/* Course Image */}
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -113,16 +113,14 @@ export default function AvailableCourse() {
                     src={course.image}
                     alt={course.title}
                     fill
-                    className="rounded-lg shadow-lg object-cover"
+                    className="rounded-lg shadow-lg object-cover dark:border"
                   />
                 </motion.div>
 
                 {/* Course Details */}
-                <h2 className="text-xl font-semibold text-white mt-4">
-                  {course.title}
-                </h2>
-                <p className="text-gray-400">{course.level}</p>
-                <p className="text-gray-400">Duration: {course.duration}</p>
+                <h2 className="text-xl font-semibold mt-4">{course.title}</h2>
+                <p className="">{course.level}</p>
+                <p className="">Duration: {course.duration}</p>
 
                 {/* Enroll Button */}
                 <motion.div
@@ -136,7 +134,7 @@ export default function AvailableCourse() {
                     whileHover={{ scale: 1.1, backgroundColor: "#2563eb" }} // Hover effect
                     whileTap={{ scale: 0.9 }}
                     transition={{ duration: 0.2 }}
-                    className="btn btn-primary px-6 py-2 rounded-md text-white font-semibold focus:outline-none transition-all duration-300 mt-4 bg-blue-500 hover:bg-blue-600 shadow-md"
+                    className="btn btn-primary px-6 py-2 text-white font-semibold focus:outline-none transition-all duration-300 mt-4 bg-blue-500 hover:bg-blue-600 shadow-md"
                   >
                     Enroll Now
                   </motion.button>
