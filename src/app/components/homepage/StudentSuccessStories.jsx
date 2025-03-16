@@ -104,7 +104,7 @@ export default function StudentSuccessStories() {
               {students.map((student, i) => (
                 <div
                   key={i}
-                  className="min-w-full sm:min-w-1/2 md:min-w-1/3 bg-white rounded-2xl shadow-lg p-8 text-left flex flex-col items-center transition-all hover:shadow-xl"
+                  className="min-w-full sm:min-w-1/2 md:min-w-1/3 dark:border rounded-2xl shadow-lg p-8 text-left flex flex-col items-center transition-all hover:shadow-xl"
                 >
                   {/* Student Image */}
                   <Image
@@ -116,13 +116,13 @@ export default function StudentSuccessStories() {
                   />
 
                   {/* Student Details */}
-                  <h4 className="text-lg sm:text-xl font-semibold text-gray-800 mt-4">
+                  <h4 className="text-lg sm:text-xl font-semibold  mt-4">
                     {student.name}
                   </h4>
                   <p className="text-sm sm:text-base text-blue-600 font-medium">
                     {student.course}
                   </p>
-                  <p className="text-gray-600 mt-4 text-center italic text-sm sm:text-base">
+                  <p className="text-gray-300 mt-4 text-center italic text-sm sm:text-base">
                     "{student.feedback}"
                   </p>
                 </div>

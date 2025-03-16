@@ -18,7 +18,7 @@ export default function Footer() {
   ) {
     return (
       <footer
-        className="py-10 mt-10"
+        className="py-10 mt-10 text-white"
         style={{
           backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/blue/blue-contour-949e2eab.svg")`,
           backgroundRepeat: "no-repeat",
@@ -123,7 +123,7 @@ export default function Footer() {
             {/* Social Links */}
             <div>
               <h6 className="text-lg font-semibold mb-3">Follow Us</h6>
-              <div className="flex md:flex-col gap-3 text-primary">
+              <div className="flex md:flex-col gap-3 text-white">
                 <a href="#" className="hover:text-blue-600">
                   <FaFacebookF size={20} />
                 </a>
