@@ -5,11 +5,19 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import img1 from "@/public/Images/banner1.png"
-
+import coolbg from '../../../../public/Images/cool-background.svg'
 const Banner = () => {
   return (
-    <div className="relative w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+    // bg-gradient-to-r from-blue-500 via-purple-500  to-pink-500
+    <div
+      className="relative w-full"
+      style={{
+        backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/blue/blue-contour-949e2eab.svg")`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="container mx-auto">
         <Swiper
           spaceBetween={30}
@@ -24,7 +32,7 @@ const Banner = () => {
         >
           {/* First Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white py-46">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white pt-46">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -45,12 +53,12 @@ const Banner = () => {
               </div>
 
               {/* Right Side - Image */}
-              <div className="w-full max-w-[300px] mt-6 md:mt-0">
+              <div className="w-full max-w-[350px] mt-6 md:mt-0">
                 <Image
-                  src="/Images/banner1.png"
-                  alt="Banner 3"
-                width={800}
-                height={800}
+                  src="/Images/photo1.png"
+                  alt="/Images/photo1.png"
+                  width={800}
+                  height={400}
                 />
               </div>
             </div>
@@ -58,7 +66,7 @@ const Banner = () => {
 
           {/* Second Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white py-40">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white pt-46">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -79,11 +87,11 @@ const Banner = () => {
               </div>
 
               {/* Right Side - Image */}
-              <div className="w-full max-w-[300px] mt-6 md:mt-0">
+              <div className="w-full max-w-[350px] mt-6 md:mt-0">
                 <Image
-                  src="/Images/banner2.png"
-                  alt="Banner 3"
-                  width={900}
+                  src="/Images/photo2.png"
+                  alt="/Images/photo2.png"
+                  width={800}
                   height={400}
                 />
               </div>
@@ -92,7 +100,7 @@ const Banner = () => {
 
           {/* Third Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white py-40">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white pt-46">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -113,10 +121,10 @@ const Banner = () => {
               </div>
 
               {/* Right Side - Image */}
-              <div className="w-full max-w-[300px] mt-6 md:mt-0">
+              <div className="w-full max-w-[400px] mt-6 md:mt-0 ">
                 <Image
-                  src="/Images/banner3.png"
-                  alt="Banner 3"
+                  src="/Images/photo3.png"
+                  alt="/Images/photo3.png"
                   width={800}
                   height={400}
                 />

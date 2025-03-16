@@ -10,9 +10,22 @@ import {
 
 export default function Footer() {
   const pathname = usePathname();
-  if (!pathname.includes("Login") && !pathname.includes("SignUp")) {
+  if (
+    !pathname.includes("Login") &&
+    !pathname.includes("SignUp") &&
+    !pathname.includes("student-dashbord") &&
+    !pathname.includes("teacher-dashbord")
+  ) {
     return (
-      <footer className="bg-gray-900 text-white py-10 mt-10">
+      <footer
+        className="py-10 mt-10"
+        style={{
+          backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/blue/blue-contour-949e2eab.svg")`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 py-10">
             {/* Company Info */}
@@ -22,7 +35,7 @@ export default function Footer() {
                   <img src="/assats/footer-logo.png" alt="logo" />
                 </div>
               </div>
-              <p className="text-gray-400">
+              <p className="">
                 Empowering education with AI-driven personalized learning.
               </p>
             </div>
@@ -30,7 +43,7 @@ export default function Footer() {
             {/* Services */}
             <div>
               <h6 className="text-lg font-semibold mb-3">Courses</h6>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 ">
                 <li>
                   <a href="#" className="hover:text-primary">
                     Web Development
@@ -57,7 +70,7 @@ export default function Footer() {
             {/* Company */}
             <div>
               <h6 className="text-lg font-semibold mb-3">Resources</h6>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 ">
                 <li>
                   <a href="#" className="hover:text-primary">
                     Blog
@@ -84,7 +97,7 @@ export default function Footer() {
             {/* Support */}
             <div>
               <h6 className="text-lg font-semibold mb-3">Support</h6>
-              <ul className="space-y-2 text-gray-400">
+              <ul className="space-y-2 ">
                 <li>
                   <a href="#" className="hover:text-primary">
                     FAQs
@@ -113,22 +126,22 @@ export default function Footer() {
               <h6 className="text-lg font-semibold mb-3">Follow Us</h6>
               <div className="flex md:flex-col gap-3 text-primary">
                 <a href="#" className="hover:text-blue-600">
-                  <FaFacebookF size={20} className="text-white" />
+                  <FaFacebookF size={20} />
                 </a>
                 <a href="#" className="hover:text-blue-400">
-                  <FaTwitter size={20} className="text-white" />
+                  <FaTwitter size={20} />
                 </a>
                 <a href="#" className="hover:text-red-500">
-                  <FaInstagram size={20} className="text-white" />
+                  <FaInstagram size={20} />
                 </a>
                 <a href="#" className="hover:text-black">
-                  <FaLinkedin size={20} className="text-white" />
+                  <FaLinkedin size={20} />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
+          <div className="border-t border-white mt-6 pt-6 text-center  text-sm">
             &copy; {new Date().getFullYear()} CoursePilot. All rights reserved.
           </div>
         </div>
