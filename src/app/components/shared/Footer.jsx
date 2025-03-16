@@ -27,19 +27,18 @@ export default function Footer() {
         }}
       >
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 py-10">
-            {/* Company Info */}
-            <div className="md:col-span-2 space-y-4">
-              <div className="flex flex-col items-start space-x-2">
-                <div>
-                  <img src="/assats/footer-logo.png" alt="logo" />
-                </div>
+          {/* Company Info */}
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex flex-col items-start space-x-2">
+              <div>
+                <img src="/assats/footer-logo.png" alt="logo" />
               </div>
-              <p className="">
-                Empowering education with AI-driven personalized learning.
-              </p>
             </div>
-
+            <p className="">
+              Empowering education with AI-driven personalized learning.
+            </p>
+          </div>
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-8 py-10">
             {/* Services */}
             <div>
               <h6 className="text-lg font-semibold mb-3">Courses</h6>

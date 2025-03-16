@@ -32,7 +32,7 @@ const Banner = () => {
         >
           {/* First Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white pt-46">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6 text-white xl:pt-40 lg:pt-24 max-sm:pt-16">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -66,7 +66,7 @@ const Banner = () => {
 
           {/* Second Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white pt-46">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white xl:pt-40 lg:pt-24 max-sm:pt-28">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
@@ -100,7 +100,7 @@ const Banner = () => {
 
           {/* Third Slide */}
           <SwiperSlide>
-            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white pt-46">
+            <div className="flex flex-col md:flex-row items-center justify-between px-6  text-white xl:pt-40 lg:pt-24 max-sm:pt-16">
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
