@@ -13,7 +13,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
   const pathname = usePathname();
-  console.log(pathname, pathname.includes("SignUp"));
+  console.log(pathname);
 
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
