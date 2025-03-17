@@ -75,21 +75,26 @@ export default function StudentSuccessStories() {
   };
 
   const prevSlide = () => {
-    setIndex((prev) => (prev - 1 + students.length - itemsPerPage + 1) % (students.length - itemsPerPage + 1));
+    setIndex(
+      (prev) =>
+        (prev - 1 + students.length - itemsPerPage + 1) %
+        (students.length - itemsPerPage + 1)
+    );
   };
 
   return (
-    <section className="bg-gradient-to-r from-blue-50 to-white py-16 relative overflow-hidden">
-      <div className="container mx-auto px-6 lg:px-16 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-8">
+    <section className="py-16 relative overflow-hidden">
+      <div className="container mx-auto text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8">
           Student Success Stories
         </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto mb-12">
-          See how CoursePilot has helped students achieve their goals and land their dream careers!
+        <p className="max-w-2xl mx-auto mb-12">
+          See how CoursePilot has helped students achieve their goals and land
+          their dream careers!
         </p>
 
         {/* Slider Container */}
-        <div className="relative max-w-7xl mx-auto">
+        <div className="relative mx-auto">
           <div className="overflow-hidden">
             <motion.div
               className="flex space-x-6"
@@ -99,7 +104,7 @@ export default function StudentSuccessStories() {
               {students.map((student, i) => (
                 <div
                   key={i}
-                  className="min-w-full sm:min-w-1/2 md:min-w-1/3 bg-white rounded-2xl shadow-lg p-8 text-left flex flex-col items-center transition-all hover:shadow-xl"
+                  className="min-w-full sm:min-w-1/2 md:min-w-1/3 dark:border rounded-2xl shadow-lg p-8 text-left flex flex-col items-center transition-all hover:shadow-xl"
                 >
                   {/* Student Image */}
                   <Image
@@ -111,13 +116,13 @@ export default function StudentSuccessStories() {
                   />
 
                   {/* Student Details */}
-                  <h4 className="text-lg sm:text-xl font-semibold text-gray-800 mt-4">
+                  <h4 className="text-lg sm:text-xl font-semibold  mt-4">
                     {student.name}
                   </h4>
                   <p className="text-sm sm:text-base text-blue-600 font-medium">
                     {student.course}
                   </p>
-                  <p className="text-gray-600 mt-4 text-center italic text-sm sm:text-base">
+                  <p className="text-gray-300 mt-4 text-center italic text-sm sm:text-base">
                     "{student.feedback}"
                   </p>
                 </div>
@@ -142,15 +147,17 @@ export default function StudentSuccessStories() {
 
         {/* Dots Navigation */}
         <div className="flex justify-center mt-6 space-x-2">
-          {Array.from({ length: students.length - itemsPerPage + 1 }).map((_, i) => (
-            <div
-              key={i}
-              className={`w-3 h-3 rounded-full transition-all ${
-                i === index ? "bg-blue-600 scale-110" : "bg-gray-300"
-              }`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
+          {Array.from({ length: students.length - itemsPerPage + 1 }).map(
+            (_, i) => (
+              <div
+                key={i}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  i === index ? "bg-blue-600 scale-110" : "bg-gray-300"
+                }`}
+                onClick={() => setIndex(i)}
+              />
+            )
+          )}
         </div>
       </div>
     </section>

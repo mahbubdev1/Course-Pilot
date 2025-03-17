@@ -4,6 +4,7 @@ import Navbar from "./components/shared/Navbar";
 import Footer from "./components/shared/Footer";
 import { SessionProvider } from "next-auth/react";
 import SessionWrapper from "./components/SessionWrapper";
+import { AuthProvider } from "@/context/AuthContext";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,13 +24,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <SessionWrapper>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Navbar></Navbar>
-          {children}
-          <Footer></Footer>
-        </body>
+        <AuthProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Navbar></Navbar>
+            {children}
+            <Footer></Footer>
+          </body>
+        </AuthProvider>
       </SessionWrapper>
     </html>
   );

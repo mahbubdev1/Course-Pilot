@@ -3,81 +3,64 @@
 import { FaUserGraduate, FaChalkboardTeacher } from "react-icons/fa";
 import { MdOndemandVideo } from "react-icons/md";
 import { HiOutlineUserGroup } from "react-icons/hi";
+import CountUp from "react-countup";
 
 const StatsSection = () => {
+  const statsData = [
+    {
+      icon: <FaUserGraduate className="text-blue-600 text-5xl" />,
+      count: 10000,
+      label: "Learners & Counting",
+    },
+    {
+      icon: <MdOndemandVideo className="text-green-600 text-5xl" />,
+      count: 300,
+      label: "Courses Video",
+    },
+    {
+      icon: <FaChalkboardTeacher className="text-purple-600 text-5xl" />,
+      count: 500,
+      label: "Certified Students",
+    },
+    {
+      icon: <HiOutlineUserGroup className="text-pink-600 text-5xl" />,
+      count: 1000,
+      label: "Registered Enrolls",
+    },
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div className="text-center">
-        <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-200 inline-block px-4 py-2 rounded-full mb-5">
-          Why Choose Us
-        </h5>
-        <h2 className="text-4xl font-bold text-gray-900 mb-24">
-          Choose Us For Personalized Excellence And 24/7{" "}
-          <span className="block">Dedicated Support</span>
-        </h2>
+    <div className="container mx-auto px-4 py-16 text-center">
+      <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-100 px-5 py-2 rounded-full mb-5 inline-block shadow-md">
+        Why Choose Us
+      </h5>
+      <h2 className="text-4xl font-bold mb-16">
+        Choose Us For Personalized Excellence & <br />
+        <span className="text-blue-600">24/7 Dedicated Support</span>
+      </h2>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 before:absolute before:w-full before:h-1 before:bg-blue-500 before:top-1/2 before:left-0">
-          {/* Data Cards */}
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-blue-200 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-blue-200">
-              <FaUserGraduate className="text-blue-600 text-5xl group-hover:text-white" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/** Stats Card Component */}
+        {statsData.map((stat, index) => (
+          <div
+            key={index}
+            className="group bg-white shadow-xl p-10 rounded-2xl w-72 mx-auto text-center"
+          >
+            <div className="bg-white p-4 rounded-full shadow-lg inline-block mb-5">
+              {stat.icon}
             </div>
-            <h3
-              className="text-2xl font-bold text-gray-800 mt-8 group-hover:text-white counter"
-              data-target="10000"
-            >
-              10,000+
+            <h3 className="text-3xl font-bold">
+              <CountUp
+                start={0}
+                end={stat.count}
+                duration={2.5}
+                separator=","
+              />
+              +
             </h3>
-            <p className="text-gray-600 text-lg group-hover:text-white">
-              Learners & counting
-            </p>
+            <p className="text-lg">{stat.label}</p>
           </div>
-
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-green-200 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-green-200">
-              <MdOndemandVideo className="text-green-600 text-5xl group-hover:text-white" />
-            </div>
-            <h3
-              className="text-2xl font-bold text-gray-800 mt-8 group-hover:text-white counter"
-              data-target="300"
-            >
-              300+
-            </h3>
-            <p className="text-gray-600 text-lg group-hover:text-white">
-              Courses Video
-            </p>
-          </div>
-
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-purple-200 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-purple-200">
-              <FaChalkboardTeacher className="text-purple-600 text-5xl group-hover:text-white" />
-            </div>
-            <h3
-              className="text-2xl font-bold text-gray-800 mt-8 group-hover:text-white counter"
-              data-target="500"
-            >
-              500+
-            </h3>
-            <p className="text-gray-600 text-lg group-hover:text-white">
-              Certified Students
-            </p>
-          </div>
-
-          <div className="group bg-white shadow-xl p-10 rounded-xl relative w-64 text-center transition-all hover:bg-pink-200 hover:text-white">
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-full shadow-lg group-hover:bg-pink-200">
-              <HiOutlineUserGroup className="text-pink-600 text-5xl group-hover:text-white" />
-            </div>
-            <h3
-              className="text-2xl font-bold text-gray-800 mt-8 group-hover:text-white counter"
-              data-target="1000"
-            >
-              1,000+
-            </h3>
-            <p className="text-gray-600 text-lg group-hover:text-white">
-              Registered Enrolls
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
