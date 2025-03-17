@@ -1,4 +1,5 @@
 import Banner from './Banner';
+import CoursePlatform from './CoursePlatform';
 import Headline from './Headline';
 import PopularInsights from './PopularInsights';
 import Review from './Review';
@@ -11,6 +12,7 @@ const HomePage = () => {
       <div>
         <Banner />
         <Headline />
+        <CoursePlatform></CoursePlatform>
         <Review />
         <PopularInsights></PopularInsights>
         <StatsSection />
