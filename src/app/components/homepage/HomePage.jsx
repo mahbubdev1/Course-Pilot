@@ -5,6 +5,7 @@ import PopularInsights from './PopularInsights';
 import Review from './Review';
 import StatsSection from './StatsSection';
 import StudentSuccessStories from './StudentSuccessStories';
+import TestimonialSection from './TestimonialSection';
 
 const HomePage = () => {
   return (
@@ -17,6 +18,7 @@ const HomePage = () => {
         <PopularInsights></PopularInsights>
         <StatsSection />
         <StudentSuccessStories></StudentSuccessStories>
+        <TestimonialSection></TestimonialSection>
       </div>
     </div>
   );
