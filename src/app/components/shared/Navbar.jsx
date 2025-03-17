@@ -8,12 +8,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
   const pathname = usePathname();
   console.log(pathname);
+
+  const { name } = useAuth();
+  console.log(name);
 
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
