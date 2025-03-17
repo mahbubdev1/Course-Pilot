@@ -1,9 +1,9 @@
-import Footer from "../shared/Footer";
-import Banner from "./Banner";
-import Headline from "./Headline";
-import Review from "./Review";
-import StatsSection from "./StatsSection";
-import StudentSuccessStories from "./StudentSuccessStories";
+import Banner from './Banner';
+import Headline from './Headline';
+import PopularInsights from './PopularInsights';
+import Review from './Review';
+import StatsSection from './StatsSection';
+import StudentSuccessStories from './StudentSuccessStories';
 
 const HomePage = () => {
   return (
@@ -12,6 +12,7 @@ const HomePage = () => {
         <Banner />
         <Headline />
         <Review />
+        <PopularInsights></PopularInsights>
         <StatsSection />
         <StudentSuccessStories></StudentSuccessStories>
       </div>
