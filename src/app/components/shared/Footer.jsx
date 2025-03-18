@@ -17,15 +17,7 @@ export default function Footer() {
     !pathname.includes("teacher-dashbord")
   ) {
     return (
-      <footer
-        className="py-10 mt-10 text-white"
-        style={{
-          backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/blue/blue-contour-949e2eab.svg")`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <footer className="py-10 mt-10 text-white bg-[#264D3F]">
         <div className="container mx-auto px-6 lg:px-8">
           {/* Company Info */}
           <div className="md:col-span-2 space-y-4">
