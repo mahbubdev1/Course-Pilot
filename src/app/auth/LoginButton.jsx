@@ -7,7 +7,7 @@ export default function LoginButton() {
 
   const handleProviderSignIn = async (provider) => {
     try {
-      await signIn(provider);
+      await signIn(provider, { callbackUrl: "/" });
     } catch (error) {
       console.error("Error signing in with provider:", error);
     }

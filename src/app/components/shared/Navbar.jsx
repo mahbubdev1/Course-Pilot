@@ -9,16 +9,33 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
   const pathname = usePathname();
   console.log(pathname);
-
   const { name } = useAuth();
-  console.log(name);
+  // loading for user
+  const [loading, setLoading] = useState(true);
+  // get user from session
 
+  const { data: session, status } = useSession();
+  console.log(session?.user?.name);
+  console.log(session?.user);
+  console.log(name);
+  useEffect(() => {
+    if (status === "loading") {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [status]);
+  // signout func
+  const handleSignOut = async () => {
+    await signOut();
+  };
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
     if (currentTheme === "dark") {
@@ -98,9 +115,25 @@ export default function Navbar() {
 
           {/* Right Side - Sign Up Button */}
           <div className="hidden md:block">
-            <Button variant="outline">
-              <Link href="/Authentication/SignUp">Sign Up</Link>
-            </Button>
+            {loading ? (
+              <>
+                <Button variant="outline" disabled>
+                  Loading...
+                </Button>
+              </>
+            ) : session?.user ? (
+              <>
+                <Button onClick={handleSignOut} variant="outline">
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline">
+                  <Link href="/Authentication/SignUp">Sign Up</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle Button */}
