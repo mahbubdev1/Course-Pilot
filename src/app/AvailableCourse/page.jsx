@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 export default function AvailableCourse() {
   const courses = [
@@ -43,7 +44,10 @@ export default function AvailableCourse() {
       image: "https://i.ibb.co/0crx1pW/knight.png",
     },
   ];
-
+  // user from nextauth
+  const { data: session, status } = useSession();
+  console.log(session?.user?.name);
+  console.log(session?.user);
   // GSAP animation for staggered fade-in effect
   const courseRef = useRef(null);
   useEffect(() => {

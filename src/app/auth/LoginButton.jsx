@@ -4,9 +4,21 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function LoginButton() {
   const { data: session } = useSession();
   console.log(session);
-  // Handle login for different providers
-  const handleProviderSignIn = (provider) => {
-    signIn(provider);
+
+  const handleProviderSignIn = async (provider) => {
+    try {
+      await signIn(provider, { callbackUrl: "/" });
+    } catch (error) {
+      console.error("Error signing in with provider:", error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   if (session) {
@@ -14,7 +26,7 @@ export default function LoginButton() {
       <>
         Signed in as {session.user.email} <br />
         <button
-          onClick={() => signOut()}
+          onClick={handleSignOut}
           className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 mt-4"
         >
           Sign out
@@ -25,20 +37,14 @@ export default function LoginButton() {
 
   return (
     <div>
-      {/* <button
-        onClick={() => signIn("facebook")}
-        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 mb-4"
-      >
-        Sign In with Facebook
-      </button> */}
       <button
-        onClick={() => signIn("github")}
+        onClick={() => handleProviderSignIn("github")}
         className="w-full bg-gray-800 text-white py-3 rounded-lg hover:bg-gray-900 mb-4"
       >
         Sign In with GitHub
       </button>
       <button
-        onClick={() => signIn("google")}
+        onClick={() => handleProviderSignIn("google")}
         className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 mb-4"
       >
         Sign In with Google
