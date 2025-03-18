@@ -122,7 +122,7 @@ export default function StudentSuccessStories() {
                   <p className="text-sm sm:text-base text-blue-600 font-medium">
                     {student.course}
                   </p>
-                  <p className="text-gray-300 mt-4 text-center italic text-sm sm:text-base">
+                  <p className="text-gray-400 mt-4 text-center italic text-sm sm:text-base">
                     "{student.feedback}"
                   </p>
                 </div>
