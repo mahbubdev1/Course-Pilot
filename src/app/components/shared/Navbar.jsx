@@ -15,8 +15,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
   const pathname = usePathname();
-  console.log(pathname);
+  // console.log(pathname);
   const { name } = useAuth();
+  console.log(name);
+
   // loading for user
   const [loading, setLoading] = useState(true);
   // get user from session
@@ -95,7 +97,7 @@ export default function Navbar() {
             </button>
           </div>
           {/* Center - Navigation Links (Desktop) */}
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex space-x-6 ">
             <Link href="/" className="hover:text-blue-600">
               Home
             </Link>

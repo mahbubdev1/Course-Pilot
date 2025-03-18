@@ -5,19 +5,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import coolbg from '../../../../public/Images/cool-background.svg'
+import coolbg from "../../../../public/Images/cool-background.svg";
 const Banner = () => {
   return (
     // bg-gradient-to-r from-blue-500 via-purple-500  to-pink-500
-    <div
-      className="relative w-full"
-      style={{
-        backgroundImage: `url("https://coolbackgrounds.io/images/backgrounds/blue/blue-contour-949e2eab.svg")`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="relative w-full bg-[#264D3F]">
       <div className="container mx-auto">
         <Swiper
           spaceBetween={30}
@@ -43,10 +35,10 @@ const Banner = () => {
                   course management—all powered by AI.
                 </p>
                 <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all">
+                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all cursor-pointer">
                     🎓 Get Started
                   </button>
-                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all">
+                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all cursor-pointer">
                     📖 Explore Courses
                   </button>
                 </div>
@@ -77,10 +69,10 @@ const Banner = () => {
                   needs.
                 </p>
                 <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all">
+                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all cursor-pointer">
                     🎓 Get Started
                   </button>
-                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all">
+                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all cursor-pointer">
                     📖 Explore Courses
                   </button>
                 </div>
@@ -111,10 +103,10 @@ const Banner = () => {
                   experience.
                 </p>
                 <div className="mt-6 flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all">
+                  <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:bg-gray-200 transition-all cursor-pointer">
                     🎓 Get Started
                   </button>
-                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all">
+                  <button className="px-6 py-3 border border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-blue-600 transition-all cursor-pointer ">
                     📖 Explore Courses
                   </button>
                 </div>
