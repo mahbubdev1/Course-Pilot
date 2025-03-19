@@ -25,19 +25,13 @@ import { useSession, signOut } from "next-auth/react";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
+  const [navbarBackground, setNavbarBackground] = useState(false); // New State
   const pathname = usePathname();
-  // console.log(pathname);
   const { name } = useAuth();
-  console.log(name);
 
-  // loading for user
   const [loading, setLoading] = useState(true);
-  // get user from session
-
   const { data: session, status } = useSession();
-  console.log(session?.user?.name);
-  console.log(session?.user);
-  console.log(name);
+
   useEffect(() => {
     if (status === "loading") {
       setLoading(true);
@@ -45,10 +39,11 @@ export default function Navbar() {
       setLoading(false);
     }
   }, [status]);
-  // signout func
+
   const handleSignOut = async () => {
     await signOut();
   };
+
   useEffect(() => {
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'dark') {
@@ -70,6 +65,23 @@ export default function Navbar() {
       localStorage.setItem('theme', 'dark');
     }
   };
+
+  // **Scroll Event Listener for Changing Navbar Background & Link Color**
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setNavbarBackground(true);
+      } else {
+        setNavbarBackground(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const role = true;
   if (
     !pathname.includes('Login') &&
@@ -78,28 +90,48 @@ export default function Navbar() {
     !pathname.includes('teacher-dashbord')
   ) {
     return (
-      <nav className="px-6 py-4 fixed top-0 w-full z-10 backdrop-blur-md">
+      <nav
+        className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${
+          navbarBackground ? "bg-white shadow-md" : "bg-transparent"
+        }`}
+      >
         <div className="flex items-center justify-between container mx-auto">
           {/* Left Side - Logo */}
-          <div className="text-xl font-bold flex items-center space-x-3">
-            <Link href="/">
-              {darkmode ? (
+          <div className={`text-xl font-bold flex items-center space-x-3 `}>
+            <Link href="/" className={`${pathname === "/" ? "" : "hidden"}`}>
+              {navbarBackground ? (
                 <Image
-                  src="/assats/footer-logo.png"
-                  alt="/assats/footer-logo.png"
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
                   width={150}
                   height={50}
                 />
               ) : (
                 <Image
-                  src="/assats/logo.webp"
-                  alt="/assats/logo.webp"
+                  src="/assats/footer-logo.png"
+                  alt="Footer Logo"
                   width={150}
                   height={50}
                 />
               )}
             </Link>
-            <button onClick={toggleTheme} variant="secondary" className="">
+            <Link href={"/"} className={`${pathname === "/" ? "hidden" : ""}`}>
+              <Image
+                src="/assats/logo.webp"
+                alt="Footer Logo"
+                width={150}
+                height={50}
+              />
+            </Link>
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""} `
+              } `}
+            >
               {darkmode ? (
                 <CiLight size={30} />
               ) : (
@@ -107,14 +139,46 @@ export default function Navbar() {
               )}
             </button>
           </div>
+
           {/* Center - Navigation Links (Desktop) */}
-          <div className="hidden md:flex space-x-6 ">
-            <Link href="/" className="hover:text-blue-600">
+          <div className={`hidden md:flex space-x-6`}>
+            <Link
+              href="/"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
+            >
               Home
             </Link>
-            <Link href="/AvailableCourse" className="hover:text-blue-600">
+            <Link
+              href="/AvailableCourse"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
+            >
               Courses
             </Link>
+            <Link
+              href="/About"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              href={role ? "/student-dashbord" : "/teacher-dashbord"}
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
             <Link href="/about" className="hover:text-blue-600">
               About
             </Link>
@@ -122,30 +186,24 @@ export default function Navbar() {
               href={role ? '/student-dashbord' : '/teacher-dashbord'}
               className="hover:text-blue-600"
             >
-              Dashbord
+              Dashboard
             </Link>
           </div>
 
           {/* Right Side - Sign Up Button */}
           <div className="hidden md:block">
             {loading ? (
-              <>
-                <Button variant="outline" disabled>
-                  Loading...
-                </Button>
-              </>
+              <Button variant="outline" disabled>
+                Loading...
+              </Button>
             ) : session?.user ? (
-              <>
-                <Button onClick={handleSignOut} variant="outline">
-                  Sign Out
-                </Button>
-              </>
+              <Button onClick={handleSignOut} variant="outline">
+                Sign Out
+              </Button>
             ) : (
-              <>
-                <Button variant="outline">
-                  <Link href="/Authentication/SignUp">Sign Up</Link>
-                </Button>
-              </>
+              <Button variant="outline">
+                <Link href="/Authentication/SignUp">Sign Up</Link>
+              </Button>
             )}
           </div>
 
@@ -171,39 +229,39 @@ export default function Navbar() {
               y: -20,
               transition: { duration: 0.2, ease: 'easeIn' },
             }}
-            className="md:hidden absolute top-16 left-0 w-full bg-sidebar shadow-md"
+            className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md"
           >
             <div className="flex flex-col items-center space-y-4 py-4">
               <Link
                 href="/"
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
               <Link
-                href="/courses"
-                className="hover:text-blue-600"
+                href="/AvailableCourse"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Courses
               </Link>
               <Link
-                href="/about"
-                className="hover:text-blue-600"
+                href="/About"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
               </Link>
               <Button variant="outline" onClick={() => setIsOpen(false)}>
-                <Link href="/signup">Sign Up</Link>
+                <Link href="/Authentication/SignUp">Sign Up</Link>
               </Button>
             </div>
           </motion.div>
