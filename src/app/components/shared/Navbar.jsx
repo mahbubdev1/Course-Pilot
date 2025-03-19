@@ -18,20 +18,10 @@ export default function Navbar() {
   console.log(pathname);
   const { name } = useAuth();
   // loading for user
-  const [loading, setLoading] = useState(true);
   // get user from session
 
-  const { data: session, status } = useSession();
-  console.log(session?.user?.name);
-  console.log(session?.user);
-  console.log(name);
-  useEffect(() => {
-    if (status === "loading") {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [status]);
+  const { user, loading } = useAuth();
+  console.log(user);
   // signout func
   const handleSignOut = async () => {
     await signOut();
@@ -121,7 +111,7 @@ export default function Navbar() {
                   Loading...
                 </Button>
               </>
-            ) : session?.user ? (
+            ) : user ? (
               <>
                 <Button onClick={handleSignOut} variant="outline">
                   Sign Out
@@ -189,9 +179,25 @@ export default function Navbar() {
               >
                 Contact
               </Link>
-              <Button variant="outline" onClick={() => setIsOpen(false)}>
-                <Link href="/signup">Sign Up</Link>
-              </Button>
+              {loading ? (
+                <>
+                  <Button variant="outline" disabled>
+                    Loading...
+                  </Button>
+                </>
+              ) : user ? (
+                <>
+                  <Button onClick={handleSignOut} variant="outline">
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline">
+                    <Link href="/Authentication/SignUp">Sign Up</Link>
+                  </Button>
+                </>
+              )}
             </div>
           </motion.div>
         )}
