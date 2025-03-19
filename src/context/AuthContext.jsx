@@ -11,9 +11,13 @@ export const AuthProvider = ({ children }) => {
   console.log(session?.user?.name);
   console.log(session?.user);
   useEffect(() => {
-    setUser(session?.user);
-    setLoading(false);
-  }, [session]);
+    if (status === "loading") {
+      setLoading(true);
+    } else {
+      setUser(session?.user || null);
+      setLoading(false);
+    }
+  }, [session, status]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
