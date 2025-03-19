@@ -9,17 +9,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CiLight } from 'react-icons/ci';
 import { MdOutlineDarkMode } from 'react-icons/md';
-"use client";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
@@ -170,16 +159,6 @@ export default function Navbar() {
                   : `${pathname === "/" ? "text-white" : ""}`
               }`}
             >
-              About
-            </Link>
-            <Link
-              href={role ? "/student-dashbord" : "/teacher-dashbord"}
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""}`
-              }`}
-            <Link href="/about" className="hover:text-blue-600">
               About
             </Link>
             <Link
