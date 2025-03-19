@@ -1,7 +1,7 @@
 export default function About() {
   return (
-    <div className="container mx-auto mt-8">
-      <section className="bg-gray-100 dark:bg-gray-900 py-12 px-6 lg:px-24">
+    <div className="container mx-auto  min-h-screen mt-20">
+      <section className="bg-gray-100 dark:bg-gray-900 py-10  px-6 lg:px-24 space-y-10">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
             About CoursePilot

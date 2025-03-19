@@ -1,25 +1,14 @@
-'use client';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/AuthContext';
-import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { CiLight } from 'react-icons/ci';
-import { MdOutlineDarkMode } from 'react-icons/md';
 "use client";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CiLight } from "react-icons/ci";
+import { MdOutlineDarkMode } from "react-icons/md";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
@@ -45,24 +34,24 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark') {
+    const currentTheme = localStorage.getItem("theme");
+    if (currentTheme === "dark") {
       setDarkmode(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
       setDarkmode(false);
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
   const toggleTheme = () => {
     setDarkmode(!darkmode);
     if (darkmode) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     }
   };
 
@@ -84,10 +73,10 @@ export default function Navbar() {
 
   const role = true;
   if (
-    !pathname.includes('Login') &&
-    !pathname.includes('SignUp') &&
-    !pathname.includes('student-dashbord') &&
-    !pathname.includes('teacher-dashbord')
+    !pathname.includes("Login") &&
+    !pathname.includes("SignUp") &&
+    !pathname.includes("student-dashbord") &&
+    !pathname.includes("teacher-dashbord")
   ) {
     return (
       <nav
@@ -123,21 +112,6 @@ export default function Navbar() {
                 height={50}
               />
             </Link>
-            <button
-              onClick={toggleTheme}
-              variant="ghost"
-              className={`hover:bg-transparent px-3 ${
-                navbarBackground
-                  ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""} `
-              } `}
-            >
-              {darkmode ? (
-                <CiLight size={30} />
-              ) : (
-                <MdOutlineDarkMode size={30} />
-              )}
-            </button>
           </div>
 
           {/* Center - Navigation Links (Desktop) */}
@@ -174,37 +148,49 @@ export default function Navbar() {
             </Link>
             <Link
               href={role ? "/student-dashbord" : "/teacher-dashbord"}
-              className={`hover:text-blue-600 transition ${
+              className={`hover:text-blue-600 ${
                 navbarBackground
                   ? "text-black"
                   : `${pathname === "/" ? "text-white" : ""}`
               }`}
-            <Link href="/about" className="hover:text-blue-600">
-              About
-            </Link>
-            <Link
-              href={role ? '/student-dashbord' : '/teacher-dashbord'}
-              className="hover:text-blue-600"
             >
               Dashboard
             </Link>
           </div>
 
           {/* Right Side - Sign Up Button */}
-          <div className="hidden md:block">
-            {loading ? (
-              <Button variant="outline" disabled>
-                Loading...
-              </Button>
-            ) : session?.user ? (
-              <Button onClick={handleSignOut} variant="outline">
-                Sign Out
-              </Button>
-            ) : (
-              <Button variant="outline">
-                <Link href="/Authentication/SignUp">Sign Up</Link>
-              </Button>
-            )}
+          <div className="flex items-center ">
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""} `
+              } `}
+            >
+              {darkmode ? (
+                <CiLight size={30} />
+              ) : (
+                <MdOutlineDarkMode size={30} />
+              )}
+            </button>
+
+            <div className="hidden md:block">
+              {loading ? (
+                <Button variant="outline" disabled>
+                  Loading...
+                </Button>
+              ) : session?.user ? (
+                <Button onClick={handleSignOut} variant="outline">
+                  Sign Out
+                </Button>
+              ) : (
+                <Button variant="outline">
+                  <Link href="/Authentication/SignUp">Sign Up</Link>
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -222,12 +208,12 @@ export default function Navbar() {
             animate={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.3, ease: 'easeOut' },
+              transition: { duration: 0.3, ease: "easeOut" },
             }}
             exit={{
               opacity: 0,
               y: -20,
-              transition: { duration: 0.2, ease: 'easeIn' },
+              transition: { duration: 0.2, ease: "easeIn" },
             }}
             className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md"
           >
