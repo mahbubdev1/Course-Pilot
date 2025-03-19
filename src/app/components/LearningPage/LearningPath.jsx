@@ -33,15 +33,20 @@ const LearningPath = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 mt-20">
-      <h2 className="text-2xl font-bold text-center mb-6">What you'll learn</h2>
+    <div className="container mx-auto p-6 mt-20">
+      <h2 className="text-4xl font-extrabold text-center mb-8 text-gray-800">
+        What You'll Learn
+      </h2>
+
       {/* Tab Navigation */}
-      <div className="flex justify-center space-x-4 mb-6">
+      <div className="flex justify-center space-x-6 mb-8">
         {[1, 2, 3].map((module) => (
           <button
             key={module}
-            className={`px-4 py-2 rounded-md font-medium ${
-              activeModule === module ? "bg-blue-600 text-white" : "bg-gray-200"
+            className={`px-6 py-3 text-lg font-semibold rounded-lg transition-transform duration-300 ${
+              activeModule === module
+                ? "bg-green-600 text-white shadow-lg scale-105"
+                : "bg-gray-300 text-gray-800 hover:bg-green-500 hover:text-white"
             }`}
             onClick={() => setActiveModule(module)}
           >
@@ -51,15 +56,18 @@ const LearningPath = () => {
       </div>
 
       {/* Topics */}
-      <div className="bg-gray-100 p-6 rounded-lg shadow-md h-64">
-        <h3 className="text-xl font-semibold mb-4 text-center">
+      <div className="rounded-lg p-8 shadow-md bg-gray-100 h-[420px]">
+        <h3 className="text-2xl font-bold mb-6 text-center text-gray-900">
           Next.js Learning Path
         </h3>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-lg font-medium text-gray-700">
           {topics[activeModule].map((topic, index) => (
-            <li key={index} className="flex items-center gap-2">
-              <span className="text-green-500">✔</span>
-              <span>{topic}</span>
+            <li
+              key={index}
+              className="flex items-center gap-3 w-full bg-white p-4 rounded-lg shadow-md"
+            >
+              <span className="text-green-600 text-2xl">✔</span>
+              <span className="w-full">{topic}</span>
             </li>
           ))}
         </ul>

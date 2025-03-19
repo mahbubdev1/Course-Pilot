@@ -13,7 +13,7 @@ const SupportCards = () => {
   return (
     <div className="container mx-auto">
       <div className="text-center mb-8 mt-20">
-        <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-200 inline-block px-4 py-2 rounded-full mb-5">
+        <h5 className="text-green-600 font-semibold text-sm uppercase bg-green-200 inline-block px-4 py-2 rounded-full mb-5">
           What's Included in the Course
         </h5>
         <h2 className="text-3xl font-bold w-3/4 mx-auto">
