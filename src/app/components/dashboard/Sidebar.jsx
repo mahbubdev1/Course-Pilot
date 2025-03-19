@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaTachometerAlt, FaUsers, FaBook, FaTimes } from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaBook, FaTimes} from "react-icons/fa";
+import { LiaCertificateSolid } from "react-icons/lia";
+import { MdQuiz } from "react-icons/md";
 import { useState, useEffect } from "react";
 
 const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
@@ -12,6 +14,8 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
     { name: "Dashboard", path: "/teacher-dashbord", icon: <FaTachometerAlt /> },
     { name: "MyCourses", path: "/teacher-dashbord/my-courses", icon: <FaUsers /> },
     { name: "MyStudents", path: "/teacher-dashbord/my-students", icon: <FaBook /> },
+    { name: "Certificates", path: "/teacher-dashbord/certificates", icon: <LiaCertificateSolid  /> },
+    { name: "Quiz & Assignment", path: "/teacher-dashbord/quiz-assignment", icon: < MdQuiz  /> },
   ];
 
   useEffect(() => {

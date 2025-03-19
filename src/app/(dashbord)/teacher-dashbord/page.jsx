@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import DashboardCard from "@/app/components/dashboard/DashboardCard";
 import {
   Select,
@@ -8,6 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import CourseStatisticsChart from "./components/CourseStatisticsChart";
+import SellingReportChart from "./components/SellingReportChart";
 
 export default function InstructorDashboard() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -20,13 +22,21 @@ export default function InstructorDashboard() {
           <DashboardCard title="Total Courses" value="10" />
           <DashboardCard title="Earnings" value="$25K" />
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white shadow rounded-lg p-6">
+            <CourseStatisticsChart />
+          </div>
+          <div className="bg-white shadow rounded-lg p-6">
+            <SellingReportChart />
+          </div>
+        </div>
         <div>
           <div className="space-y-10 md:flex justify-between">
             <h3 className="font-bold text-xl">Best Selling Courses</h3>
             <div>
               <Select>
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Theme" />
+                  <SelectValue placeholder="7" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="light">Last 7 days</SelectItem>
