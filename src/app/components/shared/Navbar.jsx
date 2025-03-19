@@ -1,3 +1,14 @@
+'use client';
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CiLight } from 'react-icons/ci';
+import { MdOutlineDarkMode } from 'react-icons/md';
 "use client";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
@@ -34,24 +45,24 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const currentTheme = localStorage.getItem("theme");
-    if (currentTheme === "dark") {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
       setDarkmode(true);
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add('dark');
     } else {
       setDarkmode(false);
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark');
     }
   }, []);
 
   const toggleTheme = () => {
     setDarkmode(!darkmode);
     if (darkmode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     }
   };
 
@@ -73,10 +84,10 @@ export default function Navbar() {
 
   const role = true;
   if (
-    !pathname.includes("Login") &&
-    !pathname.includes("SignUp") &&
-    !pathname.includes("student-dashbord") &&
-    !pathname.includes("teacher-dashbord")
+    !pathname.includes('Login') &&
+    !pathname.includes('SignUp') &&
+    !pathname.includes('student-dashbord') &&
+    !pathname.includes('teacher-dashbord')
   ) {
     return (
       <nav
@@ -168,6 +179,12 @@ export default function Navbar() {
                   ? "text-black"
                   : `${pathname === "/" ? "text-white" : ""}`
               }`}
+            <Link href="/about" className="hover:text-blue-600">
+              About
+            </Link>
+            <Link
+              href={role ? '/student-dashbord' : '/teacher-dashbord'}
+              className="hover:text-blue-600"
             >
               Dashboard
             </Link>
@@ -205,12 +222,12 @@ export default function Navbar() {
             animate={{
               opacity: 1,
               y: 0,
-              transition: { duration: 0.3, ease: "easeOut" },
+              transition: { duration: 0.3, ease: 'easeOut' },
             }}
             exit={{
               opacity: 0,
               y: -20,
-              transition: { duration: 0.2, ease: "easeIn" },
+              transition: { duration: 0.2, ease: 'easeIn' },
             }}
             className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md"
           >

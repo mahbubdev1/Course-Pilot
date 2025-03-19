@@ -1,12 +1,13 @@
 "use client";
 
-import { FiBell, FiUser, FiMenu } from "react-icons/fi";
+import { FiBell, FiUser} from "react-icons/fi";
+import { MdMenuOpen } from "react-icons/md";
 
 const Navbar = ({ toggleSidebar }) => {
   return (
     <nav className="flex justify-between items-center bg-white shadow-md px-6 py-4 sticky top-0 z-40">
        <button onClick={toggleSidebar}>
-          <FiMenu size={24} />
+          <MdMenuOpen size={24} />
         </button>
 
       <div className="flex items-center gap-6">

@@ -54,7 +54,7 @@ export default function ReusableTable({ data, columns, rowsPerPage = 10, actions
     <div className="w-full">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className={"bg-green-400"}>
             {columns.map((column) => (
               <TableHead key={column.key} className={column.className}>
                 {column.header}
