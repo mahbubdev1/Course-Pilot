@@ -98,7 +98,7 @@ export default function AvailableCourse() {
               {/* Card Content */}
               <div className="flex flex-col h-full">
                 {/* Course Image */}
-                <div className="relative w-full h-[200px]">
+                <div className="relative w-full h-[400px]">
                   <Image
                     src={course.image}
                     alt={course.title}
@@ -113,7 +113,7 @@ export default function AvailableCourse() {
                 <p className="">Duration: {course.duration}</p>
 
                 {/* Enroll Button */}
-                <div className="mt-auto">
+                <div className="mt-8">
                   <Button
                     variant="secondary"
                     className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded text-sm transition-colors cursor-pointer"
