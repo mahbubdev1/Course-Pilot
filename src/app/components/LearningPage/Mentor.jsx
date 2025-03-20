@@ -14,11 +14,13 @@ const Mentor = () => {
       <div className="container mx-auto py-12">
         <div className="text-center my-8">
           <h5 className="text-2xl font-bold mb-5 text-white">
-            Popular Instructors
+            Best Teacher of this Season
           </h5>
-          <h2 className="text-3xl font-bold w-3/4 mx-auto text-white">
-            The cost of receiving higher education in the United States has
-            skyrocketed. We are here to offer mentorship to help you succeed.
+          <h2 className="text-lg w-3/4 mx-auto text-white">
+            The cost of obtaining higher education in the United States has
+            significantly increased over the years. To help ease the burden and
+            ensure your success, we are here to offer mentorship and guidance
+            every step of the way.
           </h2>
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between px-6 md:px-12 my-12">
