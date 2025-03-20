@@ -113,7 +113,7 @@ export default function AvailableCourse() {
                 <p className="">Duration: {course.duration}</p>
 
                 {/* Enroll Button */}
-                <div className="mt-8">
+                <div className="mt-auto">
                   <Button
                     variant="secondary"
                     className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded text-sm transition-colors cursor-pointer"
