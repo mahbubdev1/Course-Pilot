@@ -263,11 +263,11 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href="/contact"
+                href={role ? "/student-dashbord" : "/teacher-dashbord"}
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
-                Contact
+                Dashbord
               </Link>
               <Button onClick={() => setIsOpen(false)}>
                 <Link href="/Authentication/SignUp">Sign Up</Link>
