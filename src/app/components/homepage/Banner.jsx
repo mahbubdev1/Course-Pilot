@@ -29,7 +29,7 @@ const Banner = () => {
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                  Revolutionize Learning with AI
+                  Revolutionize <span className="text-orange-500">Learning</span> with AI
                 </h1>
                 <p className="mt-4 text-base md:text-lg">
                   Personalized learning paths, real-time analytics, and seamless
@@ -66,7 +66,7 @@ const Banner = () => {
               {/* Left Side - Text Content */}
               <div className=" text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                  Learn Anytime, Anywhere
+                  Learn <span className="text-orange-500">Anytime</span>, Anywhere
                 </h1>
                 <p className="mt-4 text-base md:text-lg">
                   Flexibility in learning that adapts to your schedule and
@@ -102,7 +102,7 @@ const Banner = () => {
               {/* Left Side - Text Content */}
               <div className="max-w-xl text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-                  Master New Skills <br /> with AI
+                  Master New <span className="text-orange-500">Skills</span> <br /> with AI
                 </h1>
                 <p className="mt-4 text-base md:text-lg">
                   Harness the power of AI to accelerate your learning
