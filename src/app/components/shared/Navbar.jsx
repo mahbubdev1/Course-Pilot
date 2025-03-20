@@ -1,21 +1,21 @@
 "use client";
-import { MdOutlineDarkMode } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import { useSession, signOut } from "next-auth/react";
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CiLight } from 'react-icons/ci';
+import { MdOutlineDarkMode } from 'react-icons/md';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState();
+  const [navbarBackground, setNavbarBackground] = useState(false); // New State
   const pathname = usePathname();
-  console.log(pathname);
   const { name } = useAuth();
   // loading for user
   // get user from session
@@ -23,9 +23,21 @@ export default function Navbar() {
   const { user, loading } = useAuth();
   console.log(user);
   // signout func
+
+  const [loading, setLoading] = useState(true);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === 'loading') {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [status]);
   const handleSignOut = async () => {
     await signOut();
   };
+
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
     if (currentTheme === "dark") {
@@ -47,6 +59,23 @@ export default function Navbar() {
       localStorage.setItem("theme", "dark");
     }
   };
+
+  // **Scroll Event Listener for Changing Navbar Background & Link Color**
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setNavbarBackground(true);
+      } else {
+        setNavbarBackground(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const role = true;
   if (
     !pathname.includes("Login") &&
@@ -55,75 +84,173 @@ export default function Navbar() {
     !pathname.includes("teacher-dashbord")
   ) {
     return (
-      <nav className="px-6 py-4 fixed top-0 w-full z-10 backdrop-blur-md">
+      <nav
+        className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${
+          navbarBackground ? 'bg-white shadow-md' : 'bg-transparent'
+        }`}
+      >
         <div className="flex items-center justify-between container mx-auto">
           {/* Left Side - Logo */}
-          <div className="text-xl font-bold flex items-center space-x-3">
-            <Link href="/">
-              {darkmode ? (
+          <div className={`text-xl font-bold flex items-center space-x-3 `}>
+            <Link href="/" className={`${pathname === '/' ? '' : 'hidden'}`}>
+              {navbarBackground ? (
                 <Image
-                  src="/assats/footer-logo.png"
-                  alt="/assats/footer-logo.png"
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
                   width={150}
                   height={50}
                 />
               ) : (
                 <Image
-                  src="/assats/logo.webp"
-                  alt="/assats/logo.webp"
+                  src="/assats/footer-logo.png"
+                  alt="Footer Logo"
                   width={150}
                   height={50}
                 />
               )}
             </Link>
-            <button onClick={toggleTheme} variant="secondary" className="">
+            <Link href="/" className={`${pathname === "/" ? "hidden" : ""}`}>
+              {navbarBackground ? (
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              ) : darkmode ? (
+                <Image
+                  src="/assats/footer-logo.png"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+            <Link href={'/'} className={`${pathname === '/' ? 'hidden' : ''}`}>
+              <Image
+                src="/assats/logo.webp"
+                alt="Footer Logo"
+                width={150}
+                height={50}
+              />
+            </Link>
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''} `
+              } `}
+            >
+              {darkmode ? (
+                <CiLight size={30} />
+              ) : (
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              )}
+            </Link>
+          </div>
+
+          {/* Center - Navigation Links (Desktop) */}
+          <div className={`hidden md:flex space-x-6`}>
+            <Link
+              href="/"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              href="/courses"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
+              }`}
+            >
+              Courses
+            </Link>
+            <Link
+              href="/Instructors"
+              className="hover:text-blue-600 text-black"
+              onClick={() => setIsOpen(false)}
+            >
+              Instructors
+            </Link>
+            <Link
+              href="/About"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
+              }`}
+            >
+              About
+            </Link>
+            <Link
+              href={role ? "/student-dashbord" : "/teacher-dashbord"}
+              className={`hover:text-blue-600 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
+              href={role ? '/student-dashbord' : '/teacher-dashbord'}
+              className="hover:text-blue-600"
+            >
+              Dashboard
+            </Link>
+          </div>
+
+          {/* Right Side - Sign Up Button */}
+          <div className="flex items-center ">
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""} `
+              } `}
+            >
               {darkmode ? (
                 <CiLight size={30} />
               ) : (
                 <MdOutlineDarkMode size={30} />
               )}
             </button>
-          </div>
-          {/* Center - Navigation Links (Desktop) */}
-          <div className="hidden md:flex space-x-6">
-            <Link href="/" className="hover:text-blue-600">
-              Home
-            </Link>
-            <Link href="/AvailableCourse" className="hover:text-blue-600">
-              Courses
-            </Link>
-            <Link href="/About" className="hover:text-blue-600">
-              About
-            </Link>
-            <Link
-              href={role ? "/student-dashbord" : "/teacher-dashbord"}
-              className="hover:text-blue-600"
-            >
-              Dashbord
-            </Link>
-          </div>
 
-          {/* Right Side - Sign Up Button */}
-          <div className="hidden md:block">
-            {loading ? (
-              <>
-                <Button variant="outline" disabled>
+            <div className="hidden md:block">
+              {loading ? (
+                <Button variant="outline" className="rounded-full" disabled>
                   Loading...
                 </Button>
               </>
             ) : user ? (
               <>
                 <Button onClick={handleSignOut} variant="outline">
+              ) : session?.user ? (
+                <Button
+                  onClick={handleSignOut}
+                  variant="ghost"
+                  className={`rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
                   Sign Out
                 </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outline">
+              ) : (
+                <Button
+                  variant="ghost"
+                  className={`rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
                   <Link href="/Authentication/SignUp">Sign Up</Link>
                 </Button>
-              </>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -148,36 +275,44 @@ export default function Navbar() {
               y: -20,
               transition: { duration: 0.2, ease: "easeIn" },
             }}
-            className="md:hidden absolute top-16 left-0 w-full bg-sidebar shadow-md"
+            className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md"
           >
             <div className="flex flex-col items-center space-y-4 py-4">
               <Link
                 href="/"
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/courses"
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Courses
               </Link>
               <Link
+                href="/Instructors"
+                className="hover:text-blue-600 text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                Instructors
+              </Link>
+              <Link
+                href="/About"
                 href="/about"
-                className="hover:text-blue-600"
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
-                href="/contact"
-                className="hover:text-blue-600"
+                href={role ? "/student-dashbord" : "/teacher-dashbord"}
+                className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
-                Contact
+                Dashbord
               </Link>
               {loading ? (
                 <>
@@ -198,6 +333,9 @@ export default function Navbar() {
                   </Button>
                 </>
               )}
+              <Button onClick={() => setIsOpen(false)}>
+                <Link href="/Authentication/SignUp">Sign Up</Link>
+              </Button>
             </div>
           </motion.div>
         )}

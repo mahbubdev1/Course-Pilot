@@ -44,7 +44,7 @@ const StatsSection = () => {
         {statsData.map((stat, index) => (
           <div
             key={index}
-            className="group bg-white shadow-xl p-10 rounded-2xl w-72 mx-auto text-center"
+            className="group dark:border-2 dark:border-white/50 shadow-xl p-10 rounded-2xl w-72 mx-auto text-center hover:scale-105 transition duration-300"
           >
             <div className="bg-white p-4 rounded-full shadow-lg inline-block mb-5">
               {stat.icon}

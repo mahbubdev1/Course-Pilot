@@ -58,11 +58,11 @@ const Review = () => {
         {reviews.map((review, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-xl p-6 m-3 w-80 h-64 text-center border border-gray-200"
+            className=" shadow-lg rounded-xl p-6 m-3 w-80 h-64 text-center border border-gray-200"
           >
             <h3 className="text-lg font-semibold">{review.name}</h3>
-            <p className="text-sm text-gray-500">ID: {review.id}</p>
-            <p className="mt-2 text-gray-700">"{review.review}"</p>
+            <p className="text-sm ">ID: {review.id}</p>
+            <p className="mt-2 ">"{review.review}"</p>
             <div className="flex justify-center mt-3 text-yellow-500">
               {[...Array(review.stars)].map((_, i) => (
                 <FaStar key={i} />
