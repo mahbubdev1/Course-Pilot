@@ -11,7 +11,7 @@ const Headline = () => {
       <Marquee
         speed={50}
         gradient={false}
-        className="text-lg font-semibold text-blue-600"
+        className="text-lg font-semibold text-blue-600 in-dark:text-white"
       >
         AI-Powered Course Management System Streamlining learning with
         intelligent course recommendations, seamless user experience, automated

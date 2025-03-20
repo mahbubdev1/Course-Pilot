@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 // Sample testimonial data
 const testimonials = [
   {
     id: 1,
-    name: 'Natasha Hope',
+    name: "Natasha Hope",
     text: "We're loving it. Course Pilot is both perfect and highly adaptable.",
-    image: '/Images/platform/img7.png?height=400&width=400',
+    image: "/Images/platform/img7.png?height=400&width=400",
   },
   {
     id: 2,
-    name: 'John Smith',
-    text: 'The platform has transformed how we deliver our courses. Highly recommended!',
-    image: '/Images/platform/img6.png?height=400&width=400',
+    name: "John Smith",
+    text: "The platform has transformed how we deliver our courses. Highly recommended!",
+    image: "/Images/platform/img6.png?height=400&width=400",
   },
   {
     id: 3,
-    name: 'Sarah Johnson',
-    text: 'Course Pilot has made our teaching process so much more efficient and engaging.',
-    image: '/Images/img2.png?height=400&width=400',
+    name: "Sarah Johnson",
+    text: "Course Pilot has made our teaching process so much more efficient and engaging.",
+    image: "/Images/img2.png?height=400&width=400",
   },
 ];
 
@@ -44,19 +44,19 @@ export default function TestimonialSection() {
   return (
     <section className="max-w-7xl mx-auto py-16 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-[#333] mb-2">Testimonial</h2>
-        <p className="text-[#666]">
+        <h2 className="text-3xl font-bold mb-2">Testimonial</h2>
+        <p className="text-slate-500">
           We value our students and whatever they say about us, is our
           achievement.
         </p>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-8 relative">
+      <div className="rounded-lg border border-gray-100 shadow-md p-8 relative">
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="relative">
             <div className="rounded-full border-8 border-[#b8e6da] w-[180px] h-[180px] overflow-hidden">
               <Image
-                src={testimonials[currentIndex].image || '/placeholder.svg'}
+                src={testimonials[currentIndex].image || "/placeholder.svg"}
                 alt={testimonials[currentIndex].name}
                 width={180}
                 height={180}
@@ -80,10 +80,10 @@ export default function TestimonialSection() {
                 />
               </svg>
             </div>
-            <p className="text-lg text-[#333] mb-4 text-center md:text-left">
+            <p className="text-lg text-[#767676] mb-4 text-center md:text-left">
               {testimonials[currentIndex].text}
             </p>
-            <h3 className="text-lg font-medium text-[#333]">
+            <h3 className="text-lg font-medium text-[#727272]">
               {testimonials[currentIndex].name}
             </h3>
           </div>
@@ -112,7 +112,7 @@ export default function TestimonialSection() {
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`h-1.5 rounded-full transition-all ${
-                index === currentIndex ? 'w-8 bg-[#7fcfb6]' : 'w-4 bg-gray-200'
+                index === currentIndex ? "w-8 bg-[#7fcfb6]" : "w-4 bg-gray-200"
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />

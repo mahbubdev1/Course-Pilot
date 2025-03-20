@@ -104,6 +104,21 @@ export default function Navbar() {
                 />
               )}
             </Link>
+            <Link href="/" className={`${pathname === "/" ? "hidden" : ""}`}>
+              {navbarBackground ? (
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              ) : darkmode ? (
+                <Image
+                  src="/assats/footer-logo.png"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
             <Link href={'/'} className={`${pathname === '/' ? 'hidden' : ''}`}>
               <Image
                 src="/assats/logo.webp"
@@ -124,9 +139,14 @@ export default function Navbar() {
               {darkmode ? (
                 <CiLight size={30} />
               ) : (
-                <MdOutlineDarkMode size={30} />
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
               )}
-            </button>
+            </Link>
           </div>
 
           {/* Center - Navigation Links (Desktop) */}
@@ -170,6 +190,12 @@ export default function Navbar() {
             </Link>
             <Link
               href={role ? "/student-dashbord" : "/teacher-dashbord"}
+              className={`hover:text-blue-600 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""}`
+              }`}
+              href={role ? '/student-dashbord' : '/teacher-dashbord'}
               className="hover:text-blue-600"
             >
               Dashboard
@@ -177,20 +203,45 @@ export default function Navbar() {
           </div>
 
           {/* Right Side - Sign Up Button */}
-          <div className="hidden md:block">
-            {loading ? (
-              <Button variant="outline" disabled>
-                Loading...
-              </Button>
-            ) : session?.user ? (
-              <Button onClick={handleSignOut} variant="outline">
-                Sign Out
-              </Button>
-            ) : (
-              <Button variant="outline">
-                <Link href="/Authentication/SignUp">Sign Up</Link>
-              </Button>
-            )}
+          <div className="flex items-center ">
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? "text-black"
+                  : `${pathname === "/" ? "text-white" : ""} `
+              } `}
+            >
+              {darkmode ? (
+                <CiLight size={30} />
+              ) : (
+                <MdOutlineDarkMode size={30} />
+              )}
+            </button>
+
+            <div className="hidden md:block">
+              {loading ? (
+                <Button variant="outline" className="rounded-full" disabled>
+                  Loading...
+                </Button>
+              ) : session?.user ? (
+                <Button
+                  onClick={handleSignOut}
+                  variant="ghost"
+                  className={`rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
+                  Sign Out
+                </Button>
+              ) : (
+                <Button
+                  variant="ghost"
+                  className={`rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
+                  <Link href="/Authentication/SignUp">Sign Up</Link>
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -248,13 +299,13 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href="/contact"
+                href={role ? "/student-dashbord" : "/teacher-dashbord"}
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
-                Contact
+                Dashbord
               </Link>
-              <Button variant="outline" onClick={() => setIsOpen(false)}>
+              <Button onClick={() => setIsOpen(false)}>
                 <Link href="/Authentication/SignUp">Sign Up</Link>
               </Button>
             </div>

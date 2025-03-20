@@ -1,27 +1,28 @@
-'use client';
+"use client";
 
-import { Star } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Star } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 export default function CoursePlatform() {
-  const [activeTab, setActiveTab] = useState('All Courses');
+  const [activeTab, setActiveTab] = useState("All Courses");
 
   const tabs = [
-    'All Courses',
-    'Web Development',
-    'Finance & Accounting',
-    'Flutter',
-    'Web Design',
+    "All Courses",
+    "Web Development",
+    "Finance & Accounting",
+    "Flutter",
+    "Web Design",
   ];
 
   const courses = [
     {
       id: 1,
-      title: 'Full Practice Exam included + explanation...',
-      category: 'Web Development',
-      image: '/Images/platform/img.png?height=250&width=400',
-      backgroundColor: '#e57373',
+      title: "Full Practice Exam included + explanation...",
+      category: "Web Development",
+      image: "/Images/platform/img.png?height=250&width=400",
+      backgroundColor: "#e57373",
       rating: 4.0,
       lessons: 8,
       enrollments: 1,
@@ -29,10 +30,10 @@ export default function CoursePlatform() {
     },
     {
       id: 2,
-      title: 'Javascript for Beginners',
-      category: 'Web Development',
-      image: '/Images/platform/img1.webp?height=250&width=400',
-      backgroundColor: '#ffffff',
+      title: "Javascript for Beginners",
+      category: "Web Development",
+      image: "/Images/platform/img1.webp?height=250&width=400",
+      backgroundColor: "#ffffff",
       rating: 2.5,
       lessons: 9,
       enrollments: 1,
@@ -40,10 +41,10 @@ export default function CoursePlatform() {
     },
     {
       id: 3,
-      title: 'Advance DevOps Engineering',
-      category: 'Web Development',
-      image: '/Images/platform/img2.png?height=250&width=400',
-      backgroundColor: '#2962ff',
+      title: "Advance DevOps Engineering",
+      category: "Web Development",
+      image: "/Images/platform/img2.png?height=250&width=400",
+      backgroundColor: "#2962ff",
       rating: 5.0,
       lessons: 15,
       enrollments: 1,
@@ -51,10 +52,10 @@ export default function CoursePlatform() {
     },
     {
       id: 4,
-      title: '.Net Expert',
-      category: 'Web Development',
-      image: '/Images/platform/img3.jpg?height=250&width=400',
-      backgroundColor: '#ffffff',
+      title: ".Net Expert",
+      category: "Web Development",
+      image: "/Images/platform/img3.jpg?height=250&width=400",
+      backgroundColor: "#ffffff",
       rating: 0,
       lessons: 0,
       enrollments: 0,
@@ -63,10 +64,10 @@ export default function CoursePlatform() {
     },
     {
       id: 5,
-      title: '.Node Js',
-      category: 'Web Development',
-      image: '/Images/platform/img4.png?height=250&width=400',
-      backgroundColor: '#ffffff',
+      title: ".Node Js",
+      category: "Web Development",
+      image: "/Images/platform/img4.png?height=250&width=400",
+      backgroundColor: "#ffffff",
       rating: 0,
       lessons: 3,
       enrollments: 0,
@@ -74,10 +75,10 @@ export default function CoursePlatform() {
     },
     {
       id: 6,
-      title: 'Subaccount Labelling - RCP',
-      category: 'Finance & Accounting',
-      image: '/Images/platform/img5.png?height=250&width=400',
-      backgroundColor: '#e0f7fa',
+      title: "Subaccount Labelling - RCP",
+      category: "Finance & Accounting",
+      image: "/Images/platform/img5.png?height=250&width=400",
+      backgroundColor: "#e0f7fa",
       rating: 0,
       lessons: 0,
       enrollments: 0,
@@ -87,7 +88,7 @@ export default function CoursePlatform() {
   ];
 
   const filteredCourses =
-    activeTab === 'All Courses'
+    activeTab === "All Courses"
       ? courses
       : courses.filter((course) => course.category === activeTab);
 
@@ -95,10 +96,8 @@ export default function CoursePlatform() {
     <div className="container mx-auto px-4 py-8">
       {/* Section Title */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-          Our Top Courses
-        </h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold mb-2">Our Top Courses</h1>
+        <p className="text-slate-400">
           We make learning convenient, affordable, and fun!
         </p>
       </div>
@@ -110,8 +109,8 @@ export default function CoursePlatform() {
             key={tab}
             className={`whitespace-nowrap px-4 py-2 text-sm font-medium rounded-md transition-colors ${
               activeTab === tab
-                ? 'bg-emerald-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? "bg-emerald-500 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
             onClick={() => setActiveTab(tab)}
           >
@@ -121,22 +120,22 @@ export default function CoursePlatform() {
       </div>
 
       {/* Course Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredCourses.map((course) => (
           <div
             key={course.id}
-            className="border rounded-lg overflow-hidden bg-white shadow-md transition-transform duration-300 hover:scale-105"
+            className="border rounded-lg overflow-hidden shadow-md transition-transform duration-300 hover:scale-105 p-2"
           >
             <div className="relative">
               <div className="absolute top-3 left-3 z-10 bg-emerald-500 text-white text-xs px-2 py-1 rounded">
                 {course.category}
               </div>
               <div
-                className="h-48 relative"
+                className="h-62 relative"
                 style={{ backgroundColor: course.backgroundColor }}
               >
                 <Image
-                  src={course.image || '/placeholder.svg'}
+                  src={course.image || "/placeholder.svg"}
                   alt={course.title}
                   fill
                   className="object-cover"
@@ -153,7 +152,7 @@ export default function CoursePlatform() {
             </div>
 
             <div className="p-4">
-              <h3 className="font-medium text-gray-800 mb-3">{course.title}</h3>
+              <h3 className="font-medium  mb-3">{course.title}</h3>
 
               <div className="flex justify-between text-sm text-gray-500 mb-4">
                 {course.lessons > 0 && (
@@ -198,11 +197,14 @@ export default function CoursePlatform() {
 
               <div className="flex justify-between items-center">
                 <div className="font-medium text-emerald-600">
-                  {course.isFree ? 'Free' : `$${course.price.toFixed(2)}`}
+                  {course.isFree ? "Free" : `$${course.price.toFixed(2)}`}
                 </div>
-                <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded text-sm transition-colors">
+                <Button
+                  variant="secondary"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded text-sm transition-colors cursor-pointer"
+                >
                   Details
-                </button>
+                </Button>
               </div>
             </div>
           </div>

@@ -44,14 +44,14 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
           : "w-0"
       } ${isOpen && windowWidth < 1024 ? "absolute inset-0" : "z-40"}`}
     >
-      <div className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden">
+      <Link href={'/student-dashbord'} className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden">
         {windowWidth >= 1024 ? (isCollapsed ? "" : "CoursePilot") : isOpen ? "CoursePilot" : ""}
         {isOpen && windowWidth < 1024 && (
           <button onClick={toggleSidebar}>
             <FaTimes />
           </button>
         )}
-      </div>
+      </Link>
 
       <nav>
         {menuItems.map((item) => (

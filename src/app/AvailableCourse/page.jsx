@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function AvailableCourse() {
   const courses = [
@@ -88,38 +89,23 @@ export default function AvailableCourse() {
       {/* Course Grid */}
       <div
         ref={courseRef}
-        className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-8"
+        className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4"
       >
         {courses.map((course, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="transition-transform"
-          >
+          <div key={index}>
             {/* Card */}
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 1 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex flex-col h-full  bg-base-100 max-w-sm mx-auto transition-transform duration-300 ease-in-out p-6 shadow-md dark:border-2  hover:shadow-gray-400"
-            >
+            <div className="shadow-md p-2 h-96 overflow-hidden in-dark:border-2 rounded-lg transition duration-300 hover:scale-105 not-dark:hover:shadow-gray-500">
               {/* Card Content */}
-              <div className="flex flex-col flex-grow">
+              <div className="flex flex-col h-full">
                 {/* Course Image */}
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative w-full h-[200px]"
-                >
+                <div className="relative w-full h-[400px]">
                   <Image
                     src={course.image}
                     alt={course.title}
                     fill
-                    className="rounded-lg shadow-lg object-cover dark:border"
+                    className="rounded-lg shadow-lg object-cover"
                   />
-                </motion.div>
+                </div>
 
                 {/* Course Details */}
                 <h2 className="text-xl font-semibold mt-4">{course.title}</h2>
@@ -127,25 +113,18 @@ export default function AvailableCourse() {
                 <p className="">Duration: {course.duration}</p>
 
                 {/* Enroll Button */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  className="mt-auto"
-                >
-                  <motion.button
+                <div className="mt-auto">
+                  <Button
+                    variant="secondary"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded text-sm transition-colors cursor-pointer"
                     onClick={handleEnroll}
-                    whileHover={{ scale: 1.1, backgroundColor: "#2563eb" }} // Hover effect
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                    className="btn btn-primary px-6 py-2 text-white font-semibold focus:outline-none transition-all duration-300 mt-4 bg-blue-500 hover:bg-blue-600 shadow-md"
                   >
                     Enroll Now
-                  </motion.button>
-                </motion.div>
+                  </Button>
+                </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         ))}
       </div>
     </div>

@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="flex">
-      <Sidebar
+      <Sidebar 
         isOpen={isSidebarOpen}
         isCollapsed={isCollapsed}
         toggleSidebar={toggleSidebar}
