@@ -194,15 +194,22 @@ export default function Navbar() {
 
             <div className="hidden md:block">
               {loading ? (
-                <Button variant="outline" disabled>
+                <Button variant="outline" className="rounded-full" disabled>
                   Loading...
                 </Button>
               ) : session?.user ? (
-                <Button onClick={handleSignOut} variant="outline">
+                <Button
+                  onClick={handleSignOut}
+                  variant="ghost"
+                  className={`rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
                   Sign Out
                 </Button>
               ) : (
-                <Button variant="outline">
+                <Button
+                  variant="ghost"
+                  className={`rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                >
                   <Link href="/Authentication/SignUp">Sign Up</Link>
                 </Button>
               )}
@@ -262,7 +269,7 @@ export default function Navbar() {
               >
                 Contact
               </Link>
-              <Button variant="outline" onClick={() => setIsOpen(false)}>
+              <Button onClick={() => setIsOpen(false)}>
                 <Link href="/Authentication/SignUp">Sign Up</Link>
               </Button>
             </div>
