@@ -1,14 +1,14 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/AuthContext";
-import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { CiLight } from "react-icons/ci";
-import { MdOutlineDarkMode } from "react-icons/md";
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/context/AuthContext';
+import { motion } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { CiLight } from 'react-icons/ci';
+import { MdOutlineDarkMode } from 'react-icons/md';
 import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
@@ -169,6 +169,8 @@ export default function Navbar() {
                   ? "text-black"
                   : `${pathname === "/" ? "text-white" : ""}`
               }`}
+              href={role ? '/student-dashbord' : '/teacher-dashbord'}
+              className="hover:text-blue-600"
             >
               Dashboard
             </Link>
