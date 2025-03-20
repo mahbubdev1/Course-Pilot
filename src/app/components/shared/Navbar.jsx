@@ -3,13 +3,13 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { CiLight } from 'react-icons/ci';
 import { MdOutlineDarkMode } from 'react-icons/md';
-import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ export default function Navbar() {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "loading") {
+    if (status === 'loading') {
       setLoading(true);
     } else {
       setLoading(false);
@@ -65,9 +65,9 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -81,13 +81,13 @@ export default function Navbar() {
     return (
       <nav
         className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${
-          navbarBackground ? "bg-white shadow-md" : "bg-transparent"
+          navbarBackground ? 'bg-white shadow-md' : 'bg-transparent'
         }`}
       >
         <div className="flex items-center justify-between container mx-auto">
           {/* Left Side - Logo */}
           <div className={`text-xl font-bold flex items-center space-x-3 `}>
-            <Link href="/" className={`${pathname === "/" ? "" : "hidden"}`}>
+            <Link href="/" className={`${pathname === '/' ? '' : 'hidden'}`}>
               {navbarBackground ? (
                 <Image
                   src="/assats/logo.webp"
@@ -119,6 +119,25 @@ export default function Navbar() {
                   width={150}
                   height={50}
                 />
+            <Link href={'/'} className={`${pathname === '/' ? 'hidden' : ''}`}>
+              <Image
+                src="/assats/logo.webp"
+                alt="Footer Logo"
+                width={150}
+                height={50}
+              />
+            </Link>
+            <button
+              onClick={toggleTheme}
+              variant="ghost"
+              className={`hover:bg-transparent px-3 ${
+                navbarBackground
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''} `
+              } `}
+            >
+              {darkmode ? (
+                <CiLight size={30} />
               ) : (
                 <Image
                   src="/assats/logo.webp"
@@ -136,28 +155,35 @@ export default function Navbar() {
               href="/"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""}`
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
               }`}
             >
               Home
             </Link>
             <Link
-              href="/AvailableCourse"
+              href="/courses"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""}`
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
               }`}
             >
               Courses
             </Link>
             <Link
+              href="/Instructors"
+              className="hover:text-blue-600 text-black"
+              onClick={() => setIsOpen(false)}
+            >
+              Instructors
+            </Link>
+            <Link
               href="/About"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""}`
+                  ? 'text-black'
+                  : `${pathname === '/' ? 'text-white' : ''}`
               }`}
             >
               About
@@ -251,14 +277,22 @@ export default function Navbar() {
                 Home
               </Link>
               <Link
-                href="/AvailableCourse"
+                href="/courses"
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Courses
               </Link>
               <Link
+                href="/Instructors"
+                className="hover:text-blue-600 text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                Instructors
+              </Link>
+              <Link
                 href="/About"
+                href="/about"
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
