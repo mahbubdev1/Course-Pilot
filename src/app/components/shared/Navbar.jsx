@@ -17,6 +17,12 @@ export default function Navbar() {
   const [navbarBackground, setNavbarBackground] = useState(false); // New State
   const pathname = usePathname();
   const { name } = useAuth();
+  // loading for user
+  // get user from session
+
+  const { user, loading } = useAuth();
+  console.log(user);
+  // signout func
 
   const [loading, setLoading] = useState(true);
   const { data: session, status } = useSession();
@@ -28,7 +34,6 @@ export default function Navbar() {
       setLoading(false);
     }
   }, [status]);
-
   const handleSignOut = async () => {
     await signOut();
   };
@@ -225,6 +230,10 @@ export default function Navbar() {
                 <Button variant="outline" className="rounded-full" disabled>
                   Loading...
                 </Button>
+              </>
+            ) : user ? (
+              <>
+                <Button onClick={handleSignOut} variant="outline">
               ) : session?.user ? (
                 <Button
                   onClick={handleSignOut}
@@ -305,6 +314,25 @@ export default function Navbar() {
               >
                 Dashbord
               </Link>
+              {loading ? (
+                <>
+                  <Button variant="outline" disabled>
+                    Loading...
+                  </Button>
+                </>
+              ) : user ? (
+                <>
+                  <Button onClick={handleSignOut} variant="outline">
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline">
+                    <Link href="/Authentication/SignUp">Sign Up</Link>
+                  </Button>
+                </>
+              )}
               <Button onClick={() => setIsOpen(false)}>
                 <Link href="/Authentication/SignUp">Sign Up</Link>
               </Button>
