@@ -20,7 +20,7 @@ const Banner = () => {
             disableOnInteraction: false,
           }}
           pagination={{ clickable: true }}
-          // modules={[Autoplay, Pagination]}
+          modules={[Autoplay, Pagination]}
           className="mySwiper"
         >
           {/* First Slide */}
