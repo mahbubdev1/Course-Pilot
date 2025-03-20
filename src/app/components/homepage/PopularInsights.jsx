@@ -1,24 +1,29 @@
-import { Calendar, MessageSquare, User } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Calendar, MessageSquare, User } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const PopularInsights = () => {
   return (
-    <div className="bg-gray-50 py-16 px-4">
+    <div className="py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-gray-800 mb-2">
+        <h2 className="text-4xl font-bold text-center mb-2">
           Popular Insights
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-center mb-12 max-w-2xl mx-auto">
           Discover insights through the latest analysis to enhance your
           knowledge from our expert contributors.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card 1 */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
+          <div className="rounded-lg overflow-hidden shadow-sm border border-gray-100">
             <div className="relative h-60">
-              <Image src="/Images/img1.png" fill className="object-cover" />
+              <Image
+                src="/Images/img1.png"
+                alt="/Images/img1.png"
+                fill
+                className="object-cover"
+              />
               <div className="absolute bottom-4 left-4">
                 <div className="bg-emerald-500 text-white px-3 py-1 rounded flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
@@ -27,10 +32,10 @@ const PopularInsights = () => {
               </div>
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 How to Use Behavioral Data to Mast...
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4">
                 Keen to know the ins and outs of behavioral data? From using CRM
                 tools to mastering your social media algorithm, here's how to
                 use behavioral data to inform and improve...
@@ -57,7 +62,7 @@ const PopularInsights = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
+          <div className="rounded-lg overflow-hidden shadow-sm border border-gray-100">
             <div className="relative h-60">
               <Image
                 src="/Images/img2.png"
@@ -73,10 +78,10 @@ const PopularInsights = () => {
               </div>
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 What's New on Envato Elements?...
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4">
                 From suggested music tracks and related items to collections
                 curated just for you, let's explore the latest and greatest
                 product updates on Envato Elements.
@@ -103,7 +108,7 @@ const PopularInsights = () => {
           </div>
 
           {/* Card 3 */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-100">
+          <div className="rounded-lg overflow-hidden shadow-sm border border-gray-100">
             <div className="relative h-60">
               <Image
                 src="/Images/img3.png"
@@ -119,10 +124,10 @@ const PopularInsights = () => {
               </div>
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">
+              <h3 className="text-xl font-bold mb-3">
                 Mockup Trends for 2023: From...
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="mb-4">
                 Mock mock, who's there? The top mockup trends of 2023! If you
                 want to take your designs to the next level, here are the top
                 mockup trends to try this year.

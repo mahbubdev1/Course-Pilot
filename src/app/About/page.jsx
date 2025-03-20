@@ -1,6 +1,6 @@
 export default function About() {
   return (
-    <div className="container mx-auto  min-h-screen mt-20">
+    <div className="container mx-auto  min-h-[100vh] flex flex-col items-center justify-center">
       <section className="bg-gray-100 dark:bg-gray-900 py-10  px-6 lg:px-24 space-y-10">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">

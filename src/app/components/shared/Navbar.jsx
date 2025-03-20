@@ -104,13 +104,29 @@ export default function Navbar() {
                 />
               )}
             </Link>
-            <Link href={"/"} className={`${pathname === "/" ? "hidden" : ""}`}>
-              <Image
-                src="/assats/logo.webp"
-                alt="Footer Logo"
-                width={150}
-                height={50}
-              />
+            <Link href="/" className={`${pathname === "/" ? "hidden" : ""}`}>
+              {navbarBackground ? (
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              ) : darkmode ? (
+                <Image
+                  src="/assats/footer-logo.png"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              ) : (
+                <Image
+                  src="/assats/logo.webp"
+                  alt="Footer Logo"
+                  width={150}
+                  height={50}
+                />
+              )}
             </Link>
           </div>
 
