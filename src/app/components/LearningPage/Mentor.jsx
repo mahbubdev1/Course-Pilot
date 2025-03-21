@@ -68,7 +68,7 @@ const Mentor = () => {
                   <h4 className="text-green-300 font-semibold">
                     Next.js Developer
                   </h4>
-                  <h4 className="text-gray-200">University CSE Department</h4>
+                  <h4 className="text-gray-200">Dhaka University</h4>
                 </div>
               </SwiperSlide>
               <SwiperSlide>

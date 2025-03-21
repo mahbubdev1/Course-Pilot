@@ -1,66 +1,77 @@
 "use client";
 
-import { FaUserGraduate, FaChalkboardTeacher } from "react-icons/fa";
-import { MdOndemandVideo } from "react-icons/md";
-import { HiOutlineUserGroup } from "react-icons/hi";
-import CountUp from "react-countup";
+import { useEffect } from "react";
+import { FaUsers, FaShoppingCart, FaSmile, FaBookOpen } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const StatsSection = () => {
-  const statsData = [
-    {
-      icon: <FaUserGraduate className="text-blue-600 text-5xl" />,
-      count: 10000,
-      label: "Learners & Counting",
-    },
-    {
-      icon: <MdOndemandVideo className="text-green-600 text-5xl" />,
-      count: 300,
-      label: "Courses Video",
-    },
-    {
-      icon: <FaChalkboardTeacher className="text-purple-600 text-5xl" />,
-      count: 500,
-      label: "Certified Students",
-    },
-    {
-      icon: <HiOutlineUserGroup className="text-pink-600 text-5xl" />,
-      count: 1000,
-      label: "Registered Enrolls",
-    },
-  ];
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+  }, []);
 
   return (
-    <div className="container mx-auto px-4 py-16 text-center">
-      <h5 className="text-blue-600 font-semibold text-sm uppercase bg-blue-100 px-5 py-2 rounded-full mb-5 inline-block shadow-md">
-        Why Choose Us
-      </h5>
-      <h2 className="text-4xl font-bold mb-16">
-        Choose Us For Personalized Excellence & <br />
-        <span className="text-blue-600">24/7 Dedicated Support</span>
-      </h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {/** Stats Card Component */}
-        {statsData.map((stat, index) => (
+    <div className="bg-[#08261c] py-24 my-12">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-center">
+          {/* Total Course */}
           <div
-            key={index}
-            className="group dark:border-2 dark:border-white/50 shadow-xl p-10 rounded-2xl w-72 mx-auto text-center hover:scale-105 transition duration-300"
+            className="flex flex-col lg:flex-row gap-4 items-center justify-center"
+            data-aos="fade-up"
+            data-aos-delay="100"
           >
-            <div className="bg-white p-4 rounded-full shadow-lg inline-block mb-5">
-              {stat.icon}
+            <FaBookOpen className="text-emerald-600 text-7xl" />
+            <div className="flex flex-col gap-2">
+              <p className="text-white text-xl">Total Course</p>
+              <h3 className="text-white text-4xl font-bold">22 +</h3>
             </div>
-            <h3 className="text-3xl font-bold">
-              <CountUp
-                start={0}
-                end={stat.count}
-                duration={2.5}
-                separator=","
-              />
-              +
-            </h3>
-            <p className="text-lg">{stat.label}</p>
           </div>
-        ))}
+
+          {/* Instructors */}
+          <div
+            className="flex flex-col lg:flex-row gap-4 justify-center items-center space-y-3"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <FaUsers className="text-emerald-500 text-7xl" />
+            <div className="flex flex-col gap-2">
+              <p className="text-white text-xl font-semibold">Instructors</p>
+              <h3 className="text-white text-4xl font-bold">10 +</h3>
+            </div>
+          </div>
+
+          {/* Learners */}
+          <div
+            className="flex flex-col lg:flex-row gap-4 justify-center items-center space-y-3"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <FaShoppingCart className="text-emerald-500 text-7xl" />
+            <div className="flex flex-col gap-2">
+              <p className="text-white text-xl font-semibold">Total Learners</p>
+              <h3 className="text-white text-4xl font-bold">800 +</h3>
+            </div>
+          </div>
+
+          {/* Satisfied */}
+          <div
+            className="flex flex-col lg:flex-row gap-4 justify-center items-center space-y-3"
+            data-aos="fade-up"
+            data-aos-delay="400"
+          >
+            <FaSmile className="text-emerald-500 text-7xl" />
+            <div className="flex flex-col gap-2">
+              <p className="text-white text-xl font-semibold">
+                Satisfied Learners
+              </p>
+              <h3 className="text-white text-4xl font-bold">98.7 %</h3>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
