@@ -1,39 +1,33 @@
 "use client";
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/context/AuthContext';
-import { motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { CiLight } from 'react-icons/ci';
-import { MdOutlineDarkMode } from 'react-icons/md';
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { CiLight } from "react-icons/ci";
+import { MdOutlineDarkMode } from "react-icons/md";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [darkmode, setDarkmode] = useState();
-  const [navbarBackground, setNavbarBackground] = useState(false); // New State
+  const [darkmode, setDarkmode] = useState(false);
+  const [navbarBackground, setNavbarBackground] = useState(false);
   const pathname = usePathname();
-  const { name } = useAuth();
-  // loading for user
-  // get user from session
-
-  const { user, loading } = useAuth();
-  console.log(user);
-  // signout func
-
-  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useAuth();
   const { data: session, status } = useSession();
+  const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
-    if (status === 'loading') {
-      setLoading(true);
+    if (status === "loading") {
+      setSessionLoading(true);
     } else {
-      setLoading(false);
+      setSessionLoading(false);
     }
   }, [status]);
+
   const handleSignOut = async () => {
     await signOut();
   };
@@ -60,7 +54,6 @@ export default function Navbar() {
     }
   };
 
-  // **Scroll Event Listener for Changing Navbar Background & Link Color**
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -70,13 +63,14 @@ export default function Navbar() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-  const role = true;
+  const role = true; // Replace with your actual role logic
+
   if (
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
@@ -86,66 +80,23 @@ export default function Navbar() {
     return (
       <nav
         className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${
-          navbarBackground ? 'bg-white shadow-md' : 'bg-transparent'
+          navbarBackground ? "bg-white shadow-md" : "bg-transparent"
         }`}
       >
         <div className="flex items-center justify-between container mx-auto">
           {/* Left Side - Logo */}
-          <div className={`text-xl font-bold flex items-center space-x-3 `}>
-            <Link href="/" className={`${pathname === '/' ? '' : 'hidden'}`}>
-              {navbarBackground ? (
+          <div className="text-xl font-bold flex items-center space-x-3">
+            <Link href="/">
+              {navbarBackground || pathname !== "/" ? (
                 <Image
                   src="/assats/logo.webp"
-                  alt="Footer Logo"
+                  alt="Logo"
                   width={150}
                   height={50}
                 />
               ) : (
                 <Image
                   src="/assats/footer-logo.png"
-                  alt="Footer Logo"
-                  width={150}
-                  height={50}
-                />
-              )}
-            </Link>
-            <Link href="/" className={`${pathname === "/" ? "hidden" : ""}`}>
-              {navbarBackground ? (
-                <Image
-                  src="/assats/logo.webp"
-                  alt="Footer Logo"
-                  width={150}
-                  height={50}
-                />
-              ) : darkmode ? (
-                <Image
-                  src="/assats/footer-logo.png"
-                  alt="Footer Logo"
-                  width={150}
-                  height={50}
-                />
-            <Link href={'/'} className={`${pathname === '/' ? 'hidden' : ''}`}>
-              <Image
-                src="/assats/logo.webp"
-                alt="Footer Logo"
-                width={150}
-                height={50}
-              />
-            </Link>
-            <button
-              onClick={toggleTheme}
-              variant="ghost"
-              className={`hover:bg-transparent px-3 ${
-                navbarBackground
-                  ? 'text-black'
-                  : `${pathname === '/' ? 'text-white' : ''} `
-              } `}
-            >
-              {darkmode ? (
-                <CiLight size={30} />
-              ) : (
-                <Image
-                  src="/assats/logo.webp"
                   alt="Footer Logo"
                   width={150}
                   height={50}
@@ -155,13 +106,15 @@ export default function Navbar() {
           </div>
 
           {/* Center - Navigation Links (Desktop) */}
-          <div className={`hidden md:flex space-x-6`}>
+          <div className="hidden md:flex space-x-6">
             <Link
               href="/"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? 'text-black'
-                  : `${pathname === '/' ? 'text-white' : ''}`
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
               }`}
             >
               Home
@@ -170,16 +123,23 @@ export default function Navbar() {
               href="/courses"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? 'text-black'
-                  : `${pathname === '/' ? 'text-white' : ''}`
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
               }`}
             >
               Courses
             </Link>
             <Link
               href="/Instructors"
-              className="hover:text-blue-600 text-black"
-              onClick={() => setIsOpen(false)}
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
+              }`}
             >
               Instructors
             </Link>
@@ -187,36 +147,39 @@ export default function Navbar() {
               href="/About"
               className={`hover:text-blue-600 transition ${
                 navbarBackground
-                  ? 'text-black'
-                  : `${pathname === '/' ? 'text-white' : ''}`
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
               }`}
             >
               About
             </Link>
             <Link
               href={role ? "/student-dashbord" : "/teacher-dashbord"}
-              className={`hover:text-blue-600 ${
+              className={`hover:text-blue-600 transition ${
                 navbarBackground
                   ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""}`
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
               }`}
-              href={role ? '/student-dashbord' : '/teacher-dashbord'}
-              className="hover:text-blue-600"
             >
               Dashboard
             </Link>
           </div>
 
-          {/* Right Side - Sign Up Button */}
-          <div className="flex items-center ">
+          {/* Right Side - Theme Toggle and Auth Buttons */}
+          <div className="flex items-center">
             <button
               onClick={toggleTheme}
-              variant="ghost"
               className={`hover:bg-transparent px-3 ${
                 navbarBackground
                   ? "text-black"
-                  : `${pathname === "/" ? "text-white" : ""} `
-              } `}
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
+              }`}
             >
               {darkmode ? (
                 <CiLight size={30} />
@@ -226,26 +189,22 @@ export default function Navbar() {
             </button>
 
             <div className="hidden md:block">
-              {loading ? (
+              {authLoading || sessionLoading ? (
                 <Button variant="outline" className="rounded-full" disabled>
                   Loading...
                 </Button>
-              </>
-            ) : user ? (
-              <>
-                <Button onClick={handleSignOut} variant="outline">
-              ) : session?.user ? (
+              ) : user || session?.user ? (
                 <Button
                   onClick={handleSignOut}
                   variant="ghost"
-                  className={`rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                  className="rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
                 >
                   Sign Out
                 </Button>
               ) : (
                 <Button
                   variant="ghost"
-                  className={`rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white `}
+                  className="rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
                 >
                   <Link href="/Authentication/SignUp">Sign Up</Link>
                 </Button>
@@ -301,7 +260,6 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/About"
-                href="/about"
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
@@ -312,36 +270,27 @@ export default function Navbar() {
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
-                Dashbord
+                Dashboard
               </Link>
-              {loading ? (
-                <>
-                  <Button variant="outline" disabled>
-                    Loading...
-                  </Button>
-                </>
-              ) : user ? (
-                <>
-                  <Button onClick={handleSignOut} variant="outline">
-                    Sign Out
-                  </Button>
-                </>
+              {authLoading || sessionLoading ? (
+                <Button variant="outline" disabled>
+                  Loading...
+                </Button>
+              ) : user || session?.user ? (
+                <Button onClick={handleSignOut} variant="outline">
+                  Sign Out
+                </Button>
               ) : (
-                <>
-                  <Button variant="outline">
-                    <Link href="/Authentication/SignUp">Sign Up</Link>
-                  </Button>
-                </>
+                <Button variant="outline">
+                  <Link href="/Authentication/SignUp">Sign Up</Link>
+                </Button>
               )}
-              <Button onClick={() => setIsOpen(false)}>
-                <Link href="/Authentication/SignUp">Sign Up</Link>
-              </Button>
             </div>
           </motion.div>
         )}
       </nav>
     );
   } else {
-    return <></>;
+    return null;
   }
 }
