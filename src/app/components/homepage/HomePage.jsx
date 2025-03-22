@@ -3,7 +3,6 @@ import CoursePlatform from './CoursePlatform';
 import Headline from './Headline';
 import PopularInsights from './PopularInsights';
 import Review from './Review';
-import StatsSection from './StatsSection';
 import StudentSuccessStories from './StudentSuccessStories';
 import TestimonialSection from './TestimonialSection';
 
@@ -16,7 +15,7 @@ const HomePage = () => {
         <CoursePlatform></CoursePlatform>
         <Review />
         <PopularInsights></PopularInsights>
-        <StatsSection />
+        {/* <StatsSection /> */}
         <StudentSuccessStories></StudentSuccessStories>
         <TestimonialSection></TestimonialSection>
       </div>
