@@ -75,7 +75,7 @@ export default function Navbar() {
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
     !pathname.includes("student-dashbord") &&
-    !pathname.includes("instructor-dashbord")&&
+    !pathname.includes("instructor-dashbord") &&
     !pathname.includes("admin-dashbord")
   ) {
     return (
@@ -105,7 +105,7 @@ export default function Navbar() {
               )}
             </Link>
           </div>
-
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Et magnam consequuntur ea iusto animi ex fugit facere assumenda! Reprehenderit magni aperiam exercitationem dolore eius! Ex dolore eaque minus nesciunt voluptas? */}
           {/* Center - Navigation Links (Desktop) */}
           <div className="hidden md:flex space-x-6">
             <Link
