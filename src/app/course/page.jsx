@@ -4,6 +4,8 @@ export default async function CoursePage() {
   const res = await fetch('http://localhost:3000/api/courses'); // Adjust URL in production
   const courses = await res.json();
 
+  // notun line
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-center mb-6">Courses</h1>
