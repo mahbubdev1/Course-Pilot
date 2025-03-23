@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { FaUsers, FaShoppingCart, FaSmile, FaBookOpen } from "react-icons/fa";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+import { FaBookOpen, FaShoppingCart, FaSmile, FaUsers } from 'react-icons/fa';
 
 const StatsSection = () => {
   // Initialize AOS
