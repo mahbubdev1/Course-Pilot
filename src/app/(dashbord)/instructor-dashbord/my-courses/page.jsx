@@ -1,109 +1,190 @@
 "use client";
-import ReusableContent from "@/app/(dashbord)/teacher-dashbord/components/ReusableContent";
-import ReusableTable from "@/app/(dashbord)/teacher-dashbord/components/ReusableTable";
-import { courses } from "@/app/data";
+
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { ChevronLeft, ChevronRight, MoreVertical, Edit, Trash } from "lucide-react";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
+import Swal from "sweetalert2";
 
 const MyCourses = () => {
-    const columns = [
-        { key: "id", header: "#", className: "w-[5%]" },
-        { key: "title", header: "Title" },
-        { key: "category", header: "Category" },
-        { key: "enrollStudents", header: "Enroll Students" },
-        { key: "price", header: "Price" },
-        { key: "status", header: "Status" },
-        { key: "published", header: "Published" },
-    ];
+    const { user } = useAuth();
+    const [courses, setCourses] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+    const coursesPerPage = 10;
 
-    const actions = (item) => (
-        <>
-            <Button size="icon" variant="outline">
-                <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="destructive">
-                <Trash2 className="h-4 w-4" />
-            </Button>
-        </>
-    );
+    useEffect(() => {
+        if (user?.email) {
+            axios.get(`http://localhost:5000/student-course/${user?.email}`)
+                .then(result => {
+                    setCourses(result.data);
+                    console.log(result.data);
+                })
+        }
+    }, [user])
+
+    // Pagination
+    const indexOfLastCourse = currentPage * coursesPerPage;
+    const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+    const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
+
+    const totalPages = Math.ceil(courses.length / coursesPerPage);
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+        const filteredCourses = courses.filter(course =>
+            course.courseTitle.toLowerCase().includes(e.target.value.toLowerCase())
+        );
+        setCourses(filteredCourses);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handleEdit = (id) => {
+        // Implement edit functionality
+        console.log("Edit course with id:", id);
+    };
+
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:5000/student-course/${id}`)
+                    .then(response => {
+                        if (response.data.success) {
+                            setCourses(courses.filter(course => course._id !== id));
+                            Swal.fire("Deleted!", "Your course has been deleted.", "success");
+                        }
+                    })
+                    .catch(error => console.error("Error deleting course:", error));
+            }
+        });
+    };
+
+
+
 
     return (
-        <ReusableContent title="My Courses">
-            <ReusableTable data={courses} columns={columns} actions={actions} />
-        </ReusableContent>
+        <div className="p-6 bg-gray-50 min-h-screen rounded-xl shadow-md">
+            <div className="flex justify-between items-center mb-4">
+                <div>
+                    <h2 className="text-xl font-semibold">Course List</h2>
+                    <p className="text-sm text-gray-500 mt-1">10 Course Per Page</p>
+                </div>
+                <Button>+ Add New Course</Button>
+            </div>
+
+            <Input
+                placeholder="Search"
+                className="mb-4 max-w-sm"
+                value={searchQuery}
+                onChange={handleSearch}
+            />
+
+            <Table className="bg-white">
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>No</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Course Type</TableHead>
+                        <TableHead>Duration</TableHead>
+                        <TableHead>Price</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Published</TableHead>
+                        <TableHead>Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {currentCourses.map((course, index) => (
+                        <TableRow key={course._id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell className="font-medium">{course.courseTitle}</TableCell>
+                            <TableCell>{course.courseTag}</TableCell>
+                            <TableCell>{course.duration} Min</TableCell>
+                            <TableCell>${course.price}</TableCell>
+                            <TableCell>
+                                <Badge className={'bg-green-500 px-2.5 py-1'}>
+                                    {course.courseStatus}
+                                </Badge>
+                            </TableCell>
+                            <TableCell>{new Date(course.date).toLocaleDateString()}</TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-2">
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button className={'cursor-pointer'} variant="ghost" size="icon">
+                                                <MoreVertical className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem className={'cursor-pointer'} onClick={() => handleEdit(course.id)}>
+                                                <Edit className="mr-2 h-4 w-4" /> Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                className="text-red-600 cursor-pointer"
+                                                onClick={() => handleDelete(course._id)}
+                                            >
+                                                <Trash className="mr-2 h-4 w-4 cursor-pointer" /> Delete
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+
+            <div className="flex items-center justify-between mt-4">
+                <span className="text-sm text-gray-500">
+                    Showing {indexOfFirstCourse + 1} to {Math.min(indexOfLastCourse, courses.length)} of {courses.length} entries
+                </span>
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        <ChevronLeft className="h-4 w-4 mr-2" /> Previous
+                    </Button>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                        <Button
+                            key={page}
+                            variant={currentPage === page ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => handlePageChange(page)}
+                        >
+                            {page}
+                        </Button>
+                    ))}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                </div>
+            </div>
+        </div>
     );
 };
 
 export default MyCourses;
-
-
-
-
-
-// "use client";
-// import ReusableTable from "@/app/(dashbord)/teacher-dashbord/components/ReusableTable";
-// import { courses } from "@/app/data";
-// import { Button } from "@/components/ui/button";
-// import { Edit, Trash2 } from "lucide-react";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-// import { useState } from "react";
-
-// const MyCourses = () => {
-//   const [rowsPerPage, setRowsPerPage] = useState(10);
-//   const columns = [
-//     { key: "id", header: "#", className: "w-[5%]" },
-//     { key: "title", header: "Title" },
-//     { key: "category", header: "Category" },
-//     { key: "enrollStudents", header: "Enroll Students" },
-//     { key: "price", header: "Price" },
-//     { key: "status", header: "Status" },
-//     { key: "published", header: "Published" },
-//   ];
-
-//   const actions = (item) => (
-//     <>
-//       <Button size="icon" variant="outline">
-//         <Edit className="h-4 w-4" />
-//       </Button>
-//       <Button size="icon" variant="destructive">
-//         <Trash2 className="h-4 w-4" />
-//       </Button>
-//     </>
-//   );
-//   return(
-//   <div>
-//       <h3 className="font-bold text-2xl my-5">My Courses</h3>
-//       <div className="border-2 rounded-2xl min-h-screen p-10">
-//         <div className="flex flex-col md:flex-row gap-4 items-center">
-//           <Select
-//             value={rowsPerPage.toString()}
-//             onValueChange={(value) => setRowsPerPage(parseInt(value))}
-//           >
-//             <SelectTrigger className="w-[180px]">
-//               <SelectValue placeholder="10" />
-//             </SelectTrigger>
-//             <SelectContent>
-//               <SelectItem value="10">10</SelectItem>
-//               <SelectItem value="25">25</SelectItem>
-//               <SelectItem value="50">50</SelectItem>
-//               <SelectItem value="100">100</SelectItem>
-//               <SelectItem value="250">250</SelectItem>
-//             </SelectContent>
-//           </Select>
-//           <h5>Courses Per Page</h5>
-//         </div>
-//         <div>
-//         <ReusableTable data={courses} columns={columns} actions={actions} />
-//         </div>
-//       </div>
-//     </div>
-//     )
-// };
-
-// export default MyCourses;
