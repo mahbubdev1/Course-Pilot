@@ -69,7 +69,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const role = false; // Replace with your actual role logic
+  const role = true; // Replace with your actual role logic
 
   if (
     !pathname.includes("Login") &&

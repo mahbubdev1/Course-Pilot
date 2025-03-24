@@ -16,6 +16,7 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
     { name: "MyStudents", path: "/teacher-dashbord/my-students", icon: <FaBook /> },
     { name: "Certificates", path: "/teacher-dashbord/certificates", icon: <LiaCertificateSolid  /> },
     { name: "Quiz & Assignment", path: "/teacher-dashbord/quiz-assignment", icon: < MdQuiz  /> },
+    { name: "Add Course", path: "/instructor-dashbord/add-course", icon: < MdQuiz  /> },
   ];
 
   useEffect(() => {
