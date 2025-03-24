@@ -13,7 +13,8 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
 
   const API_URL = "https://api-inference.huggingface.co/models/gpt2";
-  const API_KEY = "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";
+  const API_KEY =  process.env.NEXT_PUBLIC_GPT_2_API_KEY;
+  console.log(API_KEY);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -49,7 +50,9 @@ export default function Chatbot() {
     <div className="flex flex-col items-center p-4 min-h-screen justify-center mt-16">
       <Card className="w-full max-w-7xl">
         <CardHeader>
-          <CardTitle className="text-center text-2xl ">Chatbot ‍Support</CardTitle>
+          <CardTitle className="text-center text-2xl ">
+            Chatbot ‍Support
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="xl:h-[600px] lg:h-[400px] md:h-[400px] max-sm:h-[400px] overflow-y-auto rounded p-4  space-y-2">
@@ -73,7 +76,10 @@ export default function Chatbot() {
               placeholder="Type your message..."
               className="flex-1"
             />
-            <Button onClick={sendMessage} className='in-dark:bg-white bg-blue-500'>
+            <Button
+              onClick={sendMessage}
+              className="in-dark:bg-white bg-blue-500"
+            >
               <FaLocationArrow />
             </Button>
           </div>
