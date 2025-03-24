@@ -69,7 +69,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const role = true; // Replace with your actual role logic
+  const role = false; // Replace with your actual role logic
 
   if (
     !pathname.includes("Login") &&
@@ -105,7 +105,6 @@ export default function Navbar() {
               )}
             </Link>
           </div>
-          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Et magnam consequuntur ea iusto animi ex fugit facere assumenda! Reprehenderit magni aperiam exercitationem dolore eius! Ex dolore eaque minus nesciunt voluptas? */}
           {/* Center - Navigation Links (Desktop) */}
           <div className="hidden md:flex space-x-6">
             <Link
