@@ -1,11 +1,14 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const AddCourse = () => {
+  const { user } = useAuth();
+  console.log(user);
   const {
     reset,
     register,
@@ -14,11 +17,15 @@ const AddCourse = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data);
     const courseData = {
       ...data,
       rating: Number(data.rating),
       duration: Number(data.duration),
-      status: 'pending'
+      status: 'pending',
+      courseStatus: 'Active',
+      date: new Date(),
+      email: user?.email
     }
     axios.post('http://localhost:5000/student-course', courseData)
       .then(result => {
@@ -98,21 +105,19 @@ const AddCourse = () => {
 
           {/* 3rd Category */}
           <div>
-            <label className="block text-lg font-semibold mb-1">
-              Select Category
-            </label>
-            <select
-              {...register("category", { required: "Category is required" })}
-              className="w-full p-3 border rounded-lg bg-white focus:ring-2 focus:ring-emerald-400"
-            >
-              <option value="">Choose Category</option>
-              <option value="development">Development</option>
-              <option value="design">Design</option>
-              <option value="marketing">Marketing</option>
-            </select>
-            {errors.category && (
-              <p className="text-red-500 text-sm">{errors.category.message}</p>
-            )}
+            <label className="block text-lg font-semibold mb-1">Price</label>
+            <input
+              type="number"
+              {...register("price", {
+                required: "Price is required",
+                min: { value: 1, message: "Price must be at least $1" }
+              })}
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-emerald-400"
+              placeholder="Enter price"
+              step="0.01"
+              onKeyDown={(e) => e.key === "e" && e.preventDefault()}
+            />
+            {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
           </div>
         </div>
 
