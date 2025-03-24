@@ -12,7 +12,7 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
 
   const API_URL = "https://api-inference.huggingface.co/models/gpt2";
-  const API_KEY =  process.env.NEXT_PUBLIC_GPT_2_API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_GPT_2_API_KEY;
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -20,6 +20,12 @@ export default function Chatbot() {
     const newMessages = [...messages, { text: input, sender: "user" }];
     setMessages(newMessages);
     setInput("");
+
+    // Add "Analyzing" message before making the API request
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: "😇Analyzing...", sender: "bot" },
+    ]);
 
     try {
       const response = await fetch(API_URL, {
@@ -35,6 +41,7 @@ export default function Chatbot() {
       const botReply =
         data[0]?.generated_text || "Sorry, I didn't understand that.";
 
+      // Replace "Analyzing" with the actual bot reply
       setMessages([...newMessages, { text: botReply, sender: "bot" }]);
     } catch (error) {
       setMessages([
