@@ -95,6 +95,8 @@ export default function CourseMarketplace() {
       return 0;
     });
   }, [sortOption, filteredCourses]);
+  }, []);
+  console.log(courses);
 
   return (
     <div className="container mx-auto p-4 mt-20 max-w-7xl">

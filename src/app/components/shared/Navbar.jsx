@@ -69,7 +69,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const role = false; // Replace with your actual role logic
+  const role = true; // Replace with your actual role logic
 
   if (
     !pathname.includes("Login") &&
@@ -157,7 +157,9 @@ export default function Navbar() {
               About
             </Link>
             <Link
-              href={role ? "/student-dashbord" : "/instructor-dashbord"}
+              href={
+                role ? "/student-dashbord/dashboard" : "/instructor-dashbord"
+              }
               className={`hover:text-blue-600 transition ${
                 navbarBackground
                   ? "text-black"

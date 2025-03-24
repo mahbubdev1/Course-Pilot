@@ -1,5 +1,6 @@
 import { AuthProvider } from '@/context/AuthContext';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
 import SessionWrapper from './components/SessionWrapper';
 import Footer from './components/shared/Footer';
 import Navbar from './components/shared/Navbar';
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
           >
             <Navbar></Navbar>
             {children}
+            <ToastContainer></ToastContainer>
             <Footer></Footer>
           </body>
         </AuthProvider>
