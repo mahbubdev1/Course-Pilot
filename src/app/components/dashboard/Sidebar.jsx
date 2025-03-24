@@ -11,11 +11,11 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
   const pathname = usePathname();
   const [windowWidth, setWindowWidth] = useState(0);
   const menuItems = [
-    { name: "Dashboard", path: "/teacher-dashbord", icon: <FaTachometerAlt /> },
-    { name: "MyCourses", path: "/teacher-dashbord/my-courses", icon: <FaUsers /> },
-    { name: "MyStudents", path: "/teacher-dashbord/my-students", icon: <FaBook /> },
-    { name: "Certificates", path: "/teacher-dashbord/certificates", icon: <LiaCertificateSolid  /> },
-    { name: "Quiz & Assignment", path: "/teacher-dashbord/quiz-assignment", icon: < MdQuiz  /> },
+    { name: "Dashboard", path: "/instructor-dashbord", icon: <FaTachometerAlt /> },
+    { name: "MyCourses", path: "/instructor-dashbord/my-courses", icon: <FaUsers /> },
+    { name: "MyStudents", path: "/instructor-dashbord/my-students", icon: <FaBook /> },
+    { name: "Certificates", path: "/instructor-dashbord/certificates", icon: <LiaCertificateSolid  /> },
+    { name: "Quiz & Assignment", path: "/instructor-dashbord/quiz-assignment", icon: < MdQuiz  /> },
     { name: "Add Course", path: "/instructor-dashbord/add-course", icon: < MdQuiz  /> },
   ];
 
@@ -45,7 +45,7 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
           : "w-0"
       } ${isOpen && windowWidth < 1024 ? "absolute inset-0" : "z-40"}`}
     >
-      <Link href={'/student-dashbord'} className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden">
+      <Link href={'/'} className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden">
         {windowWidth >= 1024 ? (isCollapsed ? "" : "CoursePilot") : isOpen ? "CoursePilot" : ""}
         {isOpen && windowWidth < 1024 && (
           <button onClick={toggleSidebar}>
