@@ -105,7 +105,6 @@ export default function Navbar() {
               )}
             </Link>
           </div>
-          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Et magnam consequuntur ea iusto animi ex fugit facere assumenda! Reprehenderit magni aperiam exercitationem dolore eius! Ex dolore eaque minus nesciunt voluptas? */}
           {/* Center - Navigation Links (Desktop) */}
           <div className="hidden md:flex space-x-6">
             <Link
@@ -169,6 +168,18 @@ export default function Navbar() {
               }`}
             >
               Dashboard
+            </Link>
+            <Link
+              href="/components/aisupport"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
+              }`}
+            >
+              Ai Support
             </Link>
           </div>
 
@@ -274,6 +285,13 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Dashboard
+              </Link>
+              <Link
+                href={'/components/aisupport'}
+                className="hover:text-blue-600 text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                Ai Support
               </Link>
               {authLoading || sessionLoading ? (
                 <Button variant="outline" disabled>
