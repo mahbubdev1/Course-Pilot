@@ -12,7 +12,7 @@ const CourseCard = ({ title, category, price, lessons, rating, image }) => {
 
         {/* Course Image */}
         <Image
-          src={image}
+          src={image || '/placeholder.svg?height=200&width=400'}
           alt={title}
           width={400}
           height={200}
@@ -41,10 +41,12 @@ const CourseCard = ({ title, category, price, lessons, rating, image }) => {
         {/* Course Price */}
         <div
           className={`font-medium mb-2 ${
-            price === 'Free' ? 'text-green-500' : 'text-green-600'
+            price === 0 || price === 'Free'
+              ? 'text-green-500'
+              : 'text-green-600'
           }`}
         >
-          {price}
+          {price === 0 ? 'Free' : `$${price}`}
         </div>
 
         {/* Details Button */}

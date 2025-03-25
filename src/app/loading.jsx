@@ -1,5 +1,4 @@
-import Image from "next/image";
-import React from "react";
+import Image from 'next/image';
 
 export default function loading() {
   return (
@@ -7,7 +6,7 @@ export default function loading() {
       <div className="flex items-center space-x-2">
         <Image
           src="/Loading-Gif-Img/LoadingGif.gif"
-          alt="/Loading-Gif-Img/LoadingGif.gif"
+          alt="Loading-Data"
           width={50}
           height={50}
         />
