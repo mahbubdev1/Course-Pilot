@@ -1,9 +1,9 @@
 
 "use client";
 
-import ReusableContent from "@/app/(dashbord)/teacher-dashbord/components/ReusableContent";
-import ReusableTable from "../components/ReusableTable";
 import { students } from "@/app/data";
+import ReusableContent from "../components/ReusableContent";
+import ReusableTable from "../components/ReusableTable";
 
 const MyStudents = () => {
     const columns = [

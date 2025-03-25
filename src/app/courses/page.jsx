@@ -18,7 +18,8 @@ export default function CourseMarketplace() {
       setCourses(data);
     }
     fetchCourses();
-  }, []); // Empty dependency array means this will run once when the component mounts
+  }, []);
+  console.log(courses);
 
   return (
     <div className="container mx-auto p-4 mt-20 max-w-7xl">
