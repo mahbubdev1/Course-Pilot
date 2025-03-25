@@ -15,6 +15,7 @@ import Image from "next/image";
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const router = useRouter(); // check the current active route
   const [isOpen, setIsOpen] = useState(false);
+  const [isTaskOpen, setTaskOpen] = useState(false);
 
   return (
     <aside
@@ -58,11 +59,11 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             </div>
             <FaChevronRight
               className={`text-gray-500 transition-transform ${
-                isOpen ? "rotate-90" : "group-hover:rotate-90"
+                isOpen ? "rotate-90" : ""
               }`}
             />
             <ul
-              className={`absolute right-0 top-full mt-1 w-40 bg-white shadow-lg rounded-md ${
+              className={`absolute z-10 right-0 top-full mt-1 w-40 bg-white shadow-lg rounded-md ${
                 isOpen ? "block" : "hidden"
               }`}
             >
@@ -85,6 +86,36 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             </ul>
           </li>
 
+          {/* add route quiz and assignment  */}
+
+          <li
+            onClick={() => setTaskOpen(!isTaskOpen)}
+            className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between "
+          >
+            <div className="flex items-center gap-2 ">
+              <FaFileAlt className="text-gray-600" />
+              <Link href="/exam">Add Task</Link>
+            </div>
+            <FaChevronRight
+              className={`text-gray-500 transition-transform ${
+                isTaskOpen ? "rotate-90" : ""
+              }`}
+            />
+            <ul
+              className={`absolute z-10 right-0 top-full mt-1 w-40 bg-white shadow-lg rounded-md ${
+                isTaskOpen ? "block" : "hidden"
+              }`}
+            >
+              <li className="p-2 hover:bg-gray-100">
+                <Link href="/student-dashbord/AddQuiz">Add Quiz</Link>
+              </li>
+              <li className="p-2 hover:bg-gray-100">
+                <Link href="/student-dashbord/exam/upcoming">
+                  Add Assignment
+                </Link>
+              </li>
+            </ul>
+          </li>
           {/* Other Sections */}
           <li
             className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${

@@ -169,6 +169,18 @@ export default function Navbar() {
             >
               Dashboard
             </Link>
+            <Link
+              href="/components/aisupport"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
+              }`}
+            >
+              Ai Support
+            </Link>
           </div>
 
           {/* Right Side - Theme Toggle and Auth Buttons */}
@@ -273,6 +285,13 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Dashboard
+              </Link>
+              <Link
+                href={'/components/aisupport'}
+                className="hover:text-blue-600 text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                Ai Support
               </Link>
               {authLoading || sessionLoading ? (
                 <Button variant="outline" disabled>
