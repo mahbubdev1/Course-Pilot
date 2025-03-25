@@ -1,23 +1,23 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "./components/shared/Navbar";
-import Footer from "./components/shared/Footer";
-import { SessionProvider } from "next-auth/react";
-import SessionWrapper from "./components/SessionWrapper";
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider } from '@/context/AuthContext';
+import { Geist, Geist_Mono } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
+import SessionWrapper from './components/SessionWrapper';
+import Footer from './components/shared/Footer';
+import Navbar from './components/shared/Navbar';
+import './globals.css';
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata = {
-  title: "Course Pilot",
-  description: "AI-Powered Course Management System",
+  title: 'Course Pilot',
+  description: 'AI-Powered Course Management System',
 };
 
 export default function RootLayout({ children }) {
@@ -30,6 +30,7 @@ export default function RootLayout({ children }) {
           >
             <Navbar></Navbar>
             {children}
+            <ToastContainer></ToastContainer>
             <Footer></Footer>
           </body>
         </AuthProvider>

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/dashboard/Navbar";
-import Sidebar from "../components/dashboard/Sidebar";
+import Navbar from "../../components/dashboard/Navbar";
+import Sidebar from "@/app/components/dashboard/Sidebar";
 
 export default function DashboardLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -42,18 +42,14 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="flex">
-      <Sidebar 
+      <Sidebar
         isOpen={isSidebarOpen}
         isCollapsed={isCollapsed}
         toggleSidebar={toggleSidebar}
       />
       <div
         className={`w-full ${
-          windowWidth >= 1024
-            ? isCollapsed
-              ? "lg:ml-24"
-              : "lg:ml-64"
-            : "ml-0" // Simplified for mobile
+          windowWidth >= 1024 ? (isCollapsed ? "lg:ml-24" : "lg:ml-64") : "ml-0" // Simplified for mobile
         } transition-all duration-300`}
       >
         <Navbar toggleSidebar={toggleSidebar} />

@@ -75,7 +75,7 @@ export default function Navbar() {
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
     !pathname.includes("student-dashbord") &&
-    !pathname.includes("instructor-dashbord")&&
+    !pathname.includes("instructor-dashbord") &&
     !pathname.includes("admin-dashbord")
   ) {
     return (
@@ -105,7 +105,6 @@ export default function Navbar() {
               )}
             </Link>
           </div>
-
           {/* Center - Navigation Links (Desktop) */}
           <div className="hidden md:flex space-x-6">
             <Link
@@ -157,7 +156,9 @@ export default function Navbar() {
               About
             </Link>
             <Link
-              href={role ? "/student-dashbord" : "/instructor-dashbord"}
+              href={
+                role ? "/student-dashbord/dashboard" : "/instructor-dashbord"
+              }
               className={`hover:text-blue-600 transition ${
                 navbarBackground
                   ? "text-black"
@@ -167,6 +168,18 @@ export default function Navbar() {
               }`}
             >
               Dashboard
+            </Link>
+            <Link
+              href="/components/aisupport"
+              className={`hover:text-blue-600 transition ${
+                navbarBackground
+                  ? "text-black"
+                  : pathname === "/"
+                  ? "text-white"
+                  : ""
+              }`}
+            >
+              Ai Support
             </Link>
           </div>
 
@@ -272,6 +285,13 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 Dashboard
+              </Link>
+              <Link
+                href={'/components/aisupport'}
+                className="hover:text-blue-600 text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                Ai Support
               </Link>
               {authLoading || sessionLoading ? (
                 <Button variant="outline" disabled>
