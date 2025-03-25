@@ -10,6 +10,8 @@ import { ChevronLeft, ChevronRight, MoreVertical, Edit, Trash } from "lucide-rea
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
+import Link from "next/link";
+import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 
 const MyCourses = () => {
     const { user } = useAuth();
@@ -17,10 +19,11 @@ const MyCourses = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const coursesPerPage = 10;
+    const axiosPublic = useAxiosPublic();
 
     useEffect(() => {
         if (user?.email) {
-            axios.get(`http://localhost:5000/student-course/${user?.email}`)
+            axiosPublic.get(`/student-course/${user?.email}`)
                 .then(result => {
                     setCourses(result.data);
                     console.log(result.data);
@@ -132,8 +135,10 @@ const MyCourses = () => {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuItem className={'cursor-pointer'} onClick={() => handleEdit(course.id)}>
-                                                <Edit className="mr-2 h-4 w-4" /> Edit
+                                            <DropdownMenuItem className='cursor-pointer' asChild>
+                                                <Link href={`/instructor-dashbord/my-courses/update-course/${course._id}`}>
+                                                    <Edit className="mr-2 h-4 w-4" /> Edit
+                                                </Link>
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
                                                 className="text-red-600 cursor-pointer"
