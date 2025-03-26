@@ -18,7 +18,7 @@ export default async function CoursePage() {
             price={course.price}
             lessons={course.lessons}
             rating={course.rating}
-            image={course.image} // Ensure API provides an image URL
+            image={course.image} 
           />
         ))}
       </div>
