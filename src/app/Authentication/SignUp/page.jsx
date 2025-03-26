@@ -11,55 +11,76 @@ import { Button } from "@/components/ui/button";
 import { RiArrowLeftUpBoxLine } from "react-icons/ri";
 import { CiLight } from "react-icons/ci";
 import { MdOutlineDarkMode } from "react-icons/md";
+import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 
 const RegisterPage = () => {
   const [darkmode, setDarkmode] = useState();
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
-
+  console.log("error", error);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const axiosPublic = useAxiosPublic();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const { email, password } = formData;
 
+  //   try {
+  //     // Call the backend API to register the user
+  //     const res = await fetch("/api/auth/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to register");
+  //     }
+
+  //     // After successful registration, authenticate the user using NextAuth
+  //     const signInRes = await signIn("credentials", {
+  //       redirect: false,
+  //       email,
+  //       password,
+  //     });
+
+  //     if (signInRes?.error) {
+  //       setError("Failed to sign in");
+  //     } else {
+  //       // Redirect the user after successful login
+  //       window.location.href = "/dashboard"; // Adjust the redirect to your desired page
+  //     }
+  //   } catch (error) {
+  //     setError("Error occurred during registration.");
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = formData;
+    const { name, email, password } = formData;
+    console.log(name, email, password);
+    //  check user
+    const isUserExist = await axiosPublic.get(`/users?email=${email}`);
 
-    try {
-      // Call the backend API to register the user
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    // POST  user
 
-      if (!res.ok) {
-        throw new Error("Failed to register");
-      }
-
-      // After successful registration, authenticate the user using NextAuth
-      const signInRes = await signIn("credentials", {
-        redirect: false,
-        email,
-        password,
-      });
-
-      if (signInRes?.error) {
-        setError("Failed to sign in");
+    if (!isUserExist?.data) {
+      const res = await axiosPublic.post("/users", formData);
+      console.log(res);
+      if (res?.data?.insertedId) {
+        const form = e.target;
+        form.reset();
       } else {
-        // Redirect the user after successful login
-        window.location.href = "/dashboard"; // Adjust the redirect to your desired page
+        console.log("User registration failed");
       }
-    } catch (error) {
-      setError("Error occurred during registration.");
     }
   };
-
   useEffect(() => {
     const currentTheme = localStorage.getItem("theme");
     if (currentTheme === "dark") {
@@ -99,13 +120,19 @@ const RegisterPage = () => {
 
         {/* Sign In Form */}
         <div className="w-full md:w-1/2 p-6">
-          <h2 className="text-2xl font-bold mb-4">
-            Create Your Account
-          </h2>
+          <h2 className="text-2xl font-bold mb-4">Create Your Account</h2>
 
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              onChange={handleChange}
+              required
+            />
             <input
               type="email"
               name="email"
@@ -134,7 +161,9 @@ const RegisterPage = () => {
           <div className="mt-6 space-y-4">
             <LoginButton />
           </div>
-
+          {error && (
+            <p className="text-red-500 text-2xl text-center">{error}</p>
+          )}
           <p className="mt-4 text-center">
             Already have an account?{" "}
             <Link
