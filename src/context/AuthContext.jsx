@@ -9,14 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const { data: session, status } = useSession();
-  console.log(session?.user);
+  // console.log(session?.user);
   const axiosPublic = useAxiosPublic();
 
   const handleUserCollection = async () => {
     //  check user
     const user = await session?.user;
     const { email } = user;
-    console.log(email);
+    // console.log(email);
     const isUserExist = await axiosPublic.get(`/users?email=${email}`);
 
     // POST  user
