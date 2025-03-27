@@ -22,6 +22,7 @@ const AddCourse = () => {
       ...data,
       rating: Number(data.rating),
       duration: Number(data.duration),
+      enrolled: Number(0),
       status: 'pending',
       courseStatus: 'Active',
       date: new Date(),

@@ -1,6 +1,7 @@
 'use client'
 import useAxiosPublic from '@/app/axios/hooks/useAxiosPublic';
 import { useParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -10,6 +11,7 @@ const updateCourse = () => {
     const { id } = useParams();
     const [courses, setCourses] = useState({});
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -36,6 +38,7 @@ const updateCourse = () => {
                 if (result.data.modifiedCount) {
                     console.log(result);
                     toast.success('Course Update Success')
+                    router.push('/instructor-dashbord/my-courses')
                 }
             })
     };
