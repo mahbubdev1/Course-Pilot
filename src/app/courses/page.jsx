@@ -95,8 +95,8 @@ export default function CourseMarketplace() {
       return 0;
     });
   }, [sortOption, filteredCourses]);
-  }, []);
-  console.log(courses);
+
+  // console.log(courses);
 
   return (
     <div className="container mx-auto p-4 mt-20 max-w-7xl">
@@ -176,8 +176,8 @@ export default function CourseMarketplace() {
                         e.target.checked
                           ? [...prev, 'Data Science']
                           : prev.filter(
-                              (category) => category !== 'Data Science'
-                            )
+                            (category) => category !== 'Data Science'
+                          )
                       )
                     }
                   />
@@ -194,8 +194,8 @@ export default function CourseMarketplace() {
                         e.target.checked
                           ? [...prev, 'Web Development']
                           : prev.filter(
-                              (category) => category !== 'Web Development'
-                            )
+                            (category) => category !== 'Web Development'
+                          )
                       )
                     }
                   />
@@ -230,9 +230,9 @@ export default function CourseMarketplace() {
                             e.target.checked
                               ? [...prev, 'Finance & Accounting']
                               : prev.filter(
-                                  (category) =>
-                                    category !== 'Finance & Accounting'
-                                )
+                                (category) =>
+                                  category !== 'Finance & Accounting'
+                              )
                           )
                         }
                       />
@@ -249,9 +249,9 @@ export default function CourseMarketplace() {
                             e.target.checked
                               ? [...prev, 'Artificial Intelligence']
                               : prev.filter(
-                                  (category) =>
-                                    category !== 'Artificial Intelligence'
-                                )
+                                (category) =>
+                                  category !== 'Artificial Intelligence'
+                              )
                           )
                         }
                       />
