@@ -41,7 +41,6 @@ export default function HelpDesk() {
     </div>
   );
   const { user } = useAuth();
-  console.log(user);
 
   return (
     <div className="min-h-screen">
@@ -71,14 +70,15 @@ export default function HelpDesk() {
               height={50}
               alt={user?.image}
               unoptimized
+              title={user?.name}
               className="rounded-full"
             />
           </div>
         </nav>
       </div>
       <div className="grid grid-cols-12 min-h-screen">
-        <div className="bg-yellow-500 col-span-2">hello</div>
-        <div className=" col-span-8">
+        <div className="bg-yellow-500 col-span-4">hello</div>
+        <div className=" col-span-4 p-2">
           <Card>
             <div className="flex items-center justify-center space-x-3">
               <Image
@@ -121,17 +121,19 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <div className="flex flex-col items-center justify-center pt-2">
-                      <Textarea
-                        className="h-full placeholder:text-xl w-full max-w-96 min-h-96 rounded-md p-2"
-                        placeholder={`Whats Your Mind ${user?.name}`}
-                      />
-                    </div>
-                    <div className="flex flex-col  pt-3">
-                      <Button className="w-full max-w-96 mx-auto cursor-pointer">
-                        Post
-                      </Button>
-                    </div>
+                    <form>
+                      <div className="flex flex-col items-center justify-center pt-2">
+                        <Textarea
+                          className="h-full placeholder:text-xl w-full max-w-96 min-h-96 rounded-md p-2"
+                          placeholder={`Whats Your Mind ${user?.name}`}
+                        />
+                      </div>
+                      <div className="flex flex-col  pt-3">
+                        <Button className="w-full max-w-96 mx-auto cursor-pointer">
+                          Post
+                        </Button>
+                      </div>
+                    </form>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -166,29 +168,31 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <div className="flex items-center justify-center mt-3 ">
-                      <Textarea
-                        type="text"
-                        className="w-full max-w-96"
-                        placeholder={`Whats Your Mind ${user?.name}`}
-                      />
-                    </div>
-                    <div>
-                      <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
-                        <Input
-                          alt="Photo Uploade"
-                          type="file"
-                          className="absolute w-full h-full opacity-0 cursor-pointer"
+                    <form>
+                      <div className="flex items-center justify-center mt-3 ">
+                        <Textarea
+                          type="text"
+                          className="w-full max-w-96"
+                          placeholder={`Whats Your Mind ${user?.name}`}
                         />
-                        <IoImages size={30} />{" "}
-                        <span className="font-bold ml-2">Upload Photo</span>
                       </div>
-                    </div>
-                    <div className="flex flex-col  pt-3">
-                      <Button className="w-full max-w-96 mx-auto cursor-pointer">
-                        Post
-                      </Button>
-                    </div>
+                      <div>
+                        <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
+                          <Input
+                            alt="Photo Uploade"
+                            type="file"
+                            className="absolute w-full h-full opacity-0 cursor-pointer"
+                          />
+                          <IoImages size={30} />{" "}
+                          <span className="font-bold ml-2">Upload Photo</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col  pt-3">
+                        <Button className="w-full max-w-96 mx-auto cursor-pointer">
+                          Post
+                        </Button>
+                      </div>
+                    </form>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -221,36 +225,38 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <div className="flex items-center justify-center mt-3 ">
-                      <Textarea
-                        type="text"
-                        className="w-full max-w-96"
-                        placeholder={`Whats Your Mind ${user?.name}`}
-                      />
-                    </div>
-                    <div>
-                      <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
-                        <Input
-                          alt="Photo Uploade"
-                          type="file"
-                          className="absolute w-full h-full opacity-0 cursor-pointer"
+                    <form>
+                      <div className="flex items-center justify-center mt-3 ">
+                        <Textarea
+                          type="text"
+                          className="w-full max-w-96"
+                          placeholder={`Whats Your Mind ${user?.name}`}
                         />
-                        <IoImages size={30} />{" "}
-                        <span className="font-bold ml-2">Upload Video</span>
                       </div>
-                    </div>
-                    <div className="flex flex-col  pt-3">
-                      <Button className="w-full max-w-96 mx-auto cursor-pointer">
-                        Post
-                      </Button>
-                    </div>
+                      <div>
+                        <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
+                          <Input
+                            alt="Photo Uploade"
+                            type="file"
+                            className="absolute w-full h-full opacity-0 cursor-pointer"
+                          />
+                          <FaVideo size={30} />
+                          <span className="font-bold ml-2">Upload Video</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col  pt-3">
+                        <Button className="w-full max-w-96 mx-auto cursor-pointer">
+                          Post
+                        </Button>
+                      </div>
+                    </form>
                   </div>
                 </DialogContent>
               </Dialog>
             </div>
           </Card>
         </div>
-        <div className="bg-pink-200 col-span-2">hello</div>
+        <div className="bg-pink-200 col-span-4">hello</div>
       </div>
     </div>
   );
