@@ -1,18 +1,22 @@
 "use client";
 import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 import { useEffect, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { MdLiveTv } from "react-icons/md";
 import Swal from "sweetalert2";
 
 const StudentLiveSessions = () => {
   const axiosPublic = useAxiosPublic();
   const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSessions = async () => {
       try {
         const res = await axiosPublic.get("/live-sessions");
-        setSessions(res.data);
+        console.log(sessions);
+        setSessions(res?.data);
+        setLoading(false);
       } catch (error) {
         Swal.fire({
           title: "Error!",
@@ -43,7 +47,13 @@ const StudentLiveSessions = () => {
     );
     return `${formattedDateTime} BDT`;
   };
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <FaSpinner className="animate-spin text-indigo-600 text-4xl" />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-6xl mx-auto">
