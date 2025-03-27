@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
+import { MdTv } from "react-icons/md";
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const router = useRouter(); // check the current active route
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,14 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <FaTachometerAlt className="text-gray-600" />
             <Link href="/">Dashboard</Link>
           </li>
-
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 ${
+              router.pathname === "/" ? "bg-purple-200" : ""
+            }`}
+          >
+            <MdTv className="text-gray-600" />
+            <Link href="/student-dashbord/LiveSession">Live Session</Link>
+          </li>
           {/* Exam Section */}
           <li
             onClick={() => setIsOpen(!isOpen)}
