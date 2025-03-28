@@ -1,13 +1,16 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
+import useAxiosPublic from "../axios/hooks/useAxiosPublic";
+const axiosPublic = useAxiosPublic();
 
 export default function LoginButton() {
   const { data: session } = useSession();
-  console.log(session);
 
   const handleProviderSignIn = async (provider) => {
     try {
-      await signIn(provider, { callbackUrl: "/" });
+      const res = await signIn(provider);
+      console.log("res", res);
+      // { callbackUrl: "/" }
     } catch (error) {
       console.error("Error signing in with provider:", error);
     }

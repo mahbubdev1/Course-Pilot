@@ -2,6 +2,13 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import axios from "axios";
+const axiosPublic = axios.create({
+  baseURL: "http://localhost:5000",
+});
+
 const handler = NextAuth({
   providers: [
     // OAuth authentication providers...
@@ -23,7 +30,34 @@ const handler = NextAuth({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {},
+      async authorize(credentials) {
+        const { email, password } = credentials;
+        try {
+          const response = await axiosPublic.get(`/users?email=${email}`);
+          const user = response.data;
+          console.log(user.password);
+          if (!user) {
+            return null;
+          }
+          const passwordMatch = await bcrypt.compare(password, user.password);
+          if (!passwordMatch) {
+            return null;
+          }
+          return user;
+        } catch (e) {
+          console.log(e);
+        }
+        return user;
+      },
+    }),
+    // The name to display on the sign in form (e.g. 'Sign in with...')
   ],
+  session: { strategy: "jwt" },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: { signIn: "/" },
 });
 
 export { handler as GET, handler as POST };

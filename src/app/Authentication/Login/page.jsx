@@ -23,9 +23,22 @@ const SignInPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign In Data:", formData);
+    console.log("Sign In Data:", formData.email, formData.password);
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (res.error) {
+        console.log(res.error);
+      }
+    } catch (e) {
+      console.log(e);
+    }
     // You can replace this with your authentication logic
   };
 
@@ -73,9 +86,7 @@ const SignInPage = () => {
 
         {/* Sign In Form */}
         <div className="w-full md:w-1/2 p-6">
-          <h2 className="text-2xl font-bold mb-4">
-            Sign In to Your Account
-          </h2>
+          <h2 className="text-2xl font-bold mb-4">Sign In to Your Account</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"
@@ -132,8 +143,12 @@ const SignInPage = () => {
             >
               Create one here
             </Link>
-            <Link href={'/'}>
-              <Button size="sm" variant="outline" className="cursor-pointer mt-2">
+            <Link href={"/"}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="cursor-pointer mt-2"
+              >
                 <RiArrowLeftUpBoxLine /> Back to Home
               </Button>
             </Link>
