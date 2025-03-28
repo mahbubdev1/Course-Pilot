@@ -14,8 +14,9 @@ export default function Footer() {
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
     !pathname.includes("student-dashbord") &&
-    !pathname.includes("instructor-dashbord")&&
-    !pathname.includes("admin-dashbord")
+    !pathname.includes("instructor-dashbord") &&
+    !pathname.includes("admin-dashbord") &&
+    !pathname.includes("components/helpdesk")
   ) {
     return (
       <footer className="py-10 mt-10 text-white bg-[#264D3F]">
