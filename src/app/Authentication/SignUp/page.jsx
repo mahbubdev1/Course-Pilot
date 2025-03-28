@@ -12,6 +12,7 @@ import { RiArrowLeftUpBoxLine } from "react-icons/ri";
 import { CiLight } from "react-icons/ci";
 import { MdOutlineDarkMode } from "react-icons/md";
 import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const [darkmode, setDarkmode] = useState();
@@ -25,42 +26,9 @@ const RegisterPage = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const router = useRouter();
   const axiosPublic = useAxiosPublic();
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const { email, password } = formData;
 
-  //   try {
-  //     // Call the backend API to register the user
-  //     const res = await fetch("/api/auth/register", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error("Failed to register");
-  //     }
-
-  //     // After successful registration, authenticate the user using NextAuth
-  //     const signInRes = await signIn("credentials", {
-  //       redirect: false,
-  //       email,
-  //       password,
-  //     });
-
-  //     if (signInRes?.error) {
-  //       setError("Failed to sign in");
-  //     } else {
-  //       // Redirect the user after successful login
-  //       window.location.href = "/dashboard"; // Adjust the redirect to your desired page
-  //     }
-  //   } catch (error) {
-  //     setError("Error occurred during registration.");
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password } = formData;
@@ -76,6 +44,8 @@ const RegisterPage = () => {
       if (res?.data?.insertedId) {
         const form = e.target;
         form.reset();
+        // window.location.href = "/dashboard";
+        router.push("/Authentication/Login");
       } else {
         console.log("User registration failed");
       }

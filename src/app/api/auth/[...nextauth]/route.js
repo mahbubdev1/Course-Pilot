@@ -4,8 +4,11 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
-const axiosPublic = useAxiosPublic();
+import axios from "axios";
+const axiosPublic = axios.create({
+  baseURL: "http://localhost:5000",
+});
+
 const handler = NextAuth({
   providers: [
     // OAuth authentication providers...
