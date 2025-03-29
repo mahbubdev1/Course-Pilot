@@ -198,15 +198,16 @@ export default function HelpDesk() {
   const handleTextDelete = (id) => {
     // console.log(id);
     try {
-      fetch(`http://localhost:9000/delete/${id}`, { method: "DELETE" }).then(
-        (res) =>
-          res.json().then((data) => {
-            console.log(data);
-            toast.success("Delete Succesfully");
-          })
+      fetch(`http://localhost:9000/textDelete/${id}`, {
+        method: "DELETE",
+      }).then((res) =>
+        res.json().then((data) => {
+          console.log(data);
+          toast.success("post Delete Succesfully");
+        })
       );
     } catch (error) {
-      toast.error("Delete Failed");
+      toast.error("post Delete Failed");
     }
   };
 
@@ -218,10 +219,25 @@ export default function HelpDesk() {
       console.log(data);
     });
 
+  // vidoe delete api
+  const handleVideoDelete = (id) => {
+    try {
+      fetch(`http://localhost:9000/videoDelete/${id}`, {
+        method: "DELETE",
+      }).then((res) =>
+        res.json().then((data) => {
+          console.log(data);
+          toast.success("Video Delete Succesfully");
+        })
+      );
+    } catch (error) {
+      toast.error("Video Delete Failed");
+    }
+  };
   return (
-    <div className="min-h-screen">
+    <div className="">
       <div className="shadow-md backdrop-blur-2xl in-dark:bg-accent border-b-2">
-        <nav className="flex items-center justify-between w-full max-w-11/12 mx-auto py-3">
+        <nav className="flex items-center justify-between w-full max-w-11/12 mx-auto py-3 sticky z-10">
           <div>
             <Image
               src="/assats/logo.webp"
@@ -255,6 +271,7 @@ export default function HelpDesk() {
       <div className="grid grid-cols-12 min-h-screen">
         <div className="bg-yellow-500 col-span-4">hello</div>
         <div className=" col-span-4 p-2 overflow-y-scroll">
+          {/* text video and photo input filed */}
           <Card>
             <div className="flex items-center justify-center space-x-3">
               <Image
@@ -430,7 +447,7 @@ export default function HelpDesk() {
                             className="absolute w-full h-full opacity-0 cursor-pointer"
                           />
                           <FaVideo size={30} />
-                          <span className="font-bold ml-2">Upload Video</span>
+                          <span className="font-bold ml-2">Upload Video</span>  Maximum 2mb
                           {video ? (
                             <video
                               src={video}
@@ -482,14 +499,14 @@ export default function HelpDesk() {
                           <Button
                             variant="gost"
                             className="cursor-pointer"
-                            onClick={() => handleTextDelete(item?._id)}
+                            onClick={() => handleVideoDelete(item?._id)}
                           >
                             ❌
                           </Button>
                         </div>
                       </div>
                       <div>
-                        <p className="px-5">{item?.text}</p>
+                        <p className="px-5 pb-2">{item?.text}</p>
                         <video
                           src={item?.video}
                           controls
@@ -502,10 +519,10 @@ export default function HelpDesk() {
               : ""}
           </div>
           {/* text get display */}
-          <div>
+          <div className="pt-2 space-y-2">
             {getText ? (
               getText.map((item, i) => (
-                <div key={i} className="p-2">
+                <div key={i} className="">
                   <Card>
                     <div className="grid grid-cols-2">
                       <div className="flex">
