@@ -20,17 +20,33 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 
+//theme import
+import * as React from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 export default function HelpDesk() {
+  const { setTheme } = useTheme();
   const [photo, setPhoto] = useState();
   const [video, setVideo] = useState();
+  const [uploading, setUploading] = useState(false);
   const [getVideo, setGetVideo] = useState();
   const [getText, setGetTaxt] = useState();
+  const [getImage, setGetImiage] = useState();
+  const [videoOpen, setVideoOpen] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
+  const [TextOpem, setTextOpem] = useState(false);
+
   const link = (
     <div className="md:flex items-center space-x-10">
       <Link href={""}>
@@ -50,9 +66,12 @@ export default function HelpDesk() {
   const { user } = useAuth();
 
   // IMage cloudornay upload
+
   const imageCloude = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    setUploading(true);
 
     const data = new FormData();
     data.append("file", file);
@@ -69,6 +88,8 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const photoURl = uploadData.secure_url;
     setPhoto(photoURl);
+    setUploading(false); // Upload done
+
     console.log("Uploaded Image URL:", photoURl);
   };
 
@@ -85,6 +106,7 @@ export default function HelpDesk() {
       email: user?.email,
       text: imageText,
       photo: photo,
+      time: new Date(),
     };
     try {
       const res = await fetch(`http://localhost:9000/imageupload`, {
@@ -96,7 +118,7 @@ export default function HelpDesk() {
       });
       const data = await res.json();
       toast.success("Successfully Posted");
-
+      setOpenImage(false);
       // console.log(data);
     } catch (error) {
       toast.error("Post Failed", error);
@@ -107,8 +129,9 @@ export default function HelpDesk() {
   // Video Cloudornary Upload
   const VideoClaoud = async (e) => {
     const file = e.target.files[0];
-
     if (!file) return;
+
+    setUploading(true); // Start uploading
 
     const data = new FormData();
     data.append("file", file);
@@ -126,13 +149,14 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const videoURL = uploadData.secure_url;
     setVideo(videoURL);
+    setUploading(false); // Upload done
   };
   //sierver side video upload
   const handaleVideoUpload = async (e) => {
     e.preventDefault();
     const form = e.target;
     const videoText = form.videoText.value;
-    // console.log(text);
+
     const postInfo = {
       user: user?.name,
       Image: user?.image,
@@ -150,22 +174,25 @@ export default function HelpDesk() {
         },
         body: JSON.stringify(postInfo),
       });
+
       const data = await res.json();
       toast.success("Successfully Posted");
+      setVideoOpen(false);
     } catch (error) {
       toast.error("Post Failed", error);
     }
   };
 
-  //text post mongodb
+  // text post api
   const handalTextUpload = async (e) => {
     e.preventDefault();
     const form = e.target;
     const text = form.text.value;
+
     if (!text) {
-      return toast.error("Input Fild requeared Please type hear");
+      return toast.error("Input Field required! Please type here");
     }
-    // console.log(text);
+
     const postInfo = {
       user: user?.name,
       Image: user?.image,
@@ -173,6 +200,7 @@ export default function HelpDesk() {
       text: text,
       time: new Date(),
     };
+
     try {
       const res = await fetch(`http://localhost:9000/textUpload`, {
         method: "POST",
@@ -181,8 +209,10 @@ export default function HelpDesk() {
         },
         body: JSON.stringify(postInfo),
       });
+
       const data = await res.json();
       toast.success("Successfully Posted");
+      setTextOpem(false);
     } catch (error) {
       toast.error("Post Failed", error);
     }
@@ -210,6 +240,13 @@ export default function HelpDesk() {
       toast.error("post Delete Failed");
     }
   };
+  //image get api
+  fetch("http://localhost:9000/gatImage")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      setGetImiage(data);
+    });
 
   //vodeo get api
   fetch("http://localhost:9000/video")
@@ -236,7 +273,7 @@ export default function HelpDesk() {
   };
   return (
     <div className="">
-      <div className="shadow-md backdrop-blur-2xl in-dark:bg-accent border-b-2">
+      <div className="shadow-md backdrop-blur-2xl border-b-2 bg-white dark:bg-gray-900">
         <nav className="flex items-center justify-between w-full max-w-11/12 mx-auto py-3 sticky z-10">
           <div>
             <Image
@@ -244,18 +281,38 @@ export default function HelpDesk() {
               alt="assats/logo.webp"
               width={150}
               height={50}
-              className="in-dark:hidden"
+              className="dark:hidden"
             />
             <Image
               src="/assats/footer-logo.png"
               alt="/assats/footer-logo.png"
               width={150}
               height={50}
-              className="not-dark:hidden"
+              className="hidden dark:block"
             />
           </div>
           <div>{link}</div>
-          <div>
+          <div className="flex items-center space-x-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span className="sr-only">Toggle theme</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setTheme("light")}>
+                  Light
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("dark")}>
+                  Dark
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme("system")}>
+                  System
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Image
               src={user?.image}
               width={50}
@@ -269,7 +326,13 @@ export default function HelpDesk() {
         </nav>
       </div>
       <div className="grid grid-cols-12 min-h-screen">
-        <div className="bg-yellow-500 col-span-4">hello</div>
+        <div className="col-span-4">
+          <div>
+            <Button>
+            
+            </Button>
+          </div>
+        </div>
         <div className=" col-span-4 p-2 overflow-y-scroll">
           {/* text video and photo input filed */}
           <Card>
@@ -283,11 +346,9 @@ export default function HelpDesk() {
                 className="rounded-full"
               />
               {/* text input post */}
-              <Dialog>
+              <Dialog open={TextOpem} onOpenChange={setTextOpem}>
                 <DialogTrigger asChild>
-                  {/* <Button>Open Modal</Button> */}
                   <Input
-                    // variant="default"
                     type="text"
                     className="w-full max-w-4xl"
                     placeholder={`Whats Your Mind ${user?.name}`}
@@ -296,7 +357,7 @@ export default function HelpDesk() {
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>
-                      <p className="text-center text-2xl">Creat Post</p>
+                      <p className="text-center text-2xl">Create Post</p>
                     </DialogTitle>
                   </DialogHeader>
                   <div>
@@ -322,7 +383,7 @@ export default function HelpDesk() {
                           placeholder={`Whats Your Mind ${user?.name}`}
                         />
                       </div>
-                      <div className="flex flex-col  pt-3">
+                      <div className="flex flex-col pt-3">
                         <Button className="w-full max-w-96 mx-auto cursor-pointer">
                           Post
                         </Button>
@@ -334,7 +395,7 @@ export default function HelpDesk() {
             </div>
             <div className="flex items-center justify-center space-x-3.5">
               {/* Photo Input post */}
-              <Dialog>
+              <Dialog open={openImage} onOpenChange={setOpenImage}>
                 <DialogTrigger asChild>
                   {/* <Button>Open Modal</Button> */}
                   <Button variant="outline">
@@ -372,21 +433,28 @@ export default function HelpDesk() {
                         />
                       </div>
                       <div>
-                        <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
+                        <div className="flex items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
                           <Input
-                            alt="Photo Uploade"
+                            alt="Photo Upload"
                             type="file"
                             onChange={imageCloude}
                             className="absolute w-full h-full opacity-0 cursor-pointer"
                           />
-                          <IoImages size={30} />
-                          <span className="font-bold ml-2">Upload Photo</span>
-                          {photo && (
+                          {uploading ? (
+                            <span className="font-bold ml-2">Uploading...</span>
+                          ) : photo ? (
                             <img
                               src={photo}
                               alt={photo}
                               className="absolute w-full h-full object-cover p-1"
                             />
+                          ) : (
+                            <>
+                              <IoImages size={30} />
+                              <span className="font-bold ml-2">
+                                Upload Photo
+                              </span>
+                            </>
                           )}
                         </div>
                       </div>
@@ -401,7 +469,7 @@ export default function HelpDesk() {
               </Dialog>
 
               {/* Video Input Post */}
-              <Dialog>
+              <Dialog open={videoOpen} onOpenChange={setVideoOpen}>
                 <DialogTrigger asChild>
                   {/* <Button>Open Modal</Button> */}
                   <Button variant="outline">
@@ -439,23 +507,29 @@ export default function HelpDesk() {
                         />
                       </div>
                       <div>
-                        <div className="flex  items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
+                        <div className="flex items-center justify-center border-2 w-full max-w-96 min-h-96 mx-auto rounded-md relative mt-3">
                           <input
                             type="file"
                             accept="video/*"
                             onChange={VideoClaoud}
                             className="absolute w-full h-full opacity-0 cursor-pointer"
                           />
-                          <FaVideo size={30} />
-                          <span className="font-bold ml-2">Upload Video</span>  Maximum 2mb
-                          {video ? (
+                          {uploading ? (
+                            <span className="font-bold ml-2">Uploading...</span>
+                          ) : video ? (
                             <video
+                              controls
                               src={video}
-                              alt={video}
-                              className="absolute w-full h-full"
-                            />
+                              className="absolute w-full h-full object-cover"
+                            ></video>
                           ) : (
-                            video && "Loading...."
+                            <>
+                              <FaVideo size={30} />
+                              <span className="font-bold ml-2">
+                                Upload Video
+                              </span>
+                              Maximum 2MB
+                            </>
                           )}
                         </div>
                       </div>
@@ -556,6 +630,7 @@ export default function HelpDesk() {
                     <div className="p-3 h-96 flex flex-col justify-center items-center font-bold text-2xl border-2 bg-gradient-to-r from-blue-500 to-green-500 text-white">
                       <p>{item?.text}</p>
                     </div>
+                    
                   </Card>
                 </div>
               ))
@@ -564,6 +639,51 @@ export default function HelpDesk() {
                 Help Desk
               </p>
             )}
+          </div>
+          {/* get image display */}
+          <div className="pt-2 space-y-2">
+            {getImage?.map((item, i) => (
+              <div key={i} className="">
+                <Card>
+                  <div className="grid grid-cols-2">
+                    <div className="flex">
+                      <img
+                        src={item?.Image}
+                        alt={item?.Image}
+                        referrerPolicy="no-referrer"
+                        className="w-10 h-10 rounded-full mx-2"
+                      />
+                      <div>
+                        <p className="font-bold ">{item?.user}</p>
+                        <p>
+                          post:
+                          {new Date(item?.time).toLocaleString({
+                            timeZone: "Asia/Dhaka",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex justify-end">
+                      <p>...</p>
+                      <Button
+                        variant="gost"
+                        className="cursor-pointer"
+                        onClick={() => handleTextDelete(item?._id)}
+                      >
+                        ❌
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="">
+                    <p className="px-5 pb-2">{item?.text}</p>
+                    <img
+                      src={item?.photo}
+                      className="h-96 w-full object-cover"
+                    />
+                  </div>
+                </Card>
+              </div>
+            ))}
           </div>
         </div>
         <div className="bg-pink-200 col-span-4">hello</div>
