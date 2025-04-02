@@ -15,21 +15,28 @@ import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 
 const MyCourses = () => {
     const { user } = useAuth();
+    const [allCourses, setAllCourses] = useState([]);
     const [courses, setCourses] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
-    const coursesPerPage = 10;
     const axiosPublic = useAxiosPublic();
+    const [coursesPerPage, setCoursesPerPage] = useState(10);
 
     useEffect(() => {
         if (user?.email) {
             axiosPublic.get(`/student-course/${user?.email}`)
                 .then(result => {
+                    setAllCourses(result.data);
                     setCourses(result.data);
-                    console.log(result.data);
                 })
         }
-    }, [user])
+    }, [user]);
+
+
+    const handleCoursesPerPageChange = (e) => {
+        setCoursesPerPage(Number(e.target.value));
+        setCurrentPage(1);
+    };
 
     // Pagination
     const indexOfLastCourse = currentPage * coursesPerPage;
@@ -39,21 +46,23 @@ const MyCourses = () => {
     const totalPages = Math.ceil(courses.length / coursesPerPage);
 
     const handleSearch = (e) => {
-        setSearchQuery(e.target.value);
-        const filteredCourses = courses.filter(course =>
-            course.courseTitle.toLowerCase().includes(e.target.value.toLowerCase())
-        );
-        setCourses(filteredCourses);
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        if (query === "") {
+            setCourses(allCourses);
+        } else {
+            const filteredCourses = allCourses.filter(course =>
+                course.courseTitle.toLowerCase().includes(query)
+            );
+            setCourses(filteredCourses);
+        }
         setCurrentPage(1);
     };
 
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
-    };
-
-    const handleEdit = (id) => {
-        // Implement edit functionality
-        console.log("Edit course with id:", id);
     };
 
     const handleDelete = (id) => {
@@ -69,8 +78,8 @@ const MyCourses = () => {
             if (result.isConfirmed) {
                 axios.delete(`http://localhost:5000/student-course/${id}`)
                     .then(response => {
-                        if (response.data.success) {
-                            setCourses(courses.filter(course => course._id !== id));
+                        if (response.data.deletedCount) {
+                            setCourses(courses?.filter(course => course._id !== id));
                             Swal.fire("Deleted!", "Your course has been deleted.", "success");
                         }
                     })
@@ -85,19 +94,32 @@ const MyCourses = () => {
     return (
         <div className="p-6 bg-gray-50 min-h-screen rounded-xl shadow-md">
             <div className="flex justify-between items-center mb-4">
-                <div>
-                    <h2 className="text-xl font-semibold">Course List</h2>
-                    <p className="text-sm text-gray-500 mt-1">10 Course Per Page</p>
-                </div>
-                <Button>+ Add New Course</Button>
+                <h3 className="text-[22px]">Course Per Page</h3>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer">
+                    + Add New Course
+                </button>
             </div>
 
-            <Input
-                placeholder="Search"
-                className="mb-4 max-w-sm"
-                value={searchQuery}
-                onChange={handleSearch}
-            />
+            <div className="flex justify-between items-center mb-4">
+                <div className="flex items-center space-x-2.5">
+                    <select
+                        value={coursesPerPage}
+                        onChange={handleCoursesPerPageChange}
+                        className="px-3 py-2 border rounded"
+                    >
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={30}>30</option>
+                    </select>
+                    <h3>Courses Per Page</h3>
+                </div>
+                <Input
+                    placeholder="Search"
+                    className="max-w-sm"
+                    value={searchQuery}
+                    onChange={handleSearch}
+                />
+            </div>
 
             <Table className="bg-white">
                 <TableHeader>
@@ -107,6 +129,7 @@ const MyCourses = () => {
                         <TableHead>Course Type</TableHead>
                         <TableHead>Duration</TableHead>
                         <TableHead>Price</TableHead>
+                        <TableHead>Enrolled Student</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Published</TableHead>
                         <TableHead>Action</TableHead>
@@ -120,6 +143,7 @@ const MyCourses = () => {
                             <TableCell>{course.courseTag}</TableCell>
                             <TableCell>{course.duration} Min</TableCell>
                             <TableCell>${course.price}</TableCell>
+                            <TableCell>{course.enrolled}</TableCell>
                             <TableCell>
                                 <Badge className={'bg-green-500 px-2.5 py-1'}>
                                     {course.courseStatus}
@@ -170,6 +194,7 @@ const MyCourses = () => {
                     </Button>
                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                         <Button
+                            className='bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md cursor-pointer'
                             key={page}
                             variant={currentPage === page ? "default" : "outline"}
                             size="sm"

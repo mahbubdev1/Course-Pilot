@@ -12,6 +12,9 @@ import {
 } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
+import { MdTv } from "react-icons/md";
+import { IoIosAddCircle, IoIosPaper } from "react-icons/io"; // New icons
+
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const router = useRouter(); // check the current active route
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +22,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 w-64 h-full  bg-white p-6 shadow-lg transform ${
+      className={`fixed top-0 left-0 w-64 h-full bg-white p-6 shadow-lg transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 ease-in-out md:relative md:translate-x-0`}
     >
@@ -40,7 +43,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         <ul>
           {/* Dashboard */}
           <li
-            className={`p-3 rounded-md flex items-center gap-2 ${
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
               router.pathname === "/" ? "bg-purple-200" : ""
             }`}
           >
@@ -48,12 +51,36 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             <Link href="/">Dashboard</Link>
           </li>
 
+          {/* Your Modules */}
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+              router.pathname === "/student-dashbord/YourModules"
+                ? "bg-purple-200"
+                : ""
+            }`}
+          >
+            <MdTv className="text-gray-600" />
+            <Link href="/student-dashbord/YourModules">Your Modules</Link>
+          </li>
+
+          {/* Live Session */}
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+              router.pathname === "/student-dashbord/LiveSession"
+                ? "bg-purple-200"
+                : ""
+            }`}
+          >
+            <MdTv className="text-gray-600" />
+            <Link href="/student-dashbord/LiveSession">Live Session</Link>
+          </li>
+
           {/* Exam Section */}
           <li
             onClick={() => setIsOpen(!isOpen)}
-            className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between "
+            className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between"
           >
-            <div className="flex items-center gap-2 ">
+            <div className="flex items-center gap-2">
               <FaFileAlt className="text-gray-600" />
               <Link href="/exam">Exam</Link>
             </div>
@@ -86,15 +113,14 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             </ul>
           </li>
 
-          {/* add route quiz and assignment  */}
-
+          {/* Add Task */}
           <li
             onClick={() => setTaskOpen(!isTaskOpen)}
-            className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between "
+            className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between"
           >
-            <div className="flex items-center gap-2 ">
-              <FaFileAlt className="text-gray-600" />
-              <Link href="/exam">Add Task</Link>
+            <div className="flex items-center gap-2">
+              <IoIosAddCircle className="text-gray-600" />
+              <Link href="/student-dashbord/AddQuiz">Add Task</Link>
             </div>
             <FaChevronRight
               className={`text-gray-500 transition-transform ${
@@ -116,13 +142,14 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
               </li>
             </ul>
           </li>
+
           {/* Other Sections */}
           <li
             className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
               router.pathname === "/policies" ? "bg-purple-200" : ""
             }`}
           >
-            <FaFileAlt className="text-gray-600" />
+            <IoIosPaper className="text-gray-600" />
             <Link href="/policies">Policies</Link>
           </li>
 

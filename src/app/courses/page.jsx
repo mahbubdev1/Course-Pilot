@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { ChevronDown, Search } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import CourseCard from '../components/Course/CourseCard';
-import Loading from '../loading';
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { ChevronDown, Search } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import CourseCard from "../components/Course/CourseCard";
+import Loading from "../Loading";
 
 export default function CourseMarketplace() {
   const [showMoreCategories, setShowMoreCategories] = useState(false);
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState('Latest');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("Latest");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedLevel, setSelectedLevel] = useState('');
-  const [selectedPriceRange, setSelectedPriceRange] = useState('');
-  const [selectedRating, setSelectedRating] = useState('');
+  const [selectedLevel, setSelectedLevel] = useState("");
+  const [selectedPriceRange, setSelectedPriceRange] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
 
   useEffect(() => {
     async function fetchCourses() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:3000/api/courses'); // Adjust URL in production
-        if (!res.ok) throw new Error('Failed to fetch courses');
+        const res = await fetch("http://localhost:3000/api/courses"); // Adjust URL in production
+        if (!res.ok) throw new Error("Failed to fetch courses");
         const data = await res.json();
         setCourses(data);
         setFilteredCourses(data);
@@ -51,9 +51,9 @@ export default function CourseMarketplace() {
     if (selectedLevel) {
       filtered = filtered.filter((course) => course.level === selectedLevel);
     }
-    if (selectedPriceRange === 'Free') {
+    if (selectedPriceRange === "Free") {
       filtered = filtered.filter((course) => course.price === 0);
-    } else if (selectedPriceRange === 'Paid') {
+    } else if (selectedPriceRange === "Paid") {
       filtered = filtered.filter((course) => course.price > 0);
     }
     if (selectedRating) {
@@ -74,11 +74,11 @@ export default function CourseMarketplace() {
 
   const resetFilters = () => {
     setSelectedCategories([]);
-    setSelectedLevel('');
-    setSelectedPriceRange('');
-    setSelectedRating('');
-    setSearchQuery('');
-    setSortOption('Latest');
+    setSelectedLevel("");
+    setSelectedPriceRange("");
+    setSelectedRating("");
+    setSearchQuery("");
+    setSortOption("Latest");
   };
 
   const sortedCourses = useMemo(() => {
@@ -86,17 +86,15 @@ export default function CourseMarketplace() {
       const ratingA = parseFloat(a.rating) || 0;
       const ratingB = parseFloat(b.rating) || 0;
 
-      if (sortOption === 'Latest')
+      if (sortOption === "Latest")
         return new Date(b.createdAt) - new Date(a.createdAt);
-      if (sortOption === 'Top Rated') return ratingB - ratingA;
-      if (sortOption === 'Price: Low to High') return a.price - b.price;
-      if (sortOption === 'Price: High to Low') return b.price - a.price;
+      if (sortOption === "Top Rated") return ratingB - ratingA;
+      if (sortOption === "Price: Low to High") return a.price - b.price;
+      if (sortOption === "Price: High to Low") return b.price - a.price;
 
       return 0;
     });
   }, [sortOption, filteredCourses]);
-  }, []);
-  console.log(courses);
 
   return (
     <div className="container mx-auto p-4 mt-20 max-w-7xl">
@@ -174,10 +172,12 @@ export default function CourseMarketplace() {
                     onChange={(e) =>
                       setSelectedCategories((prev) =>
                         e.target.checked
-                          ? [...prev, 'Data Science']
+                          ? [...prev, "Data Science"]
                           : prev.filter(
-                              (category) => category !== 'Data Science'
+                              (category) => category !== "Data Science"
                             )
+                            (category) => category !== 'Data Science'
+                          )
                       )
                     }
                   />
@@ -192,10 +192,12 @@ export default function CourseMarketplace() {
                     onChange={(e) =>
                       setSelectedCategories((prev) =>
                         e.target.checked
-                          ? [...prev, 'Web Development']
+                          ? [...prev, "Web Development"]
                           : prev.filter(
-                              (category) => category !== 'Web Development'
+                              (category) => category !== "Web Development"
                             )
+                            (category) => category !== 'Web Development'
+                          )
                       )
                     }
                   />
@@ -210,8 +212,8 @@ export default function CourseMarketplace() {
                     onChange={(e) =>
                       setSelectedCategories((prev) =>
                         e.target.checked
-                          ? [...prev, 'DevOps']
-                          : prev.filter((category) => category !== 'DevOps')
+                          ? [...prev, "DevOps"]
+                          : prev.filter((category) => category !== "DevOps")
                       )
                     }
                   />
@@ -228,11 +230,14 @@ export default function CourseMarketplace() {
                         onChange={(e) =>
                           setSelectedCategories((prev) =>
                             e.target.checked
-                              ? [...prev, 'Finance & Accounting']
+                              ? [...prev, "Finance & Accounting"]
                               : prev.filter(
                                   (category) =>
-                                    category !== 'Finance & Accounting'
+                                    category !== "Finance & Accounting"
                                 )
+                                (category) =>
+                                  category !== 'Finance & Accounting'
+                              )
                           )
                         }
                       />
@@ -247,11 +252,14 @@ export default function CourseMarketplace() {
                         onChange={(e) =>
                           setSelectedCategories((prev) =>
                             e.target.checked
-                              ? [...prev, 'Artificial Intelligence']
+                              ? [...prev, "Artificial Intelligence"]
                               : prev.filter(
                                   (category) =>
-                                    category !== 'Artificial Intelligence'
+                                    category !== "Artificial Intelligence"
                                 )
+                                (category) =>
+                                  category !== 'Artificial Intelligence'
+                              )
                           )
                         }
                       />
@@ -265,7 +273,7 @@ export default function CourseMarketplace() {
               onClick={() => setShowMoreCategories(!showMoreCategories)}
               className="text-teal-500 text-sm mt-2"
             >
-              {showMoreCategories ? 'Show Less' : 'Show More'}
+              {showMoreCategories ? "Show Less" : "Show More"}
             </button>
 
             {/* Price */}
@@ -278,7 +286,7 @@ export default function CourseMarketplace() {
                       type="checkbox"
                       className="mr-2"
                       onChange={(e) =>
-                        setSelectedPriceRange(e.target.checked ? 'Paid' : '')
+                        setSelectedPriceRange(e.target.checked ? "Paid" : "")
                       }
                     />
                     Paid
@@ -290,7 +298,7 @@ export default function CourseMarketplace() {
                       type="checkbox"
                       className="mr-2"
                       onChange={(e) =>
-                        setSelectedPriceRange(e.target.checked ? 'Free' : '')
+                        setSelectedPriceRange(e.target.checked ? "Free" : "")
                       }
                     />
                     Free
@@ -302,7 +310,7 @@ export default function CourseMarketplace() {
             {/* Level */}
             <div className="border rounded-lg p-4 mt-4">
               <h3 className="font-medium text-lg mb-3">Difficulty Level</h3>
-              {['Beginner', 'Intermediate', 'Advanced'].map((level) => (
+              {["Beginner", "Intermediate", "Advanced"].map((level) => (
                 <div className="mb-2" key={level}>
                   <label className="flex items-center">
                     <input

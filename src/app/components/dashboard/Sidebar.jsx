@@ -2,21 +2,50 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaTachometerAlt, FaUsers, FaBook, FaTimes} from "react-icons/fa";
+import { FaTachometerAlt, FaUsers, FaBook, FaTimes } from "react-icons/fa";
 import { LiaCertificateSolid } from "react-icons/lia";
-import { MdQuiz } from "react-icons/md";
+import { MdLiveTv, MdQuiz } from "react-icons/md";
 import { useState, useEffect } from "react";
 
 const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
   const pathname = usePathname();
   const [windowWidth, setWindowWidth] = useState(0);
   const menuItems = [
-    { name: "Dashboard", path: "/instructor-dashbord", icon: <FaTachometerAlt /> },
-    { name: "MyCourses", path: "/instructor-dashbord/my-courses", icon: <FaUsers /> },
-    { name: "MyStudents", path: "/instructor-dashbord/my-students", icon: <FaBook /> },
-    { name: "Certificates", path: "/instructor-dashbord/certificates", icon: <LiaCertificateSolid  /> },
-    { name: "Quiz & Assignment", path: "/instructor-dashbord/quiz-assignment", icon: < MdQuiz  /> },
-    { name: "Add Course", path: "/instructor-dashbord/add-course", icon: < MdQuiz  /> },
+    {
+      name: "Dashboard",
+      path: "/instructor-dashbord",
+      icon: <FaTachometerAlt />,
+    },
+    {
+      name: "MyCourses",
+      path: "/instructor-dashbord/my-courses",
+      icon: <FaUsers />,
+    },
+    {
+      name: "MyStudents",
+      path: "/instructor-dashbord/my-students",
+      icon: <FaBook />,
+    },
+    {
+      name: "Certificates",
+      path: "/instructor-dashbord/certificates",
+      icon: <LiaCertificateSolid />,
+    },
+    {
+      name: "Quiz & Assignment",
+      path: "/instructor-dashbord/quiz-assignment",
+      icon: <MdQuiz />,
+    },
+    {
+      name: "Add Course",
+      path: "/instructor-dashbord/add-course",
+      icon: <MdQuiz />,
+    },
+    {
+      name: "Add Live Session",
+      path: "/instructor-dashbord/add-live-session",
+      icon: <MdLiveTv />,
+    },
   ];
 
   useEffect(() => {
@@ -45,8 +74,17 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
           : "w-0"
       } ${isOpen && windowWidth < 1024 ? "absolute inset-0" : "z-40"}`}
     >
-      <Link href={'/'} className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden">
-        {windowWidth >= 1024 ? (isCollapsed ? "" : "CoursePilot") : isOpen ? "CoursePilot" : ""}
+      <Link
+        href={"/"}
+        className="p-6 text-xl font-bold flex justify-between items-center overflow-hidden"
+      >
+        {windowWidth >= 1024
+          ? isCollapsed
+            ? ""
+            : "CoursePilot"
+          : isOpen
+          ? "CoursePilot"
+          : ""}
         {isOpen && windowWidth < 1024 && (
           <button onClick={toggleSidebar}>
             <FaTimes />
@@ -66,13 +104,17 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
             }`}
           >
             {item.icon}
-            {windowWidth >= 1024
-              ? isCollapsed
-                ? ""
-                : <span>{item.name}</span>
-              : isOpen
-                ? <span>{item.name}</span>
-                : ""}
+            {windowWidth >= 1024 ? (
+              isCollapsed ? (
+                ""
+              ) : (
+                <span>{item.name}</span>
+              )
+            ) : isOpen ? (
+              <span>{item.name}</span>
+            ) : (
+              ""
+            )}
           </Link>
         ))}
       </nav>

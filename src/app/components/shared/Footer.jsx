@@ -35,6 +35,26 @@ export default function Footer() {
               ed-tech startup transforming education for all. Enjoy high-quality
               courses, expert instructors, and flexible scheduling. Join
               CoursePilot today!
+  if (
+    !pathname.includes("Login") &&
+    !pathname.includes("SignUp") &&
+    !pathname.includes("student-dashbord") &&
+    !pathname.includes("instructor-dashbord") &&
+    !pathname.includes("admin-dashbord") &&
+    !pathname.includes("components/helpdesk")
+  ) {
+    return (
+      <footer className="py-10 mt-10 text-white bg-[#264D3F]">
+        <div className="container mx-auto px-6 lg:px-8">
+          {/* Company Info */}
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex flex-col items-start space-x-2">
+              <div>
+                <img src="/assats/footer-logo.png" alt="logo" />
+              </div>
+            </div>
+            <p className="">
+              Empowering education with AI-driven personalized learning.
             </p>
             {/* Social Links */}
             <div className="flex space-x-4 mt-6">
