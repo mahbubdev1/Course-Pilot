@@ -12,6 +12,9 @@ import { IoMdPhotos } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { IoImages } from "react-icons/io5";
+import { BiLike } from "react-icons/bi";
+import { FaRegComment } from "react-icons/fa6";
+import { FaShare } from "react-icons/fa";
 
 import {
   Dialog,
@@ -40,9 +43,7 @@ export default function HelpDesk() {
   const [photo, setPhoto] = useState();
   const [video, setVideo] = useState();
   const [uploading, setUploading] = useState(false);
-  const [getVideo, setGetVideo] = useState();
-  const [getText, setGetTaxt] = useState();
-  const [getImage, setGetImiage] = useState();
+  const [Data, setData] = useState();
   const [videoOpen, setVideoOpen] = useState(false);
   const [openImage, setOpenImage] = useState(false);
   const [TextOpem, setTextOpem] = useState(false);
@@ -94,36 +95,36 @@ export default function HelpDesk() {
   };
 
   //mongodb image post api
-  const handaleImageUpload = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const imageText = form.imageText.value;
-    console.log(imageText);
+  // const handaleImageUpload = async (e) => {
+  //   e.preventDefault();
+  //   const form = e.target;
+  //   const imageText = form.imageText.value;
+  //   console.log(imageText);
 
-    const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
-      text: imageText,
-      photo: photo,
-      time: new Date(),
-    };
-    try {
-      const res = await fetch(`http://localhost:9000/imageupload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postInfo),
-      });
-      const data = await res.json();
-      toast.success("Successfully Posted");
-      setOpenImage(false);
-      // console.log(data);
-    } catch (error) {
-      toast.error("Post Failed", error);
-    }
-  };
+  //   const postInfo = {
+  //     user: user?.name,
+  //     Image: user?.image,
+  //     email: user?.email,
+  //     text: imageText,
+  //     photo: photo,
+  //     time: new Date(),
+  //   };
+  //   try {
+  //     const res = await fetch(`http://localhost:9000/imageupload`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(postInfo),
+  //     });
+  //     const data = await res.json();
+  //     toast.success("Successfully Posted");
+  //     setOpenImage(false);
+  //     // console.log(data);
+  //   } catch (error) {
+  //     toast.error("Post Failed", error);
+  //   }
+  // };
 
   //
   // Video Cloudornary Upload
@@ -151,115 +152,64 @@ export default function HelpDesk() {
     setVideo(videoURL);
     setUploading(false); // Upload done
   };
-  //sierver side video upload
-  const handaleVideoUpload = async (e) => {
+
+  const handalUpload = async (e) => {
     e.preventDefault();
+
+    // Ensure e.target is a form
     const form = e.target;
-    const videoText = form.videoText.value;
+    const text = form.elements.text?.value.trim() || "";
+    const imageText = form.elements.imageText?.value.trim() || "";
+    const videoText = form.elements.videoText?.value.trim() || "";
 
     const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
-      text: videoText,
+      user: user?.name || "Anonymous",
+      Image: user?.image || "",
+      email: user?.email || "",
+      photo: photo,
       video: video,
-      time: new Date(),
-    };
-
-    try {
-      const res = await fetch(`http://localhost:9000/videoUpload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postInfo),
-      });
-
-      const data = await res.json();
-      toast.success("Successfully Posted");
-      setVideoOpen(false);
-    } catch (error) {
-      toast.error("Post Failed", error);
-    }
-  };
-
-  // text post api
-  const handalTextUpload = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const text = form.text.value;
-
-    if (!text) {
-      return toast.error("Input Field required! Please type here");
-    }
-
-    const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
       text: text,
-      time: new Date(),
+      ImageText: imageText,
+      VideoText: videoText,
+      time: new Date().toISOString(),
     };
 
     try {
-      const res = await fetch(`http://localhost:9000/textUpload`, {
+      const res = await fetch(`http://localhost:9000/Upload`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(postInfo),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to upload post.");
+      }
 
       const data = await res.json();
       toast.success("Successfully Posted");
       setTextOpem(false);
+      setOpenImage(false);
+      setVideoOpen(false);
     } catch (error) {
-      toast.error("Post Failed", error);
+      toast.error(`Post Failed: ${error.message}`);
     }
   };
-
-  //text post get api
-  fetch("http://localhost:9000/text")
-    .then((res) => res.json())
-    .then((data) => {
-      setGetTaxt(data);
-    });
-  //text post delete api
-  const handleTextDelete = (id) => {
-    // console.log(id);
-    try {
-      fetch(`http://localhost:9000/textDelete/${id}`, {
-        method: "DELETE",
-      }).then((res) =>
-        res.json().then((data) => {
-          console.log(data);
-          toast.success("post Delete Succesfully");
-        })
-      );
-    } catch (error) {
-      toast.error("post Delete Failed");
-    }
-  };
-  //image get api
-  fetch("http://localhost:9000/gatImage")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      setGetImiage(data);
-    });
 
   //vodeo get api
-  fetch("http://localhost:9000/video")
+  fetch("http://localhost:9000/postData")
     .then((res) => res.json())
     .then((data) => {
-      setGetVideo(data);
       console.log(data);
+
+      setData(data);
     });
 
   // vidoe delete api
   const handleVideoDelete = (id) => {
     try {
-      fetch(`http://localhost:9000/videoDelete/${id}`, {
+      fetch(`http://localhost:9000/postDelete/${id}`, {
         method: "DELETE",
       }).then((res) =>
         res.json().then((data) => {
@@ -328,9 +278,7 @@ export default function HelpDesk() {
       <div className="grid grid-cols-12 min-h-screen">
         <div className="col-span-4">
           <div>
-            <Button>
-            
-            </Button>
+            <Button></Button>
           </div>
         </div>
         <div className=" col-span-4 p-2 overflow-y-scroll">
@@ -375,7 +323,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handalTextUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex flex-col items-center justify-center pt-2">
                         <Textarea
                           name="text"
@@ -423,7 +371,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handaleImageUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex items-center justify-center mt-3 ">
                         <Textarea
                           type="text"
@@ -497,7 +445,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handaleVideoUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex items-center justify-center mt-3 ">
                         <Textarea
                           type="text"
@@ -544,10 +492,10 @@ export default function HelpDesk() {
               </Dialog>
             </div>
           </Card>
-          {/* video get display */}
+          {/* Data get display */}
           <div className="mt-2 space-y-2">
-            {getVideo
-              ? getVideo.map((item, i) => (
+            {Data
+              ? Data.map((item, i) => (
                   <div key={i} className="">
                     <Card>
                       <div className="grid grid-cols-2">
@@ -580,110 +528,60 @@ export default function HelpDesk() {
                         </div>
                       </div>
                       <div>
-                        <p className="px-5 pb-2">{item?.text}</p>
+                        <p
+                          className={`px-5 pb-2 ${
+                            item?.text === "" || (!item?.text && "hidden")
+                          }`}
+                        >
+                          {item?.text}
+                        </p>
+                        <p
+                          className={`px-5 pb-2 ${
+                            item?.VideoText === "" ||
+                            (!item?.VideoText && "hidden")
+                          }`}
+                        >
+                          {item?.VideoText}
+                        </p>
+                        <p
+                          className={`px-5 pb-2 ${
+                            item?.ImageText === "" ||
+                            (!item?.ImageText && "hidden")
+                          }`}
+                        >
+                          {item?.ImageText}
+                        </p>
                         <video
                           src={item?.video}
                           controls
-                          className="h-[400px] w-full object-cover"
+                          className={`h-[400px] w-full object-cover ${
+                            item?.video === "" || (!item?.video && "hidden")
+                          }`}
                         ></video>
+                        <img
+                          src={item?.photo}
+                          alt={item?.photo}
+                          className={`h-[400px] w-full object-cover ${
+                            item?.photo === "" || (!item?.photo && "hidden")
+                          }`}
+                        />
                       </div>
                     </Card>
-                  </div>
-                ))
-              : ""}
-          </div>
-          {/* text get display */}
-          <div className="pt-2 space-y-2">
-            {getText ? (
-              getText.map((item, i) => (
-                <div key={i} className="">
-                  <Card>
-                    <div className="grid grid-cols-2">
-                      <div className="flex">
-                        <img
-                          src={item?.Image}
-                          alt={item?.Image}
-                          referrerPolicy="no-referrer"
-                          className="w-10 h-10 rounded-full mx-2"
-                        />
-                        <div>
-                          <p className="font-bold ">{item?.user}</p>
-                          <p>
-                            post:
-                            {new Date(item?.time).toLocaleString({
-                              timeZone: "Asia/Dhaka",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex justify-end">
-                        <p>...</p>
-                        <Button
-                          variant="gost"
-                          className="cursor-pointer"
-                          onClick={() => handleTextDelete(item?._id)}
-                        >
-                          ❌
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="p-3 h-96 flex flex-col justify-center items-center font-bold text-2xl border-2 bg-gradient-to-r from-blue-500 to-green-500 text-white">
-                      <p>{item?.text}</p>
-                    </div>
-                    
-                  </Card>
-                </div>
-              ))
-            ) : (
-              <p className="text-xl font-bold animate-ping h-full flex items-center justify-center min-h-[50vh]">
-                Help Desk
-              </p>
-            )}
-          </div>
-          {/* get image display */}
-          <div className="pt-2 space-y-2">
-            {getImage?.map((item, i) => (
-              <div key={i} className="">
-                <Card>
-                  <div className="grid grid-cols-2">
-                    <div className="flex">
-                      <img
-                        src={item?.Image}
-                        alt={item?.Image}
-                        referrerPolicy="no-referrer"
-                        className="w-10 h-10 rounded-full mx-2"
-                      />
-                      <div>
-                        <p className="font-bold ">{item?.user}</p>
-                        <p>
-                          post:
-                          {new Date(item?.time).toLocaleString({
-                            timeZone: "Asia/Dhaka",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex justify-end">
-                      <p>...</p>
-                      <Button
-                        variant="gost"
-                        className="cursor-pointer"
-                        onClick={() => handleTextDelete(item?._id)}
-                      >
-                        ❌
+                    <div className="py-2 flex justify-between items-center">
+                      <Button size="sm" variant="gost">
+                        <BiLike />
+                        Like
+                      </Button>
+                      <Button size="sm" variant="gost">
+                        <FaRegComment /> comment
+                      </Button>
+                      <Button size="sm" variant="gost">
+                        <FaShare /> Share
                       </Button>
                     </div>
                   </div>
-                  <div className="">
-                    <p className="px-5 pb-2">{item?.text}</p>
-                    <img
-                      src={item?.photo}
-                      className="h-96 w-full object-cover"
-                    />
-                  </div>
-                </Card>
-              </div>
-            ))}
+                ))
+              : ""}
           </div>
         </div>
         <div className="bg-pink-200 col-span-4">hello</div>
