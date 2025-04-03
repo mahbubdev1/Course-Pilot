@@ -1,146 +1,101 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedin,
-} from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   const pathname = usePathname();
-  if (
-    !pathname.includes("Login") &&
-    !pathname.includes("SignUp") &&
-    !pathname.includes("student-dashbord") &&
-    !pathname.includes("instructor-dashbord") &&
-    !pathname.includes("admin-dashbord") &&
-    !pathname.includes("components/helpdesk")
-  ) {
-    return (
-      <footer className="py-10 mt-10 text-white bg-[#264D3F]">
-        <div className="container mx-auto px-6 lg:px-8">
-          {/* Company Info */}
+  
+  // List of paths where footer should be hidden
+  const hiddenPaths = [
+    "Login",
+    "SignUp",
+    "student-dashbord",
+    "instructor-dashbord",
+    "admin-dashbord",
+    "components/helpdesk"
+  ];
+
+  // Check if current path should hide footer
+  if (hiddenPaths.some(path => pathname.includes(path))) {
+    return null;
+  }
+
+  return (
+    <footer className="py-10 mt-10 text-white bg-[#264D3F]">
+      <div className="container mx-auto px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          
+          {/* Company Information Section */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex flex-col items-start space-x-2">
-              <div>
-                <img src="/assats/footer-logo.png" alt="logo" />
-              </div>
+            <div>
+              <img src="/assats/footer-logo.png" alt="CoursePilot Logo" />
             </div>
-            <p className="">
+            <p className="text-gray-300">
               Empowering education with AI-driven personalized learning.
             </p>
-          </div>
-          <div className="grid lg:grid-cols-4 grid-cols-2 gap-8 py-10">
-            {/* Services */}
-            <div>
-              <h6 className="text-lg font-semibold mb-3">Courses</h6>
-              <ul className="space-y-2 ">
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Web Development
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Data Science
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Machine Learning
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    UI/UX Design
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h6 className="text-lg font-semibold mb-3">Resources</h6>
-              <ul className="space-y-2 ">
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Webinars
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Community
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Support
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h6 className="text-lg font-semibold mb-3">Support</h6>
-              <ul className="space-y-2 ">
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    FAQs
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Help Center
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary">
-                    Terms of Service
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h6 className="text-lg font-semibold mb-3">Follow Us</h6>
-              <div className="flex md:flex-col gap-3 text-white">
-                <a href="#" className="hover:text-blue-600">
-                  <FaFacebookF size={20} />
-                </a>
-                <a href="#" className="hover:text-blue-400">
-                  <FaTwitter size={20} />
-                </a>
-                <a href="#" className="hover:text-red-500">
-                  <FaInstagram size={20} />
-                </a>
-                <a href="#" className="hover:text-black">
-                  <FaLinkedin size={20} />
-                </a>
-              </div>
+            <div className="flex space-x-4 mt-6">
+              <a href="#" className="text-gray-300 hover:text-blue-600 transition-colors">
+                <FaFacebookF size={20} />
+              </a>
+              <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
+                <FaTwitter size={20} />
+              </a>
+              <a href="#" className="text-gray-300 hover:text-red-500 transition-colors">
+                <FaInstagram size={20} />
+              </a>
+              <a href="#" className="text-gray-300 hover:text-blue-700 transition-colors">
+                <FaLinkedin size={20} />
+              </a>
             </div>
           </div>
 
-          <div className="border-t border-white mt-6 pt-6 text-center  text-sm">
-            &copy; {new Date().getFullYear()} CoursePilot. All rights reserved.
+          {/* Courses Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Courses</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Data Science</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Machine Learning</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
+            </ul>
+          </div>
+
+          {/* Resources Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Webinars</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Support</a></li>
+            </ul>
+          </div>
+
+          {/* Support Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Support</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">FAQs</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+            </ul>
           </div>
         </div>
-      </footer>
-    );
-  } else {
-    return <></>;
-  }
+
+        {/* Footer Bottom Section */}
+        <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} CoursePilot. All rights reserved.
+          </p>
+          <img 
+            src="https://nonacademy.net/_next/image?url=%2Fimages%2Fpayment.png&w=640&q=75" 
+            alt="Payment Methods" 
+            className="h-8 object-contain"
+          />
+        </div>
+      </div>
+    </footer>
+  );
 }
