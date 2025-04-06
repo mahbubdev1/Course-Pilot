@@ -16,12 +16,30 @@ const CoursePage = () => {
   useEffect(() => {
     axiosPublic.get('/student-course')
       .then(result => {
-        const foundCourse = result.data.find(c => 
+        const foundCourse = result.data.find(c =>
           c.courseTitle.toLowerCase().replace(/\s+/g, '-') === courseSlug
         );
         setCourse(foundCourse);
       });
   }, [courseSlug]);
+
+  useEffect(() => {
+    const savedProgress = JSON.parse(localStorage.getItem(`progress-${courseSlug}`));
+    if (savedProgress) {
+      setWatchedVideos(savedProgress.watchedVideos || []);
+      setShowCertificate(savedProgress.completed || false);
+    }
+  }, [courseSlug]);
+
+  useEffect(() => {
+    if (course) {
+      localStorage.setItem(`progress-${courseSlug}`, JSON.stringify({
+        watchedVideos,
+        completed: showCertificate,
+      }));
+    }
+  }, [watchedVideos, showCertificate]);
+
 
   console.log(watchedVideos);
 
@@ -81,11 +99,11 @@ const CoursePage = () => {
           <div className="lg:w-1/4">
             <div className="bg-white rounded-lg shadow-md p-4 mb-4">
               <h2 className="text-xl font-bold mb-4">{course.courseTitle}</h2>
-              
+
               <div className="mb-4">
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div 
-                    className="bg-blue-600 h-2.5 rounded-full" 
+                  <div
+                    className="bg-blue-600 h-2.5 rounded-full"
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
@@ -94,7 +112,7 @@ const CoursePage = () => {
 
               <div className="space-y-2">
                 {course.video.map((video, index) => (
-                  <div 
+                  <div
                     key={index}
                     className={`p-2 rounded cursor-pointer ${currentVideoIndex === index ? 'bg-blue-100' : ''} ${watchedVideos.includes(index) ? 'text-green-600' : ''}`}
                     onClick={() => setCurrentVideoIndex(index)}
@@ -133,7 +151,7 @@ const CoursePage = () => {
                 >
                   Previous
                 </button>
-                
+
                 <button
                   onClick={handleNextVideo}
                   disabled={allVideosWatched && currentVideoIndex === course.video.length - 1}
@@ -147,7 +165,7 @@ const CoursePage = () => {
             <div className="mt-6 bg-white rounded-lg shadow-md p-6">
               <h3 className="text-xl font-bold mb-4">About This Course</h3>
               <p className="text-gray-700">{course.description}</p>
-              
+
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="font-semibold">Course Level</h4>
