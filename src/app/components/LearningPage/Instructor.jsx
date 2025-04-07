@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaFacebook,
   FaTwitter,
@@ -9,6 +9,8 @@ import {
   FaChevronUp,
   FaChevronDown,
 } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Instructor = () => {
   const [showAll, setShowAll] = useState(false);
@@ -16,6 +18,14 @@ const Instructor = () => {
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
 
   return (
     <div className="container mx-auto my-20">
@@ -27,11 +37,14 @@ const Instructor = () => {
       {/* First 6 Instructors */}
       <div className="flex flex-wrap gap-6 mb-8">
         {/* Instructor 1 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co/zHRJ71nt/images-8.jpg"
             alt="Instructor"
-            className="w-48 h-48 rounded-lg  transition-all duration-300 ease-in-out transform hover:scale-105"
+            className="w-48 h-48 rounded-lg transition-all duration-300 ease-in-out transform hover:scale-105"
           />
           <div className="flex flex-1 justify-between items-center">
             <div className="space-y-4">
@@ -43,7 +56,7 @@ const Instructor = () => {
             </div>
             <div className="flex lg:flex-row flex-col gap-4 text-emerald-500 text-lg">
               <FaFacebook className="group relative flex items-center justify-center w-8 h-8 text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:-translate-y-2" />
-              <FaTwitter className="group relative flex items-center justify-center  w-8 h-8 text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:-translate-y-2" />
+              <FaTwitter className="group relative flex items-center justify-center w-8 h-8 text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:-translate-y-2" />
               <FaLinkedin className="group relative flex items-center justify-center w-8 h-8 text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:-translate-y-2" />
               <FaInstagram className="group relative flex items-center justify-center w-8 h-8 text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-white hover:-translate-y-2" />
             </div>
@@ -51,7 +64,10 @@ const Instructor = () => {
         </div>
 
         {/* Instructor 2 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co.com/VWMHMF5J/download-4.jpg"
             alt="Instructor"
@@ -75,7 +91,10 @@ const Instructor = () => {
         </div>
 
         {/* Instructor 3 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co.com/4ZSfBHMX/download-2.jpg"
             alt="Instructor"
@@ -99,7 +118,10 @@ const Instructor = () => {
         </div>
 
         {/* Instructor 4 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co.com/Z6G2kDS5/images-13.jpg"
             alt="Instructor"
@@ -123,7 +145,10 @@ const Instructor = () => {
         </div>
 
         {/* Instructor 5 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co.com/4w3gMrTd/download-7.jpg"
             alt="Instructor"
@@ -147,7 +172,10 @@ const Instructor = () => {
         </div>
 
         {/* Instructor 6 */}
-        <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+        <div
+          className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+          data-aos="fade-up"
+        >
           <img
             src="https://i.ibb.co.com/Hf2FdW9Y/download-8.jpg"
             alt="Instructor"
@@ -174,7 +202,10 @@ const Instructor = () => {
         {showAll && (
           <>
             {/* Instructor 7 */}
-            <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+            <div
+              className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+              data-aos="fade-up"
+            >
               <img
                 src="https://i.ibb.co.com/3yn4xmqx/download-6.jpg"
                 alt="Instructor"
@@ -198,7 +229,10 @@ const Instructor = () => {
             </div>
 
             {/* Instructor 8 */}
-            <div className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]">
+            <div
+              className="bg-white shadow-md border-2 rounded-lg p-5 flex items-center hover:-translate-y-4 hover:shadow-lg transition-all duration-300 gap-6 w-full md:w-[calc(50%-12px)]"
+              data-aos="fade-up"
+            >
               <img
                 src="https://i.ibb.co.com/hxJfrD5Q/images-12.jpg"
                 alt="Instructor"
