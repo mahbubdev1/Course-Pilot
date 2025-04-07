@@ -12,6 +12,8 @@ import { IoMdPhotos } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { IoImages } from "react-icons/io5";
+import { FaRegComment } from "react-icons/fa6";
+import { FaShare } from "react-icons/fa";
 
 import {
   Dialog,
@@ -21,7 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 //theme import
@@ -34,15 +36,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LikeButton from "./LikeButton";
+import { BiLike } from "react-icons/bi";
+import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
+import { AiFillLike } from "react-icons/ai";
 
 export default function HelpDesk() {
   const { setTheme } = useTheme();
   const [photo, setPhoto] = useState();
   const [video, setVideo] = useState();
   const [uploading, setUploading] = useState(false);
-  const [getVideo, setGetVideo] = useState();
-  const [getText, setGetTaxt] = useState();
-  const [getImage, setGetImiage] = useState();
+  const [Data, setData] = useState();
   const [videoOpen, setVideoOpen] = useState(false);
   const [openImage, setOpenImage] = useState(false);
   const [TextOpem, setTextOpem] = useState(false);
@@ -55,8 +59,11 @@ export default function HelpDesk() {
       <Link href={""}>
         <MdOutlineOndemandVideo size={20} />
       </Link>
-      <Link href={""}>
+      <Link href={""} className="relative">
         <IoMdNotifications size={20} />
+        <span className="absolute -right-3 -top-3 bg-red-500 px-2 in-dark:text-black rounded-full">
+          {Data?.length}
+        </span>
       </Link>
       <Link href={""}>
         <BsMessenger size={20} />
@@ -64,7 +71,7 @@ export default function HelpDesk() {
     </div>
   );
   const { user } = useAuth();
-
+  const axiosPublic = useAxiosPublic();
   // IMage cloudornay upload
 
   const imageCloude = async (e) => {
@@ -88,50 +95,17 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const photoURl = uploadData.secure_url;
     setPhoto(photoURl);
-    setUploading(false); // Upload done
+    setUploading(false);
 
     console.log("Uploaded Image URL:", photoURl);
   };
 
-  //mongodb image post api
-  const handaleImageUpload = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const imageText = form.imageText.value;
-    console.log(imageText);
-
-    const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
-      text: imageText,
-      photo: photo,
-      time: new Date(),
-    };
-    try {
-      const res = await fetch(`http://localhost:9000/imageupload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postInfo),
-      });
-      const data = await res.json();
-      toast.success("Successfully Posted");
-      setOpenImage(false);
-      // console.log(data);
-    } catch (error) {
-      toast.error("Post Failed", error);
-    }
-  };
-
-  //
   // Video Cloudornary Upload
   const VideoClaoud = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setUploading(true); // Start uploading
+    setUploading(true);
 
     const data = new FormData();
     data.append("file", file);
@@ -149,60 +123,31 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const videoURL = uploadData.secure_url;
     setVideo(videoURL);
-    setUploading(false); // Upload done
+    setUploading(false);
   };
-  //sierver side video upload
-  const handaleVideoUpload = async (e) => {
+
+  const handalUpload = async (e) => {
     e.preventDefault();
+    // Ensure e.target is a form
     const form = e.target;
-    const videoText = form.videoText.value;
+    const text = form.elements.text?.value.trim() || "";
+    const imageText = form.elements.imageText?.value.trim() || "";
+    const videoText = form.elements.videoText?.value.trim() || "";
 
     const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
-      text: videoText,
+      user: user?.name || "Anonymous",
+      Image: user?.image || "",
+      email: user?.email || "",
+      photo: photo,
       video: video,
-      time: new Date(),
-    };
-
-    try {
-      const res = await fetch(`http://localhost:9000/videoUpload`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postInfo),
-      });
-
-      const data = await res.json();
-      toast.success("Successfully Posted");
-      setVideoOpen(false);
-    } catch (error) {
-      toast.error("Post Failed", error);
-    }
-  };
-
-  // text post api
-  const handalTextUpload = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const text = form.text.value;
-
-    if (!text) {
-      return toast.error("Input Field required! Please type here");
-    }
-
-    const postInfo = {
-      user: user?.name,
-      Image: user?.image,
-      email: user?.email,
       text: text,
-      time: new Date(),
+      ImageText: imageText,
+      VideoText: videoText,
+      time: new Date().toISOString(),
     };
 
     try {
-      const res = await fetch(`http://localhost:9000/textUpload`, {
+      const res = await fetch(`http://localhost:5000/Upload`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,56 +155,40 @@ export default function HelpDesk() {
         body: JSON.stringify(postInfo),
       });
 
+      if (!res.ok) {
+        throw new Error("Failed to upload post.");
+      }
+
       const data = await res.json();
-      toast.success("Successfully Posted");
-      setTextOpem(false);
+      console.log(data);
+      if (data?.insertedId) {
+        toast.success("Successfully Posted");
+        setTextOpem(false);
+        setOpenImage(false);
+        setVideoOpen(false);
+        form.reset();
+        setPhoto("");
+        setVideo("");
+      }
     } catch (error) {
-      toast.error("Post Failed", error);
+      toast.error(`Post Failed: ${error.message}`);
     }
   };
 
-  //text post get api
-  fetch("http://localhost:9000/text")
-    .then((res) => res.json())
-    .then((data) => {
-      setGetTaxt(data);
-    });
-  //text post delete api
-  const handleTextDelete = (id) => {
-    // console.log(id);
-    try {
-      fetch(`http://localhost:9000/textDelete/${id}`, {
-        method: "DELETE",
-      }).then((res) =>
-        res.json().then((data) => {
-          console.log(data);
-          toast.success("post Delete Succesfully");
-        })
-      );
-    } catch (error) {
-      toast.error("post Delete Failed");
-    }
-  };
-  //image get api
-  fetch("http://localhost:9000/gatImage")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      setGetImiage(data);
-    });
+  //get api
+  useEffect(() => {
+    fetch("http://localhost:5000/postData")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setData(data);
+      });
+  }, [Data]);
 
-  //vodeo get api
-  fetch("http://localhost:9000/video")
-    .then((res) => res.json())
-    .then((data) => {
-      setGetVideo(data);
-      console.log(data);
-    });
-
-  // vidoe delete api
-  const handleVideoDelete = (id) => {
+  // delete api
+  const handleDelete = (id) => {
     try {
-      fetch(`http://localhost:9000/videoDelete/${id}`, {
+      fetch(`http://localhost:5000/postDelete/${id}`, {
         method: "DELETE",
       }).then((res) =>
         res.json().then((data) => {
@@ -271,6 +200,29 @@ export default function HelpDesk() {
       toast.error("Video Delete Failed");
     }
   };
+
+  // update like api
+  const handaleLike = async (id) => {
+    try {
+      const res = await axiosPublic.put(`/update/${id}`, {
+        userId: user?.email,
+      });
+
+      const updatedData = Data.map((post) =>
+        post._id === id
+          ? {
+              ...post,
+              like: res.data.like,
+              likedBy: res.data.likedBy,
+            }
+          : post
+      );
+      setData(updatedData);
+    } catch (error) {
+      toast.error("You already liked this!");
+    }
+  };
+
   return (
     <div className="">
       <div className="shadow-md backdrop-blur-2xl border-b-2 bg-white dark:bg-gray-900">
@@ -325,15 +277,8 @@ export default function HelpDesk() {
           </div>
         </nav>
       </div>
-      <div className="grid grid-cols-12 min-h-screen">
-        <div className="col-span-4">
-          <div>
-            <Button>
-            
-            </Button>
-          </div>
-        </div>
-        <div className=" col-span-4 p-2 overflow-y-scroll">
+      <div className="w-full max-w-5xl mx-auto">
+        <div className="p-2">
           {/* text video and photo input filed */}
           <Card>
             <div className="flex items-center justify-center space-x-3">
@@ -375,7 +320,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handalTextUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex flex-col items-center justify-center pt-2">
                         <Textarea
                           name="text"
@@ -423,7 +368,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handaleImageUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex items-center justify-center mt-3 ">
                         <Textarea
                           type="text"
@@ -497,7 +442,7 @@ export default function HelpDesk() {
                         <br /> public
                       </p>
                     </div>
-                    <form onSubmit={handaleVideoUpload}>
+                    <form onSubmit={handalUpload}>
                       <div className="flex items-center justify-center mt-3 ">
                         <Textarea
                           type="text"
@@ -544,61 +489,13 @@ export default function HelpDesk() {
               </Dialog>
             </div>
           </Card>
-          {/* video get display */}
+          {/* Data get display */}
           <div className="mt-2 space-y-2">
-            {getVideo
-              ? getVideo.map((item, i) => (
-                  <div key={i} className="">
-                    <Card>
-                      <div className="grid grid-cols-2">
-                        <div className="flex">
-                          <img
-                            src={item?.Image}
-                            alt={item?.Image}
-                            referrerPolicy="no-referrer"
-                            className="w-10 h-10 rounded-full mx-2"
-                          />
-                          <div>
-                            <p className="font-bold ">{item?.user}</p>
-                            <p>
-                              post:
-                              {new Date(item?.time).toLocaleString({
-                                timeZone: "Asia/Dhaka",
-                              })}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex justify-end">
-                          <p>...</p>
-                          <Button
-                            variant="gost"
-                            className="cursor-pointer"
-                            onClick={() => handleVideoDelete(item?._id)}
-                          >
-                            ❌
-                          </Button>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="px-5 pb-2">{item?.text}</p>
-                        <video
-                          src={item?.video}
-                          controls
-                          className="h-[400px] w-full object-cover"
-                        ></video>
-                      </div>
-                    </Card>
-                  </div>
-                ))
-              : ""}
-          </div>
-          {/* text get display */}
-          <div className="pt-2 space-y-2">
-            {getText ? (
-              getText.map((item, i) => (
+            {Data ? (
+              Data.map((item, i) => (
                 <div key={i} className="">
                   <Card>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 px-3">
                       <div className="flex">
                         <img
                           src={item?.Image}
@@ -618,75 +515,110 @@ export default function HelpDesk() {
                       </div>
                       <div className="flex justify-end">
                         <p>...</p>
-                        <Button
-                          variant="gost"
-                          className="cursor-pointer"
-                          onClick={() => handleTextDelete(item?._id)}
-                        >
-                          ❌
-                        </Button>
+                        {item?.email === user?.email && (
+                          <Button
+                            variant="gost"
+                            className="cursor-pointer"
+                            onClick={() => handleDelete(item?._id)}
+                          >
+                            ❌
+                          </Button>
+                        )}
                       </div>
                     </div>
-                    <div className="p-3 h-96 flex flex-col justify-center items-center font-bold text-2xl border-2 bg-gradient-to-r from-blue-500 to-green-500 text-white">
-                      <p>{item?.text}</p>
+                    <div>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.text === "" || (!item?.text && "hidden")
+                        }`}
+                      >
+                        {item?.text}
+                      </p>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.VideoText === "" ||
+                          (!item?.VideoText && "hidden")
+                        }`}
+                      >
+                        {item?.VideoText}
+                      </p>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.ImageText === "" ||
+                          (!item?.ImageText && "hidden")
+                        }`}
+                      >
+                        {item?.ImageText}
+                      </p>
+                      <video
+                        src={item?.video}
+                        controls
+                        className={`h-[400px] w-full object-cover ${
+                          item?.video === "" || (!item?.video && "hidden")
+                        }`}
+                      ></video>
+                      <img
+                        src={item?.photo}
+                        alt={item?.photo}
+                        className={`h-[400px] w-full object-cover ${
+                          item?.photo === "" || (!item?.photo && "hidden")
+                        }`}
+                      />
                     </div>
-                    
+                    <div className="flex justify-between items-center px-5">
+                      {/* <LikeButton item={item} /> */}
+                      {/* <Button
+                        onClick={() => handaleLike(item._id)}
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
+                        <p className="mr-1">{item?.like}</p>
+                        {item?.like ? (
+                          <AiFillLike size={20} className="text-blue-600" />
+                        ) : (
+                          <BiLike size={20} />
+                        )}
+                        <span className="ml-1">Like</span>
+                      </Button> */}
+
+                      <Button
+                        onClick={() => handaleLike(item._id)}
+                        variant="ghost"
+                        className="cursor-pointer"
+                      >
+                        <p className="mr-1">{item?.like || 0}</p>
+                        {item?.likedBy?.includes(user?.email) ? (
+                          <AiFillLike size={20} className="text-blue-600" />
+                        ) : (
+                          <BiLike size={20} />
+                        )}
+                        <span className="ml-1">Like</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
+                        <FaRegComment /> comment
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
+                        <FaShare /> Share
+                      </Button>
+                    </div>
                   </Card>
                 </div>
               ))
             ) : (
-              <p className="text-xl font-bold animate-ping h-full flex items-center justify-center min-h-[50vh]">
+              <p className="text-3xl font-bold animate-ping flex flex-col justify-center items-center min-h-96">
                 Help Desk
               </p>
             )}
           </div>
-          {/* get image display */}
-          <div className="pt-2 space-y-2">
-            {getImage?.map((item, i) => (
-              <div key={i} className="">
-                <Card>
-                  <div className="grid grid-cols-2">
-                    <div className="flex">
-                      <img
-                        src={item?.Image}
-                        alt={item?.Image}
-                        referrerPolicy="no-referrer"
-                        className="w-10 h-10 rounded-full mx-2"
-                      />
-                      <div>
-                        <p className="font-bold ">{item?.user}</p>
-                        <p>
-                          post:
-                          {new Date(item?.time).toLocaleString({
-                            timeZone: "Asia/Dhaka",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex justify-end">
-                      <p>...</p>
-                      <Button
-                        variant="gost"
-                        className="cursor-pointer"
-                        onClick={() => handleTextDelete(item?._id)}
-                      >
-                        ❌
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="">
-                    <p className="px-5 pb-2">{item?.text}</p>
-                    <img
-                      src={item?.photo}
-                      className="h-96 w-full object-cover"
-                    />
-                  </div>
-                </Card>
-              </div>
-            ))}
-          </div>
         </div>
-        <div className="bg-pink-200 col-span-4">hello</div>
       </div>
     </div>
   );
