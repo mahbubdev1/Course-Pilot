@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 const HeroSection = () => {
   return (
@@ -55,12 +56,12 @@ const HeroSection = () => {
           </div>
           {/* Price Section */}
           <div className="flex items-center space-x-3">
-            <p className="text-gray-400 line-through text-xl">$14.88</p>
-            <p className="text-white font-bold text-2xl">$6.38</p>
+            <p className="text-gray-400 line-through text-xl">$70.88</p>
+            <p className="text-white font-bold text-2xl">$60.38</p>
           </div>
-
-          <button className="bg-emerald-500 hover:bg-black text-white font-semibold py-4 px-6 rounded-full transition duration-300">
-            Enroll now Courses
+          <button className="bg-emerald-500 hover:bg-black text-white font-semibold py-4 px-6 rounded-full transition duration-300 flex items-center space-x-2">
+            <span>Enroll now Courses</span>
+            <FaArrowRight />
           </button>
         </div>
 
@@ -80,7 +81,7 @@ const HeroSection = () => {
             <img
               src="https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=600"
               alt="Student holding books"
-              className="w-72 h-72 object-cover rounded-full border-4 border-white shadow-lg"
+              className="w-72 h-72 hidden sm:block md:block object-cover rounded-full border-4 border-white shadow-lg"
             />
           </div>
 
