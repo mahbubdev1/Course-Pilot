@@ -12,7 +12,6 @@ import { IoMdPhotos } from "react-icons/io";
 import { FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { IoImages } from "react-icons/io5";
-import { BiLike } from "react-icons/bi";
 import { FaRegComment } from "react-icons/fa6";
 import { FaShare } from "react-icons/fa";
 
@@ -24,7 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 //theme import
@@ -37,6 +36,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LikeButton from "./LikeButton";
+import { BiLike } from "react-icons/bi";
+import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
+import { AiFillLike } from "react-icons/ai";
 
 export default function HelpDesk() {
   const { setTheme } = useTheme();
@@ -56,8 +59,11 @@ export default function HelpDesk() {
       <Link href={""}>
         <MdOutlineOndemandVideo size={20} />
       </Link>
-      <Link href={""}>
+      <Link href={""} className="relative">
         <IoMdNotifications size={20} />
+        <span className="absolute -right-3 -top-3 bg-red-500 px-2 in-dark:text-black rounded-full">
+          {Data?.length}
+        </span>
       </Link>
       <Link href={""}>
         <BsMessenger size={20} />
@@ -65,7 +71,7 @@ export default function HelpDesk() {
     </div>
   );
   const { user } = useAuth();
-
+  const axiosPublic = useAxiosPublic();
   // IMage cloudornay upload
 
   const imageCloude = async (e) => {
@@ -89,50 +95,17 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const photoURl = uploadData.secure_url;
     setPhoto(photoURl);
-    setUploading(false); // Upload done
+    setUploading(false);
 
     console.log("Uploaded Image URL:", photoURl);
   };
 
-  //mongodb image post api
-  // const handaleImageUpload = async (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const imageText = form.imageText.value;
-  //   console.log(imageText);
-
-  //   const postInfo = {
-  //     user: user?.name,
-  //     Image: user?.image,
-  //     email: user?.email,
-  //     text: imageText,
-  //     photo: photo,
-  //     time: new Date(),
-  //   };
-  //   try {
-  //     const res = await fetch(`http://localhost:9000/imageupload`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(postInfo),
-  //     });
-  //     const data = await res.json();
-  //     toast.success("Successfully Posted");
-  //     setOpenImage(false);
-  //     // console.log(data);
-  //   } catch (error) {
-  //     toast.error("Post Failed", error);
-  //   }
-  // };
-
-  //
   // Video Cloudornary Upload
   const VideoClaoud = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    setUploading(true); // Start uploading
+    setUploading(true);
 
     const data = new FormData();
     data.append("file", file);
@@ -150,12 +123,11 @@ export default function HelpDesk() {
     const uploadData = await res.json();
     const videoURL = uploadData.secure_url;
     setVideo(videoURL);
-    setUploading(false); // Upload done
+    setUploading(false);
   };
 
   const handalUpload = async (e) => {
     e.preventDefault();
-
     // Ensure e.target is a form
     const form = e.target;
     const text = form.elements.text?.value.trim() || "";
@@ -175,7 +147,7 @@ export default function HelpDesk() {
     };
 
     try {
-      const res = await fetch(`http://localhost:9000/Upload`, {
+      const res = await fetch(`http://localhost:5000/Upload`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -188,28 +160,35 @@ export default function HelpDesk() {
       }
 
       const data = await res.json();
-      toast.success("Successfully Posted");
-      setTextOpem(false);
-      setOpenImage(false);
-      setVideoOpen(false);
+      console.log(data);
+      if (data?.insertedId) {
+        toast.success("Successfully Posted");
+        setTextOpem(false);
+        setOpenImage(false);
+        setVideoOpen(false);
+        form.reset();
+        setPhoto("");
+        setVideo("");
+      }
     } catch (error) {
       toast.error(`Post Failed: ${error.message}`);
     }
   };
 
-  //vodeo get api
-  fetch("http://localhost:9000/postData")
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
+  //get api
+  useEffect(() => {
+    fetch("http://localhost:5000/postData")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data);
+        setData(data);
+      });
+  }, [Data]);
 
-      setData(data);
-    });
-
-  // vidoe delete api
-  const handleVideoDelete = (id) => {
+  // delete api
+  const handleDelete = (id) => {
     try {
-      fetch(`http://localhost:9000/postDelete/${id}`, {
+      fetch(`http://localhost:5000/postDelete/${id}`, {
         method: "DELETE",
       }).then((res) =>
         res.json().then((data) => {
@@ -221,6 +200,29 @@ export default function HelpDesk() {
       toast.error("Video Delete Failed");
     }
   };
+
+  // update like api
+  const handaleLike = async (id) => {
+    try {
+      const res = await axiosPublic.put(`/update/${id}`, {
+        userId: user?.email,
+      });
+
+      const updatedData = Data.map((post) =>
+        post._id === id
+          ? {
+              ...post,
+              like: res.data.like,
+              likedBy: res.data.likedBy,
+            }
+          : post
+      );
+      setData(updatedData);
+    } catch (error) {
+      toast.error("You already liked this!");
+    }
+  };
+
   return (
     <div className="">
       <div className="shadow-md backdrop-blur-2xl border-b-2 bg-white dark:bg-gray-900">
@@ -275,13 +277,8 @@ export default function HelpDesk() {
           </div>
         </nav>
       </div>
-      <div className="grid grid-cols-12 min-h-screen">
-        <div className="col-span-4">
-          <div>
-            <Button></Button>
-          </div>
-        </div>
-        <div className=" col-span-4 p-2 overflow-y-scroll">
+      <div className="w-full max-w-5xl mx-auto">
+        <div className="p-2">
           {/* text video and photo input filed */}
           <Card>
             <div className="flex items-center justify-center space-x-3">
@@ -494,97 +491,134 @@ export default function HelpDesk() {
           </Card>
           {/* Data get display */}
           <div className="mt-2 space-y-2">
-            {Data
-              ? Data.map((item, i) => (
-                  <div key={i} className="">
-                    <Card>
-                      <div className="grid grid-cols-2">
-                        <div className="flex">
-                          <img
-                            src={item?.Image}
-                            alt={item?.Image}
-                            referrerPolicy="no-referrer"
-                            className="w-10 h-10 rounded-full mx-2"
-                          />
-                          <div>
-                            <p className="font-bold ">{item?.user}</p>
-                            <p>
-                              post:
-                              {new Date(item?.time).toLocaleString({
-                                timeZone: "Asia/Dhaka",
-                              })}
-                            </p>
-                          </div>
+            {Data ? (
+              Data.map((item, i) => (
+                <div key={i} className="">
+                  <Card>
+                    <div className="grid grid-cols-2 px-3">
+                      <div className="flex">
+                        <img
+                          src={item?.Image}
+                          alt={item?.Image}
+                          referrerPolicy="no-referrer"
+                          className="w-10 h-10 rounded-full mx-2"
+                        />
+                        <div>
+                          <p className="font-bold ">{item?.user}</p>
+                          <p>
+                            post:
+                            {new Date(item?.time).toLocaleString({
+                              timeZone: "Asia/Dhaka",
+                            })}
+                          </p>
                         </div>
-                        <div className="flex justify-end">
-                          <p>...</p>
+                      </div>
+                      <div className="flex justify-end">
+                        <p>...</p>
+                        {item?.email === user?.email && (
                           <Button
                             variant="gost"
                             className="cursor-pointer"
-                            onClick={() => handleVideoDelete(item?._id)}
+                            onClick={() => handleDelete(item?._id)}
                           >
                             ❌
                           </Button>
-                        </div>
+                        )}
                       </div>
-                      <div>
-                        <p
-                          className={`px-5 pb-2 ${
-                            item?.text === "" || (!item?.text && "hidden")
-                          }`}
-                        >
-                          {item?.text}
-                        </p>
-                        <p
-                          className={`px-5 pb-2 ${
-                            item?.VideoText === "" ||
-                            (!item?.VideoText && "hidden")
-                          }`}
-                        >
-                          {item?.VideoText}
-                        </p>
-                        <p
-                          className={`px-5 pb-2 ${
-                            item?.ImageText === "" ||
-                            (!item?.ImageText && "hidden")
-                          }`}
-                        >
-                          {item?.ImageText}
-                        </p>
-                        <video
-                          src={item?.video}
-                          controls
-                          className={`h-[400px] w-full object-cover ${
-                            item?.video === "" || (!item?.video && "hidden")
-                          }`}
-                        ></video>
-                        <img
-                          src={item?.photo}
-                          alt={item?.photo}
-                          className={`h-[400px] w-full object-cover ${
-                            item?.photo === "" || (!item?.photo && "hidden")
-                          }`}
-                        />
-                      </div>
-                    </Card>
-                    <div className="py-2 flex justify-between items-center">
-                      <Button size="sm" variant="gost">
-                        <BiLike />
-                        Like
+                    </div>
+                    <div>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.text === "" || (!item?.text && "hidden")
+                        }`}
+                      >
+                        {item?.text}
+                      </p>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.VideoText === "" ||
+                          (!item?.VideoText && "hidden")
+                        }`}
+                      >
+                        {item?.VideoText}
+                      </p>
+                      <p
+                        className={`px-5 pb-2 ${
+                          item?.ImageText === "" ||
+                          (!item?.ImageText && "hidden")
+                        }`}
+                      >
+                        {item?.ImageText}
+                      </p>
+                      <video
+                        src={item?.video}
+                        controls
+                        className={`h-[400px] w-full object-cover ${
+                          item?.video === "" || (!item?.video && "hidden")
+                        }`}
+                      ></video>
+                      <img
+                        src={item?.photo}
+                        alt={item?.photo}
+                        className={`h-[400px] w-full object-cover ${
+                          item?.photo === "" || (!item?.photo && "hidden")
+                        }`}
+                      />
+                    </div>
+                    <div className="flex justify-between items-center px-5">
+                      {/* <LikeButton item={item} /> */}
+                      {/* <Button
+                        onClick={() => handaleLike(item._id)}
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
+                        <p className="mr-1">{item?.like}</p>
+                        {item?.like ? (
+                          <AiFillLike size={20} className="text-blue-600" />
+                        ) : (
+                          <BiLike size={20} />
+                        )}
+                        <span className="ml-1">Like</span>
+                      </Button> */}
+
+                      <Button
+                        onClick={() => handaleLike(item._id)}
+                        variant="ghost"
+                        className="cursor-pointer"
+                      >
+                        <p className="mr-1">{item?.like || 0}</p>
+                        {item?.likedBy?.includes(user?.email) ? (
+                          <AiFillLike size={20} className="text-blue-600" />
+                        ) : (
+                          <BiLike size={20} />
+                        )}
+                        <span className="ml-1">Like</span>
                       </Button>
-                      <Button size="sm" variant="gost">
+                      <Button
+                        size="sm"
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
                         <FaRegComment /> comment
                       </Button>
-                      <Button size="sm" variant="gost">
+                      <Button
+                        size="sm"
+                        variant="gost"
+                        className="cursor-pointer"
+                      >
                         <FaShare /> Share
                       </Button>
                     </div>
-                  </div>
-                ))
-              : ""}
+                  </Card>
+                </div>
+              ))
+            ) : (
+              <p className="text-3xl font-bold animate-ping flex flex-col justify-center items-center min-h-96">
+                Help Desk
+              </p>
+            )}
           </div>
         </div>
-        <div className="bg-pink-200 col-span-4">hello</div>
       </div>
     </div>
   );
