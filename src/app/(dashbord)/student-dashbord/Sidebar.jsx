@@ -13,7 +13,8 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
 import { MdTv } from "react-icons/md";
-import { IoIosAddCircle, IoIosPaper } from "react-icons/io"; // New icons
+import { IoIosAddCircle, IoIosPaper } from "react-icons/io";
+import { GrCertificate } from "react-icons/gr";
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const router = useRouter(); // check the current active route
@@ -151,6 +152,14 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           >
             <IoIosPaper className="text-gray-600" />
             <Link href="/policies">Policies</Link>
+          </li>
+          <li
+            className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
+              router.pathname === "/policies" ? "bg-purple-200" : ""
+            }`}
+          >
+            <GrCertificate className="text-gray-600" />
+            <Link href="/student-dashbord/certificate">Certificate</Link>
           </li>
 
           <li
