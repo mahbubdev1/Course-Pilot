@@ -105,6 +105,7 @@ const AddCourse = () => {
       email: user?.email,
       video: video,
       image: photo,
+      certificateStatus: 'pending'
     }
     axios.post('http://localhost:5000/student-course', courseData)
       .then(result => {
