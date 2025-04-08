@@ -24,6 +24,9 @@ const CoursePage = () => {
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [editingNote, setEditingNote] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
 
   console.log(course);
 
@@ -172,7 +175,37 @@ const CoursePage = () => {
       });
   };
 
+  const handleEditNote = (note, id) => {
+    setEditingNote(note);
+    setEditTitle(note.title);
+    setEditDescription(note.description);
+  };
 
+  const handleUpdateNote = (e) => {
+    e.preventDefault();
+    if (!editTitle.trim()) return toast.error('Please Add Your Notes Title');
+
+    const updatedNote = {
+      title: editTitle,
+      description: editDescription,
+      date: new Date().toLocaleDateString()
+    };
+
+    axiosPublic.patch(`/notes/${editingNote._id}`, updatedNote)
+      .then(result => {
+        if (result.data.modifiedCount) {
+          toast.success('Note updated successfully!');
+          setNotes(notes.map(note =>
+            note._id === editingNote._id ? { ...note, ...updatedNote } : note
+          ));
+          setEditingNote(null);
+        }
+      })
+      .catch(error => {
+        toast.error('Failed to update note');
+        console.error(error);
+      });
+  };
 
   const handleDeleteNote = (id) => {
     Swal.fire({
@@ -359,60 +392,71 @@ const CoursePage = () => {
               </h2>
 
               {/* Notes Form */}
-              <form onSubmit={(e) => handleSaveNote(e, course?.courseTitle)} className="mt-4 space-y-3">
+              <form onSubmit={editingNote ? handleUpdateNote : handleSaveNote} className="mt-4 space-y-3">
                 <input
                   type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={editingNote ? editTitle : title}
+                  onChange={(e) => editingNote ? setEditTitle(e.target.value) : setTitle(e.target.value)}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
                   placeholder="Note Title (e.g., Important Tips)"
                   required
                 />
                 <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={editingNote ? editDescription : description}
+                  onChange={(e) => editingNote ? setEditDescription(e.target.value) : setDescription(e.target.value)}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
                   placeholder="Write your note here..."
                   rows="3"
                 />
-                <button
-                  type="submit"
-                  className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                >
-                  Save Note
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                  >
+                    {editingNote ? 'Update Note' : 'Save Note'}
+                  </button>
+                  {editingNote && (
+                    <button
+                      type="button"
+                      onClick={() => setEditingNote(null)}
+                      className="px-4 py-2 cursor-pointer bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
               </form>
 
               {/* Save Notes Show*/}
               <div className="mt-6">
                 <h2 className="text-2xl font-medium">Your Notes</h2>
               </div>
-              <div className="mt-2 space-y-4">
+              {/* Notes List */}
+              <div className="mt-6 space-y-4">
                 {notes.length > 0 ? (
-                  notes.map((note) => (
-                    <div key={note._id} className="p-4 border rounded-lg bg-gray-50">
+                  notes.map((note, idx) => (
+                    <div key={idx} className="p-4 border rounded-lg bg-gray-50">
                       <div className="flex justify-between items-start">
-                        <h3 className="font-bold text-xl">{note.title}</h3>
+                        <h3 className="font-bold text-lg">{note.title}</h3>
                         <div className="flex space-x-2">
                           <button
-                            onClick={() => handleDeleteNote(note._id)}
-                            className="p-2 text-red-500 hover:text-white hover:bg-red-500 rounded-full transition"
-                            title="Delete Note"
-                          >
-                            <FaTrash size={18} />
-                          </button>
-                          <button
-                            // onClick={() => handleEditNote(note.id)}
-                            className="p-2 text-blue-500 hover:text-white hover:bg-blue-500 rounded-full transition"
+                            onClick={() => handleEditNote(note)}
+                            className="p-2 text-blue-500 cursor-pointer hover:text-white hover:bg-blue-500 rounded-full transition"
                             title="Edit Note"
                           >
                             <FaEdit size={20} />
                           </button>
+                          <button
+                            onClick={() => handleDeleteNote(note._id)}
+                            className="p-2 text-red-500 cursor-pointer hover:text-white hover:bg-red-500 rounded-full transition"
+                            title="Delete Note"
+                          >
+                            <FaTrash size={18} />
+                          </button>
                         </div>
-
                       </div>
-                      <p className="mt-2 text-gray-600 text-base">{note.description}</p>
-                      <p className="mt-2.5 text-gray-400 text-base">Last Modified: {note.date}</p>
+                      <p className="mt-2 text-gray-600">{note.description}</p>
+                      <p className="mt-1 text-sm text-gray-400">{note.date}</p>
                     </div>
                   ))
                 ) : (
