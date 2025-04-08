@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import certificateLogo from '../../../../../../public/assats/certificateLogo.png'
+import { CgNotes } from "react-icons/cg";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const CoursePage = () => {
   const axiosPublic = useAxiosPublic();
@@ -18,6 +21,11 @@ const CoursePage = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [watchedVideos, setWatchedVideos] = useState([]);
   const [showCertificate, setShowCertificate] = useState(false);
+  const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  console.log(course);
 
   useEffect(() => {
     axiosPublic.get('/student-course')
@@ -45,6 +53,18 @@ const CoursePage = () => {
       }));
     }
   }, [watchedVideos, showCertificate, course, courseSlug]);
+
+  useEffect(() => {
+    if (course?.courseTitle) {
+      axiosPublic.get(`/notes/${course.courseTitle}/${currentVideoIndex}`)
+        .then(result => {
+          setNotes(result.data);
+        })
+        .catch(error => {
+          console.error("Error loading notes:", error);
+        });
+    }
+  }, [course?.courseTitle, currentVideoIndex, axiosPublic]);
 
   const handleVideoEnd = () => {
     if (!watchedVideos.includes(currentVideoIndex)) {
@@ -83,9 +103,9 @@ const CoursePage = () => {
 
   const handleCertificateClick = async (id) => {
     try {
-      axiosPublic.patch(`/student-courses/${id}`, {certificateStatus: 'approve'})
+      axiosPublic.patch(`/student-courses/${id}`, { certificateStatus: 'approve' })
       const element = document.getElementById('capture');
-      
+
       // Wait for images to load
       const images = element.getElementsByTagName('img');
       const imageLoadPromises = Array.from(images).map(img => {
@@ -106,7 +126,7 @@ const CoursePage = () => {
           'opacity': '1'
         }
       });
-      
+
       saveAs(blob, `${course.courseTitle}-certificate.png`);
     } catch (error) {
       toast.error('Failed to generate certificate');
@@ -119,8 +139,63 @@ const CoursePage = () => {
   const progress = watchedVideos.length > 0
     ? Math.floor((watchedVideos.length / course.video.length) * 100)
     : 0;
-  
+
   const allVideosWatched = watchedVideos.length === course.video.length;
+
+  // Notes Functionality
+
+  const handleSaveNote = (e) => {
+    e.preventDefault();
+    if (!title.trim()) return toast.error('Please Add Your Notes Title');
+
+    const newNote = {
+      title,
+      description,
+      coursesTitle: course.courseTitle,
+      videoIndex: currentVideoIndex,
+      userId: user?.uid,
+      date: new Date().toLocaleDateString()
+    };
+
+    axiosPublic.post('/notes', newNote)
+      .then(result => {
+        if (result.data.insertedId) {
+          toast.success('Note saved successfully!');
+          setNotes([...notes, { ...newNote, id: result.data.insertedId }]);
+          setTitle("");
+          setDescription("");
+        }
+      })
+      .catch(error => {
+        toast.error('Failed to save note');
+        console.error(error);
+      });
+  };
+
+
+
+  const handleDeleteNote = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosPublic.delete(`/notes/${id}`)
+          .then(response => {
+            if (response.data.deletedCount) {
+              setNotes(notes.filter(note => note._id !== id));
+              Swal.fire("Deleted!", "Your course has been deleted.", "success");
+            }
+          })
+          .catch(error => console.error("Error deleting course:", error));
+      }
+    });
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -160,8 +235,8 @@ const CoursePage = () => {
                   <p className="text-sm text-gray-600">Instructor</p>
                 </div>
                 <div className="text-center mt-12">
-                  <Image 
-                    src={certificateLogo} 
+                  <Image
+                    src={certificateLogo}
                     alt="Certificate Logo"
                     width={50}
                     height={50}
@@ -213,11 +288,9 @@ const CoursePage = () => {
                 {course.video.map((video, index) => (
                   <div
                     key={index}
-                    className={`p-2 rounded cursor-pointer flex items-center ${
-                      currentVideoIndex === index ? 'bg-blue-100' : ''
-                    } ${
-                      watchedVideos.includes(index) ? 'text-green-600' : 'text-gray-700'
-                    }`}
+                    className={`p-2 rounded cursor-pointer flex items-center ${currentVideoIndex === index ? 'bg-blue-100' : ''
+                      } ${watchedVideos.includes(index) ? 'text-green-600' : 'text-gray-700'
+                      }`}
                     onClick={() => setCurrentVideoIndex(index)}
                   >
                     <span>Video {index + 1}</span>
@@ -249,11 +322,10 @@ const CoursePage = () => {
                 <button
                   onClick={handlePrevVideo}
                   disabled={currentVideoIndex === 0}
-                  className={`px-4 py-2 rounded ${
-                    currentVideoIndex === 0 
-                      ? 'bg-gray-300 cursor-not-allowed' 
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
+                  className={`px-4 py-2 rounded ${currentVideoIndex === 0
+                    ? 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
                 >
                   Previous
                 </button>
@@ -265,13 +337,12 @@ const CoursePage = () => {
                       : handleNextVideo
                   }
                   disabled={currentVideoIndex === course.video.length - 1 && !allVideosWatched}
-                  className={`px-4 py-2 rounded cursor-pointer ${
-                    currentVideoIndex === course.video.length - 1
-                      ? allVideosWatched
-                        ? 'bg-green-600 text-white hover:bg-green-700'
-                        : 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
+                  className={`px-4 py-2 rounded cursor-pointer ${currentVideoIndex === course.video.length - 1
+                    ? allVideosWatched
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-gray-300 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                    }`}
                 >
                   {currentVideoIndex === course.video.length - 1
                     ? allVideosWatched
@@ -279,6 +350,74 @@ const CoursePage = () => {
                       : 'Complete Course'
                     : 'Next'}
                 </button>
+              </div>
+            </div>
+
+            <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+              <h2 className="flex items-center gap-2 text-2xl font-semibold">
+                <CgNotes className="text-blue-500" /> Add Notes
+              </h2>
+
+              {/* Notes Form */}
+              <form onSubmit={(e) => handleSaveNote(e, course?.courseTitle)} className="mt-4 space-y-3">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
+                  placeholder="Note Title (e.g., Important Tips)"
+                  required
+                />
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
+                  placeholder="Write your note here..."
+                  rows="3"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                >
+                  Save Note
+                </button>
+              </form>
+
+              {/* Save Notes Show*/}
+              <div className="mt-6">
+                <h2 className="text-2xl font-medium">Your Notes</h2>
+              </div>
+              <div className="mt-2 space-y-4">
+                {notes.length > 0 ? (
+                  notes.map((note) => (
+                    <div key={note._id} className="p-4 border rounded-lg bg-gray-50">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-bold text-xl">{note.title}</h3>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleDeleteNote(note._id)}
+                            className="p-2 text-red-500 hover:text-white hover:bg-red-500 rounded-full transition"
+                            title="Delete Note"
+                          >
+                            <FaTrash size={18} />
+                          </button>
+                          <button
+                            // onClick={() => handleEditNote(note.id)}
+                            className="p-2 text-blue-500 hover:text-white hover:bg-blue-500 rounded-full transition"
+                            title="Edit Note"
+                          >
+                            <FaEdit size={20} />
+                          </button>
+                        </div>
+
+                      </div>
+                      <p className="mt-2 text-gray-600 text-base">{note.description}</p>
+                      <p className="mt-2.5 text-gray-400 text-base">Last Modified: {note.date}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500 py-4">No notes saved yet!</p>
+                )}
               </div>
             </div>
 
