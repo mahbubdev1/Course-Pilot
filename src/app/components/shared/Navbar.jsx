@@ -89,7 +89,8 @@ export default function Navbar() {
     !pathname.includes("student-dashbord") &&
     !pathname.includes("instructor-dashbord") &&
     !pathname.includes("admin-dashbord") &&
-    !pathname.includes("components/helpdesk")
+    !pathname.includes("components/helpdesk") &&
+    !pathname.includes("components/aisupport")
   ) {
     return (
       <nav

@@ -1,179 +1,295 @@
-// "use client";
-// import { useState } from "react";
-// import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { FaLocationArrow } from "react-icons/fa6";
-
-// export default function Chatbot() {
-//   const [messages, setMessages] = useState([
-//     { text: "Hi! How can I help you?", sender: "bot" },
-//   ]);
-//   const [input, setInput] = useState("");
-
-//   const API_URL = "https://api-inference.huggingface.co/models/gpt2";
-//   const API_KEY = process.env.NEXT_PUBLIC_GPT_2_API_KEY;
-
-//   const sendMessage = async () => {
-//     if (!input.trim()) return;
-
-//     const newMessages = [...messages, { text: input, sender: "user" }];
-//     setMessages(newMessages);
-//     setInput("");
-
-//     // Add "Analyzing" message before making the API request
-//     setMessages((prevMessages) => [
-//       ...prevMessages,
-//       { text: "😇Analyzing...", sender: "bot" },
-//     ]);
-
-//     try {
-//       const response = await fetch(API_URL, {
-//         method: "POST",
-//         headers: {
-//           Authorization: `Bearer ${API_KEY}`,
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ inputs: input }),
-//       });
-
-//       const data = await response.json();
-//       const botReply =
-//         data[0]?.generated_text || "Sorry, I didn't understand that.";
-
-//       // Replace "Analyzing" with the actual bot reply
-//       setMessages([...newMessages, { text: botReply, sender: "bot" }]);
-//     } catch (error) {
-//       setMessages([
-//         ...newMessages,
-//         { text: "⚠️ API Error! Try again later.", sender: "bot" },
-//       ]);
-//     }
-//   };
-
-//   return (
-//     <div className="flex flex-col items-center p-4 min-h-screen justify-center mt-16">
-//       <Card className="w-full max-w-7xl">
-//         <CardHeader>
-//           <CardTitle className="text-center text-2xl ">
-//             Chatbot ‍Support
-//           </CardTitle>
-//         </CardHeader>
-//         <CardContent>
-//           <div className="xl:h-[600px] lg:h-[400px] md:h-[400px] max-sm:h-[400px] overflow-y-auto rounded p-4  space-y-2">
-//             {messages.map((msg, index) => (
-//               <div
-//                 key={index}
-//                 className={`p-2 rounded-lg ${
-//                   msg.sender === "user"
-//                     ? "bg-blue-500 text-white text-right ml-auto"
-//                     : "in-dark:bg-gray-800 in-dark:text-white bg-gray-200 text-left mr-auto"
-//                 } w-fit max-w-[80%]`}
-//               >
-//                 {msg.text}
-//               </div>
-//             ))}
-//           </div>
-//           <div className="flex gap-2 mt-4">
-//             <Input
-//               value={input}
-//               onChange={(e) => setInput(e.target.value)}
-//               placeholder="Type your message..."
-//               className="flex-1"
-//             />
-//             <Button
-//               onClick={sendMessage}
-//               className="in-dark:bg-white bg-blue-500"
-//             >
-//               <FaLocationArrow />
-//             </Button>
-//           </div>
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// }
-
-
-
+// app/page.js
 "use client";
-import { useState } from "react";
-import axios from "axios";
-import { Button, Input, Card, CardContent, Text } from "@shadcn/ui";
-import { useNavigate } from "next/navigation"; // Importing from next/navigation
-import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
+import { useState, useRef, useEffect } from "react";
+import { format } from "date-fns";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Send,
+  Bot,
+  User,
+  Globe,
+  Book,
+  Calculator,
+  Atom,
+  Music,
+  Code,
+  HeartPulse,
+} from "lucide-react";
 
-export default function ChatBot() {
+export default function UniversalChatbot() {
   const [input, setInput] = useState("");
-  const [chat, setChat] = useState([]);
-  const axiosPublic = useAxiosPublic();
-  const navigate = useNavigate(); // Now using navigate instead of useRouter
+  const [messages, setMessages] = useState([
+    {
+      id: "1",
+      text: "হ্যালো! আমি আপনার AI সহায়ক। আপনি আমাকে যেকোনো বিষয়ে প্রশ্ন করতে পারেন - ACCA, বিজ্ঞান, প্রযুক্তি, স্বাস্থ্য, শিল্পকলা বা অন্য কোনো বিষয়।",
+      sender: "bot",
+      timestamp: new Date(),
+    },
+  ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  // Initialize Gemini
+  const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
 
-    const userMessage = { sender: "You", text: input };ok 
-    setChat([...chat, userMessage]);
-
-    try {
-      const res = await axiosPublic.post("/api/chat", { message: input });
-      const botMessage = { sender: "Bot", text: res.data.reply };
-      setChat((prev) => [...prev, botMessage]);
-    } catch (error) {
-      setChat((prev) => [
-        ...prev,
-        { sender: "Bot", text: "Something went wrong. Please try again." },
-      ]);
-    }
-
-    setInput("");
+  // Auto-scroll to bottom
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Get AI response
+  const getAIResponse = async (userMessage) => {
+    try {
+      const prompt = `
+      আপনি একজন বহুভাষী AI সহায়ক যিনি যেকোনো বিষয়ে কথা বলতে পারেন। ব্যবহারকারীকে সাহায্য করতে এই নির্দেশাবলী অনুসরণ করুন:
+
+      ১. ভাষা:
+         - বাংলা প্রশ্নের বাংলা উত্তর দিন
+         - ইংরেজি প্রশ্নের ইংরেজি উত্তর দিন
+         - উত্তর পরিষ্কার এবং বোধগম্য করুন
+
+      ২. বিষয়বস্তু:
+         - ACCA সম্পর্কিত প্রশ্নের জন্য বিশেষজ্ঞের মত উত্তর দিন
+         - অন্যান্য বিষয়ে সাধারণ জ্ঞান ভিত্তিক উত্তর দিন
+         - ভুল তথ্য দেবেন না
+         - উত্তর ৩০০ শব্দের মধ্যে সীমিত রাখুন
+
+      ৩. টোন:
+         - বন্ধুত্বপূর্ণ কিন্তু পেশাদার
+         - জটিল বিষয় সহজভাবে ব্যাখ্যা করুন
+
+      ব্যবহারকারীর প্রশ্ন: "${userMessage}"
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error("AI error:", error);
+      return "দুঃখিত, আমি এখন উত্তর দিতে পারছি না। পরে আবার চেষ্টা করুন।";
+    }
+  };
+
+  // Handle sending message
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    // Add user message
+    const userMessage = {
+      id: Date.now().toString(),
+      text: input,
+      sender: "user",
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      // Get AI response
+      const aiResponse = await getAIResponse(input);
+
+      // Add bot message
+      const botMessage = {
+        id: (Date.now() + 1).toString(),
+        text: aiResponse,
+        sender: "bot",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error("Error:", error);
+      const errorMessage = {
+        id: (Date.now() + 1).toString(),
+        text: "ত্রুটি হয়েছে। আবার চেষ্টা করুন",
+        sender: "bot",
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Quick question suggestions by category
+  const quickQuestions = [
+    {
+      category: "ACCA",
+      icon: <Calculator size={16} />,
+      questions: [
+        { text: "ACCA পরীক্ষার ফি", question: "ACCA পরীক্ষার ফি কত?" },
+        { text: "ACCA সিলেবাস", question: "ACCA সিলেবাসে কি কি বিষয় আছে?" },
+      ],
+    },
+    {
+      category: "বিজ্ঞান",
+      icon: <Atom size={16} />,
+      questions: [
+        { text: "কোয়ান্টাম কম্পিউটিং", question: "কোয়ান্টাম কম্পিউটিং কি?" },
+        { text: "জিন এডিটিং", question: "CRISPR জিন এডিটিং কিভাবে কাজ করে?" },
+      ],
+    },
+    {
+      category: "প্রযুক্তি",
+      icon: <Code size={16} />,
+      questions: [
+        {
+          text: "AI ভবিষ্যৎ",
+          question: "AI ভবিষ্যতে চাকরির বাজার কেমন পরিবর্তন আনবে?",
+        },
+        { text: "ব্লকচেইন", question: "ব্লকচেইন টেকনোলজি কিভাবে কাজ করে?" },
+      ],
+    },
+    {
+      category: "স্বাস্থ্য",
+      icon: <HeartPulse size={16} />,
+      questions: [
+        { text: "ডায়াবেটিস", question: "ডায়াবেটিস নিয়ন্ত্রণের উপায় কি?" },
+        { text: "মানসিক স্বাস্থ্য", question: "মানসিক চাপ কমাতে কি করা উচিত?" },
+      ],
+    },
+    {
+      category: "শিল্পকলা",
+      icon: <Music size={16} />,
+      questions: [
+        {
+          text: "চিত্রশিল্প",
+          question: "বিখ্যাত চিত্রশিল্পী ভিনসেন্ট ভ্যান গগ সম্পর্কে বলুন",
+        },
+        { text: "সঙ্গীত", question: "রবীন্দ্র সঙ্গীতের বৈশিষ্ট্য কি?" },
+      ],
+    },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <div className="w-full max-w-xl p-6">
-        <Card className="shadow-lg bg-gray-800 rounded-lg">
-          <CardContent>
-            <h1 className="text-3xl text-center font-bold mb-6">
-              🤖 OpenAI ChatBot
-            </h1>
-            <div className="h-96 overflow-y-auto p-4 bg-gray-700 rounded-lg">
-              {chat.map((msg, idx) => (
-                <div key={idx} className="mb-4">
-                  <Text
-                    className={`font-semibold ${
-                      msg.sender === "You" ? "text-right" : "text-left"
+    <div className="h-screen">
+      <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col p-4 space-y-4">
+        {/* Header */}
+        <Card className="border-none shadow-sm">
+          <CardHeader className="flex flex-row items-center space-x-3 space-y-0">
+            <Avatar>
+              <AvatarImage src="/ai-assistant.png" />
+              <AvatarFallback>AI</AvatarFallback>
+            </Avatar>
+            <CardTitle>সর্ব বিষয়ক AI সহায়ক</CardTitle>
+          </CardHeader>
+        </Card>
+
+        {/* Quick Questions by Category */}
+        <div className="flex gap-3 flex-wrap  space-4">
+          {quickQuestions.map((category, index) => (
+            <div key={index} className="space-y-2">
+              <div className="flex items-center gap-2 text-sm font-medium">
+                {category.icon}
+                <span>{category.category}</span>
+              </div>
+              <div className="flex gap-2">
+                {category.questions.map((q, qIndex) => (
+                  <Button
+                    key={qIndex}
+                    variant="outline"
+                    className="rounded-full gap-2"
+                    onClick={() => setInput(q.question)}
+                  >
+                    {q.text}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Chat Messages */}
+        <Card className="flex-1 overflow-hidden">
+          <CardContent className="h-full p-4 overflow-y-auto">
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${
+                    message.sender === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-xs md:max-w-md rounded-lg p-3 flex items-start gap-2 ${
+                      message.sender === "user"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-secondary-foreground"
                     }`}
                   >
-                    {msg.sender}:
-                  </Text>
-                  <Text
-                    className={`text-lg ${
-                      msg.sender === "You" ? "text-right" : "text-left"
-                    }`}
-                  >
-                    {msg.text}
-                  </Text>
+                    {message.sender === "bot" ? (
+                      <Bot className="flex-shrink-0 mt-1" size={18} />
+                    ) : (
+                      <User className="flex-shrink-0 mt-1" size={18} />
+                    )}
+                    <div>
+                      <p className="whitespace-pre-line">{message.text}</p>
+                      <p className="text-xs opacity-70 mt-1">
+                        {format(message.timestamp, "h:mm a")}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))}
+
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-secondary text-secondary-foreground rounded-lg p-3 flex items-center gap-2">
+                    <Bot className="animate-pulse" size={18} />
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></div>
+                      <div
+                        className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                        style={{ animationDelay: "0.2s" }}
+                      ></div>
+                      <div
+                        className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+                        style={{ animationDelay: "0.4s" }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-            <form onSubmit={sendMessage} className="flex gap-2 mt-4">
+          </CardContent>
+
+          {/* Input Area */}
+          <CardFooter className="border-t p-4">
+            <form onSubmit={handleSend} className="flex w-full gap-2">
               <Input
-                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask something..."
-                className="flex-1 p-3 rounded-md bg-gray-600 text-white"
+                placeholder="যেকোনো বিষয়ে জিজ্ঞাসা করুন..."
+                disabled={isLoading}
+                className="flex-1"
               />
               <Button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md"
+                disabled={isLoading || !input.trim()}
+                size="icon"
               >
-                Send
+                <Send size={18} />
               </Button>
             </form>
-          </CardContent>
+          </CardFooter>
         </Card>
       </div>
     </div>
