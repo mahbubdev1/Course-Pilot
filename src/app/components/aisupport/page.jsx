@@ -181,7 +181,7 @@ export default function UniversalChatbot() {
 
   return (
     <div className="h-screen">
-      <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col p-4 space-y-4">
+      <div className="w-full max-w-4xl mx-auto flex-1 flex flex-col p-4 space-y-4 ">
         {/* Header */}
         <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-row items-center space-x-3 space-y-0">
@@ -199,7 +199,7 @@ export default function UniversalChatbot() {
         </Card>
 
         {/* Quick Questions by Category */}
-        <div className="flex gap-3 flex-wrap  space-4">
+        <div className="flex flex-wrap space-4 w-full max-w-4xl pt-20">
           {quickQuestions.map((category, index) => (
             <div key={index} className="space-y-2">
               <div className="flex items-center gap-2 text-sm font-medium">
