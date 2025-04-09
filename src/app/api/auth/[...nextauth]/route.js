@@ -36,7 +36,7 @@ const handler = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
-          const response = await axiosPublic.get(`/users?email=${email}`);
+          const response = await axiosPublic.get(`/users/${email}`);
           const user = response.data;
           console.log(user.password);
           if (!user) {
@@ -58,6 +58,23 @@ const handler = NextAuth({
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
   pages: { signIn: "/" },
+  callbacks: {
+    async session({ session }) {
+      if (session?.user?.email) {
+        try {
+          const response = await axiosPublic.get(
+            `/users/${session.user.email}`
+          );
+          const updatedUser = response.data;
+
+          session.user.image = updatedUser?.image || session.user.image;
+        } catch (error) {
+          console.log("Error fetching updated user image:", error);
+        }
+      }
+      return session;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
