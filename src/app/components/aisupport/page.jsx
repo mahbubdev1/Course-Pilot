@@ -25,6 +25,7 @@ import {
   Code,
   HeartPulse,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function UniversalChatbot() {
   const [input, setInput] = useState("");
@@ -184,6 +185,11 @@ export default function UniversalChatbot() {
         {/* Header */}
         <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-row items-center space-x-3 space-y-0">
+            <Link href="/">
+              <Button variant="outline" size="sm" className="cursor-pointer">
+                Back To Home
+              </Button>
+            </Link>
             <Avatar>
               <AvatarImage src="/ai-assistant.png" />
               <AvatarFallback>AI</AvatarFallback>
