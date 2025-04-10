@@ -5,43 +5,65 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const YourModule = () => {
   const axiosPublic = useAxiosPublic();
   const [courses, setCourses] = useState([]);
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsReady(true);
-      axiosPublic.get('/student-course')
-        .then(result => {
-          const coursesWithProgress = result?.data?.map(course => {
-            // localStorage To Data Get
+
+      const fetchUserCourses = async () => {
+        try {
+
+          // Step 2: Get all successful payment of this user
+          const paymentRes = await axiosPublic.get(`/payments?email=${user?.email}`);
+          const successfulPayments = paymentRes.data.filter(p => p.status === "Success");
+
+          // Step 3: Get all courseIds from successful payments
+          const purchasedCourseIds = successfulPayments.map(p => p.courseId);
+
+          // Step 4: Get all courses
+          const courseRes = await axiosPublic.get('/student-course');
+          const allCourses = courseRes.data;
+
+          // Step 5: Filter only purchased courses
+          const userCourses = allCourses.filter(course =>
+            purchasedCourseIds.includes(course._id)
+          );
+
+          // Step 6: Add progress data
+          const coursesWithProgress = userCourses.map(course => {
             const courseSlug = course.courseTitle.toLowerCase().replace(/\s+/g, '-');
             const savedProgress = JSON.parse(localStorage.getItem(`progress-${courseSlug}`));
-            
-            // Progress Calculator
             let progress = 0;
             if (savedProgress) {
               const watchedCount = savedProgress.watchedVideos?.length || 0;
               const totalVideos = course.video?.length || 1;
               progress = Math.floor((watchedCount / totalVideos) * 100);
             }
-            
             return {
               ...course,
-              progress: progress || course.progress || 0
+              progress: progress || 0,
             };
           });
-          setCourses(coursesWithProgress || []);
-        })
-        .catch(error => {
-          console.error("Error fetching courses:", error);
-        });
+
+          setCourses(coursesWithProgress);
+
+        } catch (error) {
+          console.error("Error fetching user courses:", error);
+        }
+      };
+
+      fetchUserCourses();
     }
   }, []);
+
 
   if (!isReady) {
     return (
@@ -76,12 +98,12 @@ const YourModule = () => {
                 <span>{course.courseType === 'live' ? 'Live Class' : 'Recorded'}</span>
                 <span>{course.duration} hours</span>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div 
-                    className="bg-blue-600 h-2.5 rounded-full" 
+                  <div
+                    className="bg-blue-600 h-2.5 rounded-full"
                     style={{ width: `${course.progress}%` }}
                   ></div>
                 </div>

@@ -7,13 +7,14 @@ import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 
 const Page = () => {
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -41,6 +42,7 @@ const Page = () => {
         ...data,
         courseId: course._id,
         price: course.price,
+        email: user?.email
       }),
     })
       .then((res) => res.json())
