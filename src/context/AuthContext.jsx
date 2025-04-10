@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
   const socketRef = useRef(null);
 
   console.log(selectedImg);
-
+  const { data: session, status } = useSession();
+  // console.log(session?.user);
   const axiosPublic = useAxiosPublic();
   // find user from bd
   const findUser = async (email) => {
@@ -37,6 +38,12 @@ export const AuthProvider = ({ children }) => {
 
   const handleUserCollection = async (user) => {
     if (!user?.email) return;
+  const handleUserCollection = async () => {
+    //  check user
+    const user = await session?.user;
+    const { email } = user;
+    // console.log(email);
+    const isUserExist = await axiosPublic.get(`/users?email=${email}`);
 
     try {
       const response = await axiosPublic.post("/users", user);

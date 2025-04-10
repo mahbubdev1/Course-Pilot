@@ -19,7 +19,7 @@ const HomePage = () => {
         <CoursePlatform></CoursePlatform>
         <Review />
         <PopularInsights></PopularInsights>
-        {/* <StatsSection /> */}
+        <StatsSection />
         <StudentSuccessStories></StudentSuccessStories>
         <Achievement />
         <TestimonialSection></TestimonialSection>
