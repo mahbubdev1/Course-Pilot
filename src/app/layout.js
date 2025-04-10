@@ -1,8 +1,11 @@
+import { AuthProvider } from "@/context/AuthContext";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "./components/shared/Navbar";
+import { ToastContainer } from "react-toastify";
+import SessionWrapper from "./components/SessionWrapper";
 import Footer from "./components/shared/Footer";
-
+import Navbar from "./components/shared/Navbar";
+import "./globals.css";
+import { ThemeProvider } from "next-themes";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,14 +23,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar></Navbar>
-        {children}
-        <Footer></Footer>
-      </body>
+    <html lang="en" className="light" style={{ colorScheme: 'light' }}>
+      <SessionWrapper>
+        <AuthProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <Navbar></Navbar>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+            <ToastContainer></ToastContainer>
+            <Footer></Footer>
+          </body>
+        </AuthProvider>
+      </SessionWrapper>
     </html>
   );
 }

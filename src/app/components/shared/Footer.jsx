@@ -1,139 +1,99 @@
 "use client";
 
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedin,
-} from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
+  const pathname = usePathname();
+  
+  // List of paths where footer should be hidden
+  const hiddenPaths = [
+    "Login",
+    "SignUp",
+    "student-dashbord",
+    "instructor-dashbord",
+    "admin-dashboard",
+    "components/helpdesk"
+  ];
+
+  // Check if current path should hide footer
+  if (hiddenPaths.some(path => pathname.includes(path))) {
+    return null;
+  }
+
   return (
-    <footer className="bg-gray-900 text-white py-10 mt-10">
+    <footer className="py-10 mt-10 text-white bg-[#264D3F]">
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="grid grid-cols-1 justify-items-end md:grid-cols-5 gap-8 py-10">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <svg
-                width="50"
-                height="50"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="text-primary"
-              >
-                <path d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z"></path>
-              </svg>
-              <h2 className="text-xl font-bold">CoursePilot</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          
+          {/* Company Information Section */}
+          <div className="md:col-span-2 space-y-4">
+            <div>
+              <img src="/assats/footer-logo.png" alt="CoursePilot Logo" />
             </div>
-            <p className="text-gray-400">
+            <p className="text-gray-300">
               Empowering education with AI-driven personalized learning.
             </p>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h6 className="text-lg font-semibold mb-3">Courses</h6>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Web Development
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Data Science
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Machine Learning
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  UI/UX Design
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h6 className="text-lg font-semibold mb-3">Resources</h6>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Webinars
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Community
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Support
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h6 className="text-lg font-semibold mb-3">Support</h6>
-            <ul className="space-y-2 text-gray-400">
-              <li>
-                <a href="#" className="hover:text-primary">
-                  FAQs
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Help Center
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary">
-                  Terms of Service
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Social Links */}
-          <div>
-            <h6 className="text-lg font-semibold mb-3">Follow Us</h6>
-            <div className="flex flex-col gap-3 items-center text-primary">
-              <a href="#" className="hover:text-blue-600">
+            <div className="flex space-x-4 mt-6">
+              <a href="#" className="text-gray-300 hover:text-blue-600 transition-colors">
                 <FaFacebookF size={20} />
               </a>
-              <a href="#" className="hover:text-blue-400">
+              <a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
                 <FaTwitter size={20} />
               </a>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="text-gray-300 hover:text-red-500 transition-colors">
                 <FaInstagram size={20} />
               </a>
-              <a href="#" className="hover:text-black">
+              <a href="#" className="text-gray-300 hover:text-blue-700 transition-colors">
                 <FaLinkedin size={20} />
               </a>
             </div>
           </div>
+
+          {/* Courses Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Courses</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Data Science</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Machine Learning</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
+            </ul>
+          </div>
+
+          {/* Resources Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Resources</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Webinars</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Support</a></li>
+            </ul>
+          </div>
+
+          {/* Support Links Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Support</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li><a href="#" className="hover:text-white transition-colors">FAQs</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+            </ul>
+          </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400 text-sm">
-          &copy; {new Date().getFullYear()} CoursePilot. All rights reserved.
+        {/* Footer Bottom Section */}
+        <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-400 text-sm mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} CoursePilot. All rights reserved.
+          </p>
+          <img 
+            src="https://nonacademy.net/_next/image?url=%2Fimages%2Fpayment.png&w=640&q=75" 
+            alt="Payment Methods" 
+            className="h-8 object-contain"
+          />
         </div>
       </div>
     </footer>
