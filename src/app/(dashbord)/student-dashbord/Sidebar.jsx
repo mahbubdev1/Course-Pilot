@@ -14,9 +14,8 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Image from "next/image";
-import { MdTv } from "react-icons/md";
+import { MdCalculate, MdCalendarToday, MdNote, MdTv } from "react-icons/md";
 import { IoIosAddCircle, IoIosPaper } from "react-icons/io";
-import { MdCalculate, MdCalendarToday, MdTv } from "react-icons/md";
 import { IoIosAddCircle, IoIosPaper } from "react-icons/io";
 import { GrCertificate } from "react-icons/gr";
 
@@ -225,6 +224,18 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           >
             <MdCalendarToday className="text-gray-600" />
             <Link href="/student-dashbord/Calendar">My Calendar</Link>
+          </li>
+
+          {/* My Notes */}
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+              router.pathname === "/student-dashbord/Notes"
+                ? "bg-purple-200"
+                : ""
+            }`}
+          >
+            <MdNote className="text-gray-600" />
+            <Link href="/student-dashbord/Notes">Notes</Link>
           </li>
 
           <li
