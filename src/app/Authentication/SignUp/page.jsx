@@ -34,21 +34,18 @@ const RegisterPage = () => {
     const { name, email, password } = formData;
     console.log(name, email, password);
     //  check user
-    const isUserExist = await axiosPublic.get(`/users?email=${email}`);
 
     // POST  user
 
-    if (!isUserExist?.data) {
-      const res = await axiosPublic.post("/users", formData);
-      console.log(res);
-      if (res?.data?.insertedId) {
-        const form = e.target;
-        form.reset();
-        // window.location.href = "/dashboard";
-        router.push("/Authentication/Login");
-      } else {
-        console.log("User registration failed");
-      }
+    const res = await axiosPublic.post("/users", formData);
+    console.log(res);
+    if (res?.data?.insertedId) {
+      const form = e.target;
+      form.reset();
+      // window.location.href = "/dashboard";
+      router.push("/Authentication/Login");
+    } else {
+      console.log("User registration failed");
     }
   };
   useEffect(() => {

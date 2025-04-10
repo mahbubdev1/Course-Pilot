@@ -1,16 +1,15 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
-import useAxiosPublic from "../axios/hooks/useAxiosPublic";
-const axiosPublic = useAxiosPublic();
+import { useRouter } from "next/navigation";
 
 export default function LoginButton() {
+  const router = useRouter();
   const { data: session } = useSession();
-
+  console.log(" from login button session", session);
   const handleProviderSignIn = async (provider) => {
     try {
-      const res = await signIn(provider);
-      console.log("res", res);
-      // { callbackUrl: "/" }
+      const res = await signIn(provider, { callbackUrl: "/" });
+      router.push("/");
     } catch (error) {
       console.error("Error signing in with provider:", error);
     }
@@ -19,23 +18,14 @@ export default function LoginButton() {
   const handleSignOut = async () => {
     try {
       await signOut();
+      router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
 
   if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button
-          onClick={handleSignOut}
-          className="w-full bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 mt-4"
-        >
-          Sign out
-        </button>
-      </>
-    );
+    return router.push("/"); // Redirect to the home page if already signed in
   }
 
   return (
