@@ -20,8 +20,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useRole from "@/app/axios/hooks/useRole";
 
 export default function Navbar() {
+  const { role, loading } = useRole();
+
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState(false);
   const [navbarBackground, setNavbarBackground] = useState(false);
@@ -81,21 +84,22 @@ export default function Navbar() {
     };
   }, []);
 
-  const role = true;
+  if (loading) {
+    return <h2>Loading......</h2>
+  }
 
   if (
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
     !pathname.includes("student-dashbord") &&
     !pathname.includes("instructor-dashbord") &&
-    !pathname.includes("admin-dashbord") &&
+    !pathname.includes("admin-dashboard") &&
     !pathname.includes("components/helpdesk")
   ) {
     return (
       <nav
-        className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${
-          navbarBackground ? "bg-white shadow-md" : "bg-transparent"
-        }`}
+        className={`px-6 py-4 fixed top-0 w-full z-10 transition-all duration-300 ${navbarBackground ? "bg-white shadow-md" : "bg-transparent"
+          }`}
       >
         <div className="flex items-center justify-between container mx-auto">
           {/* Left Side - Logo */}
@@ -122,49 +126,45 @@ export default function Navbar() {
           <div className="hidden md:flex space-x-6">
             <Link
               href="/"
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
+              className={`hover:text-blue-600 transition ${navbarBackground
+                ? "text-black"
+                : pathname === "/"
                   ? "text-white"
                   : ""
-              }`}
+                }`}
             >
               Home
             </Link>
             <Link
               href="/courses"
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
+              className={`hover:text-blue-600 transition ${navbarBackground
+                ? "text-black"
+                : pathname === "/"
                   ? "text-white"
                   : ""
-              }`}
+                }`}
             >
               Courses
             </Link>
             <Link
               href="/Instructors"
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
+              className={`hover:text-blue-600 transition ${navbarBackground
+                ? "text-black"
+                : pathname === "/"
                   ? "text-white"
                   : ""
-              }`}
+                }`}
             >
               Instructors
             </Link>
             <Link
               href="/about"
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
+              className={`hover:text-blue-600 transition ${navbarBackground
+                ? "text-black"
+                : pathname === "/"
                   ? "text-white"
                   : ""
-              }`}
+                }`}
             >
               About
             </Link>
@@ -174,13 +174,12 @@ export default function Navbar() {
           <div className="flex items-center">
             <button
               onClick={toggleTheme}
-              className={`hover:bg-transparent px-3 ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
+              className={`hover:bg-transparent px-3 ${navbarBackground
+                ? "text-black"
+                : pathname === "/"
                   ? "text-white"
                   : ""
-              }`}
+                }`}
             >
               {darkmode ? (
                 <CiLight size={30} />
@@ -210,9 +209,10 @@ export default function Navbar() {
                       <DropdownMenuRadioItem>
                         <Link
                           href={
-                            role
-                              ? "/student-dashbord/dashboard"
-                              : "/instructor-dashbord"
+                            role === 'user' ? "/student-dashboard" :
+                              role === 'instructor' ? "/teacher-dashboard" :
+                                role === 'admin' ? '/admin-dashboard' :
+                                  '#'
                           }
                           className={`hover:text-blue-600 transition `}
                         >
@@ -336,7 +336,12 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href={role ? "/student-dashbord" : "/teacher-dashbord"}
+                href={
+                  role === 'user' ? "/student-dashboard" :
+                    role === 'instructor' ? "/teacher-dashboard" :
+                      role === 'admin' ? '/admin-dashboard' :
+                        '#'
+                }
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >

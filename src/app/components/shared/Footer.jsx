@@ -12,7 +12,7 @@ export default function Footer() {
     "SignUp",
     "student-dashbord",
     "instructor-dashbord",
-    "admin-dashbord",
+    "admin-dashboard",
     "components/helpdesk"
   ];
 
