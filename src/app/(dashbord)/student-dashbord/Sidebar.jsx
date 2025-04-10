@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { MdTv } from "react-icons/md";
+import { MdCalculate, MdCalendarToday, MdTv } from "react-icons/md";
 import { IoIosAddCircle, IoIosPaper } from "react-icons/io";
 import { GrCertificate } from "react-icons/gr";
 
@@ -169,6 +169,30 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           >
             <FaFolder className="text-gray-600" />
             <Link href="/my-folder">My Folder</Link>
+          </li>
+
+          {/* Calculator */}
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+              router.pathname === "/student-dashbord/Calculator"
+                ? "bg-purple-200"
+                : ""
+            }`}
+          >
+            <MdCalculate className="text-gray-600" />
+            <Link href="/student-dashbord/Calculator">Calculator</Link>
+          </li>
+
+          {/* My Calendar */}
+          <li
+            className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+              router.pathname === "/student-dashbord/Calendar"
+                ? "bg-purple-200"
+                : ""
+            }`}
+          >
+            <MdCalendarToday className="text-gray-600" />
+            <Link href="/student-dashbord/Calendar">My Calendar</Link>
           </li>
 
           <li
