@@ -32,7 +32,7 @@ const SignInPage = () => {
         email: formData.email,
         password: formData.password,
       });
-
+      console.log(res, "res");
       if (res.error) {
         console.log(res.error);
       }
@@ -134,7 +134,12 @@ const SignInPage = () => {
             </button> */}
             <LoginButton></LoginButton>
           </div>
-
+          <Link
+            href={`/Authentication/ForgetPassword`}
+            className="text-blue-500 hover:underline space-x-2 text-center mt-4 flex justify-center"
+          >
+            Forget Password?
+          </Link>
           <p className="mt-4 text-center space-x-2">
             Don't have an account?{" "}
             <Link

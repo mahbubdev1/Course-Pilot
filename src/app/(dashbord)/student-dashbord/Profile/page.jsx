@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Camera, Mail, User } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import avatar from "../../../../../public/avatar/image.png";
+// import avatar from "../../../../../public/Images/image.png";
 import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 
 const ProfilePage = () => {
@@ -58,7 +58,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={selectedImg || user?.image || avatar}
+                src={selectedImg || user?.image}
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />

@@ -10,8 +10,21 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CiLight } from "react-icons/ci";
 import { MdOutlineDarkMode } from "react-icons/md";
+import * as React from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import useRole from "@/app/axios/hooks/useRole";
 
 export default function Navbar() {
+  const { role, loading } = useRole();
+
   const [isOpen, setIsOpen] = useState(false);
   const [darkmode, setDarkmode] = useState(false);
   const [navbarBackground, setNavbarBackground] = useState(false);
@@ -19,6 +32,8 @@ export default function Navbar() {
   const { user, loading: authLoading } = useAuth();
   const { data: session, status } = useSession();
   const [sessionLoading, setSessionLoading] = useState(true);
+
+  const [position, setPosition] = React.useState("bottom");
 
   useEffect(() => {
     if (status === "loading") {
@@ -69,14 +84,17 @@ export default function Navbar() {
     };
   }, []);
 
-  const role = false; // Replace with your actual role logic
+  // if (loading) {
+  //   return <h2>Loading......</h2>;
+  // }
 
   if (
     !pathname.includes("Login") &&
     !pathname.includes("SignUp") &&
     !pathname.includes("student-dashbord") &&
     !pathname.includes("instructor-dashbord") &&
-    !pathname.includes("admin-dashbord")
+    !pathname.includes("admin-dashboard") &&
+    !pathname.includes("components/helpdesk")
   ) {
     return (
       <nav
@@ -98,7 +116,7 @@ export default function Navbar() {
               ) : (
                 <Image
                   src="/assats/footer-logo.png"
-                  alt="Footer Logo"
+                  alt="/assats/footer-logo.png"
                   width={150}
                   height={50}
                 />
@@ -155,32 +173,6 @@ export default function Navbar() {
             >
               About
             </Link>
-            <Link
-              href={
-                role ? "/student-dashbord/dashboard" : "/instructor-dashbord"
-              }
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
-                  ? "text-white"
-                  : ""
-              }`}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/components/aisupport"
-              className={`hover:text-blue-600 transition ${
-                navbarBackground
-                  ? "text-black"
-                  : pathname === "/"
-                  ? "text-white"
-                  : ""
-              }`}
-            >
-              Ai Support
-            </Link>
           </div>
 
           {/* Right Side - Theme Toggle and Auth Buttons */}
@@ -202,30 +194,103 @@ export default function Navbar() {
               )}
             </button>
 
-            <div className="hidden md:block">
-              {authLoading || sessionLoading ? (
-                <Button variant="outline" className="rounded-full" disabled>
-                  Loading...
-                </Button>
-              ) : user || session?.user ? (
-                <Button
-                  onClick={handleSignOut}
-                  variant="ghost"
-                  className="rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
-                >
-                  Sign Out
-                </Button>
-              ) : (
-                <Button
-                  variant="ghost"
-                  className="rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
-                >
-                  <Link href="/Authentication/SignUp">Sign Up</Link>
-                </Button>
-              )}
-            </div>
+            {user ? (
+              <div className="hidden md:block">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <img
+                      src={user?.image}
+                      alt={user?.image}
+                      referrerPolicy="no-referrer"
+                      className="w-12 h-12 rounded-full border-4 border-cyan-600 cursor-pointer"
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className={"w-40"}>
+                    <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuRadioGroup
+                      value={position}
+                      onValueChange={setPosition}
+                    >
+                      <DropdownMenuRadioItem>
+                        <Link
+                          href={
+                            role === "student"
+                              ? "/student-dashbord/dashboard"
+                              : role === "instructor"
+                              ? "/instructor-dashbord"
+                              : role === "admin"
+                              ? "/admin-dashboard"
+                              : "#"
+                          }
+                          className={`hover:text-blue-600 transition `}
+                        >
+                          Dashboard
+                        </Link>
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem>
+                        <Link
+                          href="/components/aiSupported"
+                          className={`hover:text-blue-600 transition `}
+                        >
+                          Ai Support
+                        </Link>
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem>
+                        <Link
+                          href={"/components/helpdesk"}
+                          className={`hover:text-blue-600 transition `}
+                        >
+                          Help Desk
+                        </Link>
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem>
+                        <div className="hidden md:block">
+                          {authLoading || sessionLoading ? (
+                            <Button
+                              variant="outline"
+                              className="rounded-full"
+                              disabled
+                            >
+                              Loading...
+                            </Button>
+                          ) : user || session?.user ? (
+                            <Button
+                              onClick={handleSignOut}
+                              size="sm"
+                              variant="ghost"
+                              className="rounded-full bg-[#f14e4e] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
+                            >
+                              Sign Out
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="ghost"
+                              className="rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
+                            >
+                              <Link href="/Authentication/SignUp">Sign Up</Link>
+                            </Button>
+                          )}
+                        </div>
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem>Right</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <>
+                {!user && (
+                  <Button
+                    variant="ghost"
+                    className="rounded-full bg-[#00BC7D] hover:bg-[#00BC7D] hover:border hover:border-[#00BC7D] hover:text-white"
+                  >
+                    <Link href="/Authentication/SignUp">Sign Up</Link>
+                  </Button>
+                )}
+              </>
+            )}
           </div>
-
           {/* Mobile Menu Toggle Button */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)}>
@@ -280,14 +345,22 @@ export default function Navbar() {
                 About
               </Link>
               <Link
-                href={role ? "/student-dashbord" : "/teacher-dashbord"}
+                href={
+                  role === "user"
+                    ? "/student-dashboard"
+                    : role === "instructor"
+                    ? "/teacher-dashboard"
+                    : role === "admin"
+                    ? "/admin-dashboard"
+                    : "#"
+                }
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >
                 Dashboard
               </Link>
               <Link
-                href={'/components/aisupport'}
+                href={"/components/aisupport"}
                 className="hover:text-blue-600 text-black"
                 onClick={() => setIsOpen(false)}
               >

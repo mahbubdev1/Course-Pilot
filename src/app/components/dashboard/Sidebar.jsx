@@ -42,6 +42,11 @@ const Sidebar = ({ isOpen, isCollapsed, toggleSidebar }) => {
       icon: <MdQuiz />,
     },
     {
+      name: "Add Quiz",
+      path: "/instructor-dashbord/AddQuiz",
+      icon: <MdQuiz />,
+    },
+    {
       name: "Add Live Session",
       path: "/instructor-dashbord/add-live-session",
       icon: <MdLiveTv />,

@@ -14,8 +14,9 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Image from "next/image";
-import { MdTv } from "react-icons/md";
+import { MdCalculate, MdCalendarToday, MdNote, MdTv } from "react-icons/md";
 import { IoIosAddCircle, IoIosPaper } from "react-icons/io";
+import { GrCertificate } from "react-icons/gr";
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const router = useRouter();
@@ -110,7 +111,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
               <MdTv className="text-gray-600" />
               <Link href="/student-dashbord/LiveSession">Live Session</Link>
             </li>
-
             <li
               onClick={() => setIsOpen(!isOpen)}
               className="relative group p-3 hover:bg-gray-200 rounded-md flex items-center justify-between"
@@ -147,6 +147,23 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </li>
               </ul>
             </li>
+            {/* Other Sections */}
+            <li
+              className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
+                router.pathname === "/policies" ? "bg-purple-200" : ""
+              }`}
+            >
+              <IoIosPaper className="text-gray-600" />
+              <Link href="/policies">Policies</Link>
+            </li>
+            <li
+              className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
+                router.pathname === "/policies" ? "bg-purple-200" : ""
+              }`}
+            >
+              <GrCertificate className="text-gray-600" />
+              <Link href="/student-dashbord/certificate">Certificate</Link>
+            </li>
 
             <li
               onClick={() => setTaskOpen(!isTaskOpen)}
@@ -176,7 +193,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 </li>
               </ul>
             </li>
-
             <li
               className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
                 pathname === "/policies" ? "bg-purple-200" : ""
@@ -184,6 +200,50 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
             >
               <IoIosPaper className="text-gray-600" />
               <Link href="/policies">Policies</Link>
+            </li>
+            {/* Calculator */}
+            <li
+              className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+                router.pathname === "/student-dashbord/Calculator"
+                  ? "bg-purple-200"
+                  : ""
+              }`}
+            >
+              <MdCalculate className="text-gray-600" />
+              <Link href="/student-dashbord/Calculator">Calculator</Link>
+            </li>
+
+            {/* My Calendar */}
+            <li
+              className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+                router.pathname === "/student-dashbord/Calendar"
+                  ? "bg-purple-200"
+                  : ""
+              }`}
+            >
+              <MdCalendarToday className="text-gray-600" />
+              <Link href="/student-dashbord/Calendar">My Calendar</Link>
+            </li>
+
+            {/* My Notes */}
+            <li
+              className={`p-3 rounded-md flex items-center gap-2 hover:bg-gray-200 ${
+                router.pathname === "/student-dashbord/Notes"
+                  ? "bg-purple-200"
+                  : ""
+              }`}
+            >
+              <MdNote className="text-gray-600" />
+              <Link href="/student-dashbord/Notes">Notes</Link>
+            </li>
+
+            <li
+              className={`p-3 hover:bg-gray-200 rounded-md flex items-center gap-2 ${
+                router.pathname === "/reports" ? "bg-purple-200" : ""
+              }`}
+            >
+              <FaChartBar className="text-gray-600" />
+              <Link href="/reports">Reports</Link>
             </li>
 
             <li

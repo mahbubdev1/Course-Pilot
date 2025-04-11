@@ -43,6 +43,7 @@ const handler = NextAuth({
             return null;
           }
           const passwordMatch = await bcrypt.compare(password, user.password);
+          console.log(passwordMatch, "passwordMatch");
           if (!passwordMatch) {
             return null;
           }
@@ -63,7 +64,7 @@ const handler = NextAuth({
       if (session?.user?.email) {
         try {
           const response = await axiosPublic.get(
-            `/users/${session.user.email}`
+            `/users/${session?.user?.email}`
           );
           const updatedUser = response.data;
 

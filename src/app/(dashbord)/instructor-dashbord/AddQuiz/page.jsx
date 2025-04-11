@@ -1,6 +1,7 @@
 "use client";
 import useAxiosPublic from "@/app/axios/hooks/useAxiosPublic";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function QuizForm() {
   const axiosPublic = useAxiosPublic();
@@ -22,6 +23,7 @@ export default function QuizForm() {
         console.log(res.data);
         if (res?.data?.insertedId) {
           setTimeout(() => form.reset(), 500);
+          toast.success("Quiz added successfully");
         }
       });
     console.log(topic, correctAnswer, options);

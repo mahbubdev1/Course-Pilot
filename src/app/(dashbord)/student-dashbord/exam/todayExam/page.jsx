@@ -208,13 +208,13 @@ const TodaysExamsPage = () => {
         )}
 
         {/* Back to Exam Section */}
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <Link href="/student-dashbord/exam">
             <button className="text-white bg-purple-500 hover:bg-purple-600 py-2 px-4 rounded-md">
               Back to Exam Section
             </button>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
